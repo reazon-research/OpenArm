@@ -45,7 +45,7 @@ This repository provides examples and tools for controlling **DAMIAO motors** th
     3: can0: <NOARP,UP,LOWER_UP> mtu 16 qdisc pfifo_fast state UNKNOWN mode DEFAULT group default qlen
 ### Running Examples
 
-#### Single Motor Test
+#### Single Motor Test - DEVELOPEMENT IN PROGRESS
 Ensure that DM motor type, CAN ID, and master id are configured correctly within the python script, otherwise edit `single_motor_test.py`
 ```bash
 python3 single_motor_test.py
