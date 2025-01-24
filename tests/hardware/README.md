@@ -38,9 +38,11 @@ This repository provides examples and tools for controlling **DAMIAO motors** th
 ### Verify the Setup
 
 1. **Use the following command to verify the can0 interface:**
+
     ```bash
     ip link show can0
 2. **Expected Output:**
+
     ```bash
     3: can0: <NOARP,UP,LOWER_UP> mtu 16 qdisc pfifo_fast state UNKNOWN mode DEFAULT group default qlen
 ### Running Examples
