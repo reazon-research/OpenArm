@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
-from datetime import datetime
 from DM_SocketCAN import *
 import numpy as np
-import time
 import json
 
-FOLLOWER_DEVICENAME0 = "can0"
+openarm_DEVICENAME0 = "can0"
 TICK = 0.01
 POSE0 = [0, 0, 0, 0, 0, 0, 0]
 K0 = [0, 0, 0, 0, 0, 0, 0]
@@ -16,7 +14,7 @@ JOINT_LIMITS = {
     for motor_id in [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07]
 }
 
-def calibrate_joint_limits(follower):
+def calibrate_joint_limits(openarm):
     """
     Calibrate the joint limits of the robot manually.
     """
@@ -24,12 +22,11 @@ def calibrate_joint_limits(follower):
     print("Calibration started. Move each motor manually to its limits.")
     limits = {}
     try:
-        for motor in follower.motors:
+        for motor in openarm.motors:
             motor_id = motor.SlaveID
-            input(f"Calibrating Motor {motor_id}. Press Enter when ready.")
 
             # Disable torque (set to zero) to allow manual movement
-            
+            openarm.control.controlMIT(motor, 0, 0, 0, 0, 0)
             print(f"Torque disabled for Motor {motor_id}. You can now move it freely.")
             
             # Initialize limits for this motor
@@ -37,22 +34,21 @@ def calibrate_joint_limits(follower):
 
             print(f"Move Motor {motor_id} to its LOWER limit and press Enter.")
             input("Press Enter when the motor is in its lower limit position.")
-            print(f"Current position of Motor {motor_id}: {motor.getPosition()}")
-            follower.move_towards_sync(POSE0, K0, K0)
+            openarm.control.controlMIT(motor, 0, 0, 0, 0, 0)
             lower_limit = float(motor.getPosition())  # Convert to Python float
             limits[motor_id]["lower"] = lower_limit
             print(f"Lower limit recorded: {lower_limit:.4f} radians")
 
             print(f"Move Motor {motor_id} to its UPPER limit and press Enter.")
             input("Press Enter when the motor is in its upper limit position.")
-            follower.move_towards_sync(POSE0, K0, K0)
+            openarm.control.controlMIT(motor, 0, 0, 0, 0, 0)
             upper_limit = float(motor.getPosition())  # Convert to Python float
             limits[motor_id]["upper"] = upper_limit
             print(f"Upper limit recorded: {upper_limit:.4f} radians")
 
             # Re-enable torque after calibration
-            follower.control.controlMIT(motor, 0, 0, 0, 0, motor.goal_tau)
-            print(f"Torque re-enabled for Motor {motor_id}.")
+            openarm.control.controlMIT(motor, 0, 0, 0, 0, motor.goal_tau)
+            print(f"Torque re-enabled for Motor {motor_id}.\n")
 
         # Save calibrated limits to a file
         with open("joint_limits.json", "w") as f:
@@ -63,8 +59,8 @@ def calibrate_joint_limits(follower):
     except KeyboardInterrupt:
         print("\nCalibration interrupted.")
         # Ensure torque is re-enabled in case of interruption
-        for motor in follower.motors:
-            follower.control.controlMIT(motor, 0, 0, 0, 0, motor.goal_tau)
+        for motor in openarm.motors:
+            openarm.control.controlMIT(motor, 0, 0, 0, 0, motor.goal_tau)
     return limits
 
 def load_joint_limits(filename="joint_limits.json"):
@@ -84,11 +80,10 @@ if __name__ == "__main__":
     import click
 
     @click.command()
-    @click.option('--calibrate', is_flag=True, default=False, help="Run joint limit calibration.")
     @click.option('--load_limits', is_flag=True, default=False, help="Load joint limits from file.")
-    def main(calibrate, load_limits):
+    def main(load_limits):
         # Initialize motor controller
-        follower = DamiaoPort(FOLLOWER_DEVICENAME0,
+        openarm = DamiaoPort(openarm_DEVICENAME0,
                               [DM_Motor_Type.DM4340, DM_Motor_Type.DM4340,
                                DM_Motor_Type.DM4340, DM_Motor_Type.DM4340,
                                DM_Motor_Type.DM4310, DM_Motor_Type.DM4310, DM_Motor_Type.DM4310],
@@ -96,25 +91,19 @@ if __name__ == "__main__":
                               [0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17],
                               [True, True, True, True, True, True, True])
         
-        # Calibration Option
-        if calibrate:
-            calibrate_joint_limits(follower)
+        calibrate_joint_limits(openarm)
 
         # Load Limits Option
         if load_limits:
-            limits = load_joint_limits()
+            limits = load_joint_limits("joint_limits_openarm.json")
             if limits:
-                for motor in follower.motors:
-                    motor_id = motor.can_id
+                for motor in openarm.motors:
+                    motor_id = motor.SlaveID
                     if str(motor_id) in limits:
                         print(f"Motor {motor_id}: Lower Limit: {limits[str(motor_id)]['lower']}, Upper Limit: {limits[str(motor_id)]['upper']}")
 
-        try:
-            # Placeholder for other operations
-            print("Ready for other operations.")
-        except KeyboardInterrupt:
-            print("Exiting...")
+        print("Exiting...")
 
-        follower.disable()
+        openarm.disable()
 
     main()
