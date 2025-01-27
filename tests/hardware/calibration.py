@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 from DM_SocketCAN import *
+import click
 import numpy as np
 import json
 
 openarm_DEVICENAME0 = "can0"
-TICK = 0.01
 POSE0 = [0, 0, 0, 0, 0, 0, 0]
 K0 = [0, 0, 0, 0, 0, 0, 0]
 
@@ -77,11 +77,11 @@ def load_joint_limits(filename="joint_limits.json"):
         return None
 
 if __name__ == "__main__":
-    import click
-
+    
     @click.command()
+    @click.option('--set_zero_position', is_flag=True, default=False, help="Load joint limits from file.")
     @click.option('--load_limits', is_flag=True, default=False, help="Load joint limits from file.")
-    def main(load_limits):
+    def main(set_zero_position, load_limits):
         # Initialize motor controller
         openarm = DamiaoPort(openarm_DEVICENAME0,
                               [DM_Motor_Type.DM4340, DM_Motor_Type.DM4340,
@@ -91,7 +91,11 @@ if __name__ == "__main__":
                               [0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17],
                               [True, True, True, True, True, True, True])
         
-        calibrate_joint_limits(openarm)
+        if set_zero_position:
+            openarm.set_zero_position()
+            return openarm.disable()
+        else:
+            calibrate_joint_limits(openarm)
 
         # Load Limits Option
         if load_limits:
