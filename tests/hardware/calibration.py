@@ -7,6 +7,8 @@ import json
 
 FOLLOWER_DEVICENAME0 = "can0"
 TICK = 0.01
+POSE0 = [0, 0, 0, 0, 0, 0, 0]
+K0 = [0, 0, 0, 0, 0, 0, 0]
 
 # Default values for joint limits (will be overwritten during calibration)
 JOINT_LIMITS = {
@@ -18,15 +20,16 @@ def calibrate_joint_limits(follower):
     """
     Calibrate the joint limits of the robot manually.
     """
+
     print("Calibration started. Move each motor manually to its limits.")
     limits = {}
     try:
         for motor in follower.motors:
-            motor_id = motor.can_id
+            motor_id = motor.SlaveID
             input(f"Calibrating Motor {motor_id}. Press Enter when ready.")
 
             # Disable torque (set to zero) to allow manual movement
-            follower.control.controlMIT(motor, 0, 0, 0, 0, 0)
+            
             print(f"Torque disabled for Motor {motor_id}. You can now move it freely.")
             
             # Initialize limits for this motor
@@ -34,23 +37,28 @@ def calibrate_joint_limits(follower):
 
             print(f"Move Motor {motor_id} to its LOWER limit and press Enter.")
             input("Press Enter when the motor is in its lower limit position.")
-            lower_limit = motor.getPosition()
+            print(f"Current position of Motor {motor_id}: {motor.getPosition()}")
+            follower.move_towards_sync(POSE0, K0, K0)
+            lower_limit = float(motor.getPosition())  # Convert to Python float
             limits[motor_id]["lower"] = lower_limit
             print(f"Lower limit recorded: {lower_limit:.4f} radians")
 
             print(f"Move Motor {motor_id} to its UPPER limit and press Enter.")
             input("Press Enter when the motor is in its upper limit position.")
-            upper_limit = motor.getPosition()
+            follower.move_towards_sync(POSE0, K0, K0)
+            upper_limit = float(motor.getPosition())  # Convert to Python float
             limits[motor_id]["upper"] = upper_limit
             print(f"Upper limit recorded: {upper_limit:.4f} radians")
 
+            print(f"Current position of Motor {follower.motors[0].SlaveID}: {follower.motors[0].getPosition()}")
             # Re-enable torque after calibration
             follower.control.controlMIT(motor, 0, 0, 0, 0, motor.goal_tau)
             print(f"Torque re-enabled for Motor {motor_id}.")
 
         # Save calibrated limits to a file
         with open("joint_limits.json", "w") as f:
-            json.dump(limits, f, indent=4)
+            # Convert all motor IDs to strings to ensure compatibility with JSON
+            json.dump({str(k): v for k, v in limits.items()}, f, indent=4)
         print("Calibration complete. Limits saved to 'joint_limits.json'.")
 
     except KeyboardInterrupt:
