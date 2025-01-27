@@ -50,7 +50,6 @@ def calibrate_joint_limits(follower):
             limits[motor_id]["upper"] = upper_limit
             print(f"Upper limit recorded: {upper_limit:.4f} radians")
 
-            print(f"Current position of Motor {follower.motors[0].SlaveID}: {follower.motors[0].getPosition()}")
             # Re-enable torque after calibration
             follower.control.controlMIT(motor, 0, 0, 0, 0, motor.goal_tau)
             print(f"Torque re-enabled for Motor {motor_id}.")
