@@ -19,15 +19,14 @@ def calibrate_joint_limits(openarm):
     Calibrate the joint limits of the robot manually.
     """
 
+    openarm.disable()
+    print("Torque has been disabled for all motors")
+
     print("Calibration started. Move each motor manually to its limits.")
     limits = {}
     try:
         for motor in openarm.motors:
             motor_id = motor.SlaveID
-
-            # Disable torque (set to zero) to allow manual movement
-            openarm.control.controlMIT(motor, 0, 0, 0, 0, 0)
-            print(f"Torque disabled for Motor {motor_id}. You can now move it freely.")
             
             # Initialize limits for this motor
             limits[motor_id] = {"lower": None, "upper": None}

@@ -45,6 +45,25 @@ def validate_goal_positions(goal_positions, joint_limits):
             return False
     return True
 
+def move(openarm, goal_positions):
+    openarm.set_goal_positions_sync(POSE0, KP1, KD)
+    time.sleep(3)
+
+    p0 = np.array(POSE0)
+    p1 = np.array([goal_positions[motor_id] for motor_id in range(1, len(POSE0) + 1)])  # Convert goal_positions to a numpy array
+
+    t0 = datetime.now().timestamp()
+    t_schedule = t0
+    for t in np.linspace(0, 1, 1000):
+        pose = t * p1 + (1-t) * p0
+        openarm.move_towards_sync(pose, KP1, KD)
+        openarm.get_present_status()
+        t_schedule += TICK
+        td = t_schedule - datetime.now().timestamp()
+        if td > 0:
+            time.sleep(td)
+        else:
+            print("timeout", td)
 
 if __name__ == "__main__":
 
@@ -81,45 +100,15 @@ if __name__ == "__main__":
             print("One or more goal positions are invalid. Exiting.")
             return
         
-        p0 = np.array(POSE0)
-        p1 = np.array([goal_positions[motor_id] for motor_id in range(1, len(POSE0) + 1)])  # Convert goal_positions to a numpy array
-
-        t0 = datetime.now().timestamp()
-        t_schedule = t0
-        for t in np.linspace(0, 1, 1000):
-            pose = t * p1 + (1-t) * p0
-            openarm.move_towards_sync(pose, KP1, KD)
-            openarm.get_present_status()
-            t_schedule += TICK
-            td = t_schedule - datetime.now().timestamp()
-            if td > 0:
-                time.sleep(td)
-            else:
-                print("timeout", td)
-
-
-        # # Command the robot to move to the goal positions and hold them
-        # try:
-        #     duration = 10  # Keep holding the position for 10 seconds
-        #     print(f"Moving to goal positions: {goal_positions}")
-            
-        #     start_time = time.time()
-        #     while time.time() - start_time < duration:
-        #         openarm.set_goal_positions_sync(goal_positions, KP1, KD)
-        #         time.sleep(0.1)  # Frequency of updates (10 Hz)
-
-        #     print("Synchronous movement and holding complete.")
-        # except KeyboardInterrupt:
-        #     print("Interrupted by user.")
-        # finally:
-        #     # Disable motors after movement
-        #     openarm.disable()
-        #     print("Motors disabled.")
-
+        try:
+            move(openarm, goal_positions)
+        except KeyboardInterrupt:
+            print("Key Pressed")
 
         print("Synchronous movement complete.")
 
         # Disable motors after movement
+        print("Disabling motors and performing CANbus shutdown")
         openarm.disable()
 
     main()
