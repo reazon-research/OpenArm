@@ -27,3 +27,5 @@ For more background about the project details, features, and other information, 
 
 ## Other Resources
 - Risk Assessment Guideline
+
+<a href="#top">Back to top</a>
