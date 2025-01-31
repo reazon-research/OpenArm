@@ -723,6 +723,8 @@ class DamiaoPort:
         ] for motor in self.motors]
         self.stat_data.append(stat)
 
+        return stat
+
     def save_status(self, filename):
         np.savez(filename, np.array(self.stat_time), np.array(self.stat_data))
 

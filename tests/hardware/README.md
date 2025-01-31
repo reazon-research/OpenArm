@@ -51,15 +51,21 @@ This repository provides examples and tools for controlling **DAMIAO motors** th
 This program provides a method to manually calibrate positional limits for all the motors and saves it into `joint_limits.json`. To calibrate, you will have to manually move each motor to its lower and upper limits when prompted by the code. 
 ```bash
 python3 calibration.py
+
+# If you want to set current robot position as zero position
+python3 calibration.py --set_zero_position
+
+# If you want to print joint limits from a file
+python3 calibration.py --load_limits
 ```
 
 ### Go To Pose - DEVELOPMENT IN PROGRESS
 Go To Pose is a script that will move to a defined pose by the user and hold it until a KeyboardInterrupt. It also validates the given trajectory against the joint limits that were determined in the calibration script. The default filename for the limits is `joint_limits_openarm.json`
 ```bash
-python3 single_pose_test.py --goal_positions '{"1": 0.5, "2": 0.5, "3": 1.0, "4": 1.0, "5": -0.5, "6": 0.0, "7": 0.0}'
+python3 go_to_pose.py --goal_positions '{"1": 0.5, "2": 0.5, "3": 1.0, "4": 1.0, "5": -0.5, "6": 0.0, "7": 0.0}'
 
 # The default filename for the limits is `joint_limits_openarm.json`, if you want to use an alternate file, do this command:
-python3 single_pose_test.py --goal_positions '{"1": 0.5, "2": 0.5, "3": 1.0, "4": 1.0, "5": -0.5, "6": 0.0, "7": 0.0}' --filname "custom_limits.json"
+python3 go_to_pose.py --goal_positions '{"1": 0.5, "2": 0.5, "3": 1.0, "4": 1.0, "5": -0.5, "6": 0.0, "7": 0.0}' --filname "custom_limits.json"
 ```
 
 ### Single Motor Test - DEVELOPMENT IN PROGRESS
