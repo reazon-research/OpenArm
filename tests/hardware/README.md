@@ -34,7 +34,11 @@ This repository provides examples and tools for controlling **DAMIAO motors** th
 4. **Bring Up the can0 Interface:**
 
     ```bash
+    # Using CAN
     sudo ip link set can0 up type can bitrate 1000000
+    # Using CANFD
+    sudo ip link set can0 up type can bitrate 1000000 dbitrate 8000000 restart-ms 1000 berr-reporting on fd on
+    ```
 ### Verify the Setup
 
 1. **Use the following command to verify the can0 interface:**
@@ -42,7 +46,6 @@ This repository provides examples and tools for controlling **DAMIAO motors** th
     ```bash
     ip link show can0
 2. **Expected Output:**
-
     ```bash
     3: can0: <NOARP,UP,LOWER_UP> mtu 16 qdisc pfifo_fast state UNKNOWN mode DEFAULT group default qlen
 ## Running Examples
