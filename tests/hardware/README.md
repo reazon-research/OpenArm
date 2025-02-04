@@ -62,7 +62,7 @@ python3 calibration.py --set_zero_position
 python3 calibration.py --load_limits
 ```
 
-### Go To Pose - DEVELOPMENT IN PROGRESS
+### Go To Pose
 Go To Pose is a script that will move to a defined pose by the user and hold it until a KeyboardInterrupt. It also validates the given trajectory against the joint limits that were determined in the calibration script. The default filename for the limits is `joint_limits_openarm.json`
 ```bash
 python3 go_to_pose.py --goal_positions '{"1": 0.5, "2": 0.5, "3": 1.0, "4": 1.0, "5": -0.5, "6": 0.0, "7": 0.0}'
@@ -70,6 +70,9 @@ python3 go_to_pose.py --goal_positions '{"1": 0.5, "2": 0.5, "3": 1.0, "4": 1.0,
 # The default filename for the limits is `joint_limits_openarm.json`, if you want to use an alternate file, do this command:
 python3 go_to_pose.py --goal_positions '{"1": 0.5, "2": 0.5, "3": 1.0, "4": 1.0, "5": -0.5, "6": 0.0, "7": 0.0}' --filname "custom_limits.json"
 ```
+
+### Record and Replay
+
 
 ### Single Motor Test - DEVELOPMENT IN PROGRESS
 Ensure that DM motor type, CAN ID, and master id are configured correctly within the python script, otherwise edit `single_motor_test.py` to match the motor specifications of the motor you are testing
