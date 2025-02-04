@@ -18,7 +18,7 @@ This repository provides examples and tools for controlling **DAMIAO motors** th
     cd <repository_name>
     pip install -r requirements.txt
 ### Connect Motor to PC
-
+Steps 1-3 are only required if using a USB to CAN adapter, and general interface setup may differ based on the CAN device being utilized.
 1. **Kill Existing slcand Processes (if any):**
 
     ```bash
@@ -48,7 +48,7 @@ This repository provides examples and tools for controlling **DAMIAO motors** th
 2. **Expected Output:**
     ```bash
     3: can0: <NOARP,UP,LOWER_UP> mtu 16 qdisc pfifo_fast state UNKNOWN mode DEFAULT group default qlen
-## Running Examples
+## Programs
 
 ### Calibration
 This program provides a method to manually calibrate positional limits for all the motors and saves it into `joint_limits.json`. To calibrate, you will have to manually move each motor to its lower and upper limits when prompted by the code. 
@@ -72,7 +72,12 @@ python3 go_to_pose.py --goal_positions '{"1": 0.5, "2": 0.5, "3": 1.0, "4": 1.0,
 ```
 
 ### Record and Replay
+Record and replay are test scripts that allow you to manually record a motion using the record program and replay that script by utilizing the replay script.
+```bash
+python3 record.py # this will create a file named record00.npz
 
+python3 replay.py # this will play the trajectory saved in record00.npz
+```
 
 ### Single Motor Test - DEVELOPMENT IN PROGRESS
 Ensure that DM motor type, CAN ID, and master id are configured correctly within the python script, otherwise edit `single_motor_test.py` to match the motor specifications of the motor you are testing
