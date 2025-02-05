@@ -10,7 +10,7 @@ For more background about the project details, features, and other information, 
 
 ## 🛠️Hardware
 - Provide CAD overview
-- [Purchasing List/BOM](https://docs.google.com/spreadsheets/d/1W7HEwlFBFWk1wLs-w_pfx--WNxCen8dgpAqJnMEo6RI/edit?usp=sharing)
+- [Purchasing List/BOM](https://docs.google.com/spreadsheets/d/10wI58rFytYfibKpOzmfWOQUBK5YGNwlppUtHooCTtds/edit?usp=sharing)
 - Assembly Guide
 
 ## 💾Software
