@@ -25,6 +25,6 @@ For more background about the project details, features, and other information, 
 - Bilateral Feedback Examples?
 
 ## 📠Other Resources
-- Risk Assessment Guideline
+- [Risk Assessment Guideline](https://docs.google.com/spreadsheets/d/11ayqCXhusLvExf8lalkxcZMikRYgav0Hl6p7CVpsXZ8/edit?usp=sharing)
 
 <a href="#top">Back to top</a>
