@@ -11,7 +11,7 @@ For more background about the project details, features, and other information, 
 ## 🛠️Hardware
 - Provide CAD overview
 - [Purchasing List/BOM](https://docs.google.com/spreadsheets/d/10wI58rFytYfibKpOzmfWOQUBK5YGNwlppUtHooCTtds/edit?usp=sharing)
-- Assembly Guide
+- [Assembly Guide](https://docs.google.com/presentation/d/1dnI2y_ZBW3xklD3-P3SxRs0a9OQ9p0kbQuDdB3iYupA/edit?usp=sharing)
 
 ## 💾Software
 - Arm Control
