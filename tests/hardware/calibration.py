@@ -92,7 +92,7 @@ if __name__ == "__main__":
         
         if set_zero_position:
             openarm.set_zero_position()
-            return openarm.disable()
+            return openarm.shutdown()
         else:
             calibrate_joint_limits(openarm)
 
@@ -107,6 +107,6 @@ if __name__ == "__main__":
 
         print("Exiting...")
 
-        openarm.disable()
+        openarm.shutdown()
 
     main()

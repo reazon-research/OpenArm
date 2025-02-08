@@ -730,8 +730,11 @@ class DamiaoPort:
 
     def disable(self):
         for motor in self.motors:
+            self.control.disable(motor)
+
+    def shutdown(self):
+        for motor in self.motors:
             self.control.controlMIT(motor, 0, 0, 0, 0, 0)
-            #self.control.disable(motor)
         self.control.canbus.shutdown()
 
     def set_zero_position(self):
