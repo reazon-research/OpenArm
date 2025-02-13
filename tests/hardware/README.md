@@ -78,9 +78,3 @@ python3 record.py # this will create a file named record00.npz
 
 python3 replay.py # this will play the trajectory saved in record00.npz
 ```
-
-### Single Motor Test - DEVELOPMENT IN PROGRESS
-Ensure that DM motor type, CAN ID, and master id are configured correctly within the python script, otherwise edit `single_motor_test.py` to match the motor specifications of the motor you are testing
-```bash
-python3 single_motor_test.py
-```
