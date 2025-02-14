@@ -9,8 +9,14 @@ For more background about project details and features, please visit our website
 - [**Other Resources**](#Other_Resources)
 
 ## 🛠️Hardware
+
+The CAD for the OpenArm v1 project can be accessed on OnShape through the following link: 
 - Provide CAD overview
+
+With the philosophy of sourcing all components through the popular marketplace Misumi and its manufacturing service Meviy, we provide a Bill of Materials required for assembling the OpenArm v1. This is merely an example—similar services can also be used to procure the necessary components.
 - [Purchasing List/BOM](https://docs.google.com/spreadsheets/d/10wI58rFytYfibKpOzmfWOQUBK5YGNwlppUtHooCTtds/edit?usp=sharing)
+
+We provide this assembly guide as a reference for assembling the OpenArm v1. It outlines the necessary steps and components to help ensure a smooth assembly process.
 - [Assembly Guide](https://docs.google.com/presentation/d/1dnI2y_ZBW3xklD3-P3SxRs0a9OQ9p0kbQuDdB3iYupA/edit?usp=sharing)
 - [Pedestal]
 
