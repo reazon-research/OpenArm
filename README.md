@@ -1,11 +1,10 @@
 # OpenArm: A fully open-source robot arm project
-[English](README.md)
 
 This repository outlines all the necessary materials and software repositories required in order to build, setup, and deploy OpenArm. These are outlined in the [Hardware](#Hardware) and [Software](#Software) sections. In addition this, this repository also provides sample code to assist with robot simulation setup in Genesis and Gazebo environments. Finally, there is example code for tele-operation with bilateral feedback implementation. Directions the setup for these features are detailed in the [Simulation](#Simulation) and [Teleoperation](#Teleoperation) sections.
 
 For more background about project details and features, please visit our website, social media, and other resources:
 - [**Website**](https://www.notion.so/reazon-research/OpenArm-113446ca7f73805fa06cd8d24315122b)
-- [**X**](https://x.com/reazonhilab) 
+- [**X**](https://x.com/reazonhilab)
 - [**Discord**]()
 - [**Other Resources**](#Other_Resources)
 
@@ -16,7 +15,7 @@ For more background about project details and features, please visit our website
 - [Pedestal]
 
 ## 💾Software
-- Arm Control
+- [Arm Control](https://github.com/reazon-research/OpenArm/tree/main/software/arm_control)
 
 ## 🤖Simulation
 - Genesis Tutorial/Examples
