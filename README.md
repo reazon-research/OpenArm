@@ -15,6 +15,7 @@ For more background about project details and features, please visit our website
 - [Pedestal]
 
 ## 💾Software
+OpenArm’s software stack includes real-time motor control examples, enabling users to quickly set up and start moving the arm. It also provides motor calibration tools, a SocketCAN driver, and a step-by-step tutorials on setting up the CAN interface.
 - [Arm Control](https://github.com/reazon-research/OpenArm/tree/main/software/arm_control)
 
 ## 🤖Simulation
