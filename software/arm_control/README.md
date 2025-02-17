@@ -10,6 +10,7 @@ This repository provides examples and tools for controlling **DAMIAO motors** th
 
    ```bash
    python3 --version
+   ```
 2. **Install Required Libraries and Tools:**
 
     ```bash
@@ -17,9 +18,10 @@ This repository provides examples and tools for controlling **DAMIAO motors** th
     git clone git@github.com:reazon-research/OpenArm.git
     cd OpenArm/software/arm_control
     pip install -r requirements.txt # being in a virtual environment may help
+    ```
 ### Connect Motor to PC
 1. **Set up CAN adapter:**
-   - There are many options for CAN interfaces. The ones that we have implemented and tested are [Canable2.0](https://canable.io/) and 
+   - There are many options for CAN interfaces. The [Canable2.0](https://canable.io/) and [2-CH CANFD HAT](https://www.waveshare.com/wiki/2-CH_CAN_FD_HAT) (CANFD support tested, designed for Raspberry Pi) are adapters that have been tested by the HI Lab team.
 3. **Bring Up the can0 Interface:**
 
     ```bash
