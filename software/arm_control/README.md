@@ -14,24 +14,13 @@ This repository provides examples and tools for controlling **DAMIAO motors** th
 
     ```bash
     sudo apt-get update && sudo apt-get install -y can-utils
-    git clone <repository_url>
-    cd <repository_name>
-    pip install -r requirements.txt
+    git clone git@github.com:reazon-research/OpenArm.git
+    cd OpenArm/software/arm_control
+    pip install -r requirements.txt # being in a virtual environment may help
 ### Connect Motor to PC
-Steps 1-3 are only required if using a USB to CAN adapter, and general interface setup may differ based on the CAN device being utilized.
-1. **Kill Existing slcand Processes (if any):**
-
-    ```bash
-    sudo pkill -f slcand
-2. **Check for Your USB Device:**
-    - Identify the USB-CAN adapter (should appear as /dev/ttyACM0 or similar):
-    ```bash
-    ls /dev/tty* | grep ttyACM
-3. **Set Up the slcand Interface:**
-    - Replace /dev/ttyACM0 with your detected device. Match the bitrate (-s8 for 1 Mbps):
-    ```bash
-    sudo slcand -o -c -s8 /dev/ttyACM0 can0
-4. **Bring Up the can0 Interface:**
+1. **Set up CAN adapter:**
+   - There are many options for CAN interfaces. The ones that we have implemented and tested are [Canable2.0](https://canable.io/) and 
+3. **Bring Up the can0 Interface:**
 
     ```bash
     # Using CAN
