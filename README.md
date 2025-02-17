@@ -38,6 +38,6 @@ To configure one set of OpenArms to act in teleoperation, the setup is provided 
 ## 📠Other Resources
 For more information about specifics regarding the OpenArm project, please have a look at the resources below. If you would like to get in contact with the OpenArm team with more specific questions about the project, please reach out via the contact form provided below -- and a member of the team will try to get in touch!
 - [Risk Assessment Guideline](https://docs.google.com/spreadsheets/d/11ayqCXhusLvExf8lalkxcZMikRYgav0Hl6p7CVpsXZ8/edit?usp=sharing)
-- [Contact Form]()
+- [Contact Form](https://docs.google.com/forms/d/1-DqBzrOTIMFM3dSJOjPv4SFSkTH1apxgg4zkGXR9C_4/edit)
 
 <a href="#top">Back to top</a>
