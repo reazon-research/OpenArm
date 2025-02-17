@@ -4,6 +4,17 @@ This repository provides examples and tools for controlling **DAMIAO motors** th
 
 ## Setup
 
+### Initial Motor Configuration
+- Install DAMIAO debugger tool from [DAMIAO documentation](https://github.com/dmBots/DAMIAO-Motor/blob/main/README_EN.md)
+   - Use the USB to CAN DAMIAO debugging tool that should be provided with the motor.
+   - Connect the motor debugging serial port to the adapter via the GH1.25 cable-3pin.
+   - Power the motor via XT30(2+2)-F plug cable.
+- Open the debugger tool and ensure that the interface is connected with UART@921600bps.
+   - Starting with the shoulder motor as ID 1. Set the CAN IDs from 0x01 to 0x07 and the Master IDs from 0x11 to 0x17 for all 7 motors.
+   - The motor for the end effector can be set to ID 8.
+- **Disclaimer 1:** Ensure that the motor configuration is done before assembling the robot, otherwise some motor debugging serial ports may not be in an accessible location.
+- **Disclaimer 2:** The DAMIAO debugger tool is currently only available in Chinese so translation may need to be done to fully understand the tool UI.
+
 ### Prerequisites
 
 1. **Ensure Python Version >= 3.10**:
@@ -21,7 +32,7 @@ This repository provides examples and tools for controlling **DAMIAO motors** th
     ```
 ### Connect Motor to PC
 1. **Set up CAN adapter:**
-   - There are many options for CAN interfaces. The [Canable2.0](https://canable.io/) and [2-CH CANFD HAT](https://www.waveshare.com/wiki/2-CH_CAN_FD_HAT) (CANFD support tested, designed for Raspberry Pi) are adapters that have been tested by the HI Lab team.
+   - There are many options for CAN interfaces. The [Canable2.0](https://canable.io/) and [2-CH CANFD HAT](https://www.waveshare.com/wiki/2-CH_CAN_FD_HAT) (CANFD support tested, designed for Raspberry Pi) are the specific adapters that the HI Lab team has been testing with.
 3. **Bring Up the can0 Interface:**
 
     ```bash
