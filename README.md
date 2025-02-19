@@ -26,9 +26,10 @@ OpenArm’s software stack includes real-time motor control examples, enabling u
 - [Arm Control](https://github.com/reazon-research/OpenArm/tree/main/software/arm_control)
 
 ## 🤖Simulation
-To get started with setting up OpenArm in simulation environments, an example tutorial of the arm in Genesis is provided. Support for other preferred sim environments such as MuJuCo, MoveIt, and Gazebo are also present.
-- Genesis Tutorial/Examples
-- Support for MuJuCo, MoveIt, Gazebo
+To set up OpenArm in simulation environments, example documentation for MuJuCo, MoveIt2 (ROS2), and Genesis are provided.
+
+- [Arm Simulation with MuJuCo, MoveIt2, Genesis](https://github.com/reazon-research/openarm-simulation)
+
 
 ## 🏗️Teleoperation
 To configure one set of OpenArms to act in teleoperation, the setup is provided in the Unilateral and Bilateral links.
