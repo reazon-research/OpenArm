@@ -1,5 +1,7 @@
 # OpenArm: A fully open-source robot arm project
 
+![DSCF3185](https://github.com/user-attachments/assets/2a5ea64c-ab9c-4994-870b-5300af98df7e)
+
 This repository outlines all the necessary materials and software required in order to build, setup, and deploy OpenArm. These are outlined in the [Hardware](#Hardware) and [Software](#Software) sections. In addition this, this repository also provides examples to assist with robot simulation setup in Genesis and Gazebo environments. Finally, there is support for tele-operation with bilateral feedback implementation. Directions to the setup for these features are detailed in the [Simulation](#Simulation) and [Teleoperation](#Teleoperation) sections.
 
 For more background about project details and features, please visit our website, social media, and other resources:
@@ -11,15 +13,10 @@ For more background about project details and features, please visit our website
 ## 🛠️Hardware
 
 The CAD for the OpenArm v1 project can be accessed on OnShape through the following link: 
-- [CAD overview]()
+- [OnShape](https://cad.onshape.com/documents/b4c9f28b9b00f7d40a1a4250/w/fe370058f6ecce02af3b0093/e/c7e7f88d1c11b5ea0a83ba7c?renderMode=0&uiState=67b590ed2d89b65cc3bf2317)
 (CAD image would be good here)
 
-With the philosophy of being able to source all components through the popular marketplace Misumi and its manufacturing service Meviy, we provide a Bill of Materials required for assembling the OpenArm v1. This is merely an example — similar services worldwide can also be used to procure the necessary components.
-- [Purchasing List/BOM](https://docs.google.com/spreadsheets/d/10wI58rFytYfibKpOzmfWOQUBK5YGNwlppUtHooCTtds/edit?usp=sharing)
-
-We provide this assembly guide as a reference for assembling the OpenArm v1. It outlines the necessary steps and components to help ensure a smooth assembly process.
-- [Assembly Guide](https://docs.google.com/presentation/d/1dnI2y_ZBW3xklD3-P3SxRs0a9OQ9p0kbQuDdB3iYupA/edit?usp=sharing)
-- [Pedestal]()
+Machined, sheet metal, and off-the-shelf components can be purchased through MISUMi and Misumi and its manufacturing service Meviy, but similar services worldwide can also be used to procure the necessary parts. The Purchasing List/Bill of Materials can be found on the OnShape, as well as the Assembly Guide. 
 
 ## 💾Software
 OpenArm’s software stack includes real-time motor control examples, enabling users to quickly set up and start moving the arm. It also provides motor calibration tools, a SocketCAN driver, and a step-by-step tutorials on setting up the CAN interface.
@@ -32,13 +29,14 @@ To set up OpenArm in simulation environments, example documentation for MuJuCo, 
 
 
 ## 🏗️Teleoperation
+![DSCF3195](https://github.com/user-attachments/assets/6bb219fa-276f-46a6-8c31-756a8cbc19bb)
+
 To configure one set of OpenArms to act in teleoperation, the setup is provided in the Unilateral and Bilateral links.
-- Unilateral Control
-- Bilateral Control (If implemented in time)
+- COMING SOON!
 
 ## 📠Other Resources
-For more information about specifics regarding the OpenArm project, please have a look at the resources below. If you would like to get in contact with the OpenArm team with more specific questions about the project, please reach out via the contact form provided below -- and a member of the team will try to get in touch!
+For more information about specifics regarding the OpenArm project, please have a look at the resources below. If you would like to get in contact with the OpenArm team with more specific questions about the project, please reach out via email and a member of the team will try to get in touch!
 - [Risk Assessment Guideline](https://docs.google.com/spreadsheets/d/11ayqCXhusLvExf8lalkxcZMikRYgav0Hl6p7CVpsXZ8/edit?usp=sharing)
-- [Contact Form](https://docs.google.com/forms/d/1-DqBzrOTIMFM3dSJOjPv4SFSkTH1apxgg4zkGXR9C_4/edit)
+- Email: [hi_public@reazon.jp](hi_public@reazon.jp)
 
 <a href="#top">Back to top</a>
