@@ -5,7 +5,8 @@
 This repository outlines all the necessary materials and software required in order to build, setup, and deploy OpenArm. These are outlined in the [Hardware](#Hardware) and [Software](#Software) sections. In addition this, this repository also provides examples to assist with robot simulation setup in Genesis and Gazebo environments. Finally, there is support for tele-operation with bilateral feedback implementation. Directions to the setup for these features are detailed in the [Simulation](#Simulation) and [Teleoperation](#Teleoperation) sections.
 
 For more background about project details and features, please visit our website, social media, and other resources:
-- [**OpenArm Website**](https://www.notion.so/reazon-research/OpenArm-113446ca7f73805fa06cd8d24315122b)
+- [**OpenArm Website**](https://private-reazon.notion.site/OpenArm-113446ca7f73805fa06cd8d24315122b)
+- [**Reazon HI Lab Website**](https://www.hilab.jp/Reazon-Human-Interaction-Lab-113446ca7f7381a987f4f091d3f62dd5)
 - [**Human Interaction Lab X**](https://x.com/reazonhilab)
 - [**OpenArm Discord**](https://discord.gg/K6kmFzXagm)
 - [**Other Resources**](#Other-Resources)
