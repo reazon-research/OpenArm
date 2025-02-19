@@ -11,6 +11,7 @@ For more background about project details and features, please visit our website
 - [**Other Resources**](#Other-Resources)
 
 ## 🛠️Hardware
+![image](https://github.com/user-attachments/assets/1dbc9803-6e5e-47d8-a42e-f3f87a09de38)
 
 The CAD for the OpenArm v1 project can be accessed on OnShape through the following link: 
 - [OnShape](https://cad.onshape.com/documents/b4c9f28b9b00f7d40a1a4250/w/fe370058f6ecce02af3b0093/e/c7e7f88d1c11b5ea0a83ba7c?renderMode=0&uiState=67b590ed2d89b65cc3bf2317)
@@ -23,6 +24,7 @@ OpenArm’s software stack includes real-time motor control examples, enabling u
 - [Arm Control](https://github.com/reazon-research/OpenArm/tree/main/software/arm_control)
 
 ## 🤖Simulation
+![image](https://github.com/user-attachments/assets/38d35919-a526-4636-9b34-b4b4ad11a32e)
 To set up OpenArm in simulation environments, example documentation for MuJuCo, MoveIt2 (ROS2), and Genesis are provided.
 
 - [Arm Simulation with MuJuCo, MoveIt2, Genesis](https://github.com/reazon-research/openarm-simulation)
