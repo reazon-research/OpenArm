@@ -1,4 +1,4 @@
-[日本語](teleoperation/README_jp.md)
+[日本語](README_jp.md)
 
 # OpenArm Bilateral Control
 This repository performs bilateral control using OpenArm, which is being developed by Reazon HI Lab.
