@@ -1,9 +1,7 @@
-This repository performs bilateral control using OpenArm, which is being developed by Reazon HI Lab.
-
 [日本語](teleoperation/README_jp.md)
 
 # OpenArm Bilateral Control
-ros2 launch openarm_bilateral bilateral_openarm_main.launch.py
+This repository performs bilateral control using OpenArm, which is being developed by Reazon HI Lab.
 
 ## Quick Start Guide
 
@@ -76,5 +74,3 @@ void timer_callback()
 
 ## Caution
 At initial setup place the leader and follower robots so that their tips are facing straight down. The program calibrates and performs zeroing initialization during the start of every program execution. If it deviates from this point, the robot may behave unexpectedly due to errors in gravity compensation, etc.
-
-
