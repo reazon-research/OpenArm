@@ -123,13 +123,14 @@ int main(void)
 	FDCAN1_Config();
 	FDCAN2_Config();
 	
-	joint_motor_init(&motor,1,MIT_MODE);//初始化电机，电机接收ID为1，MIT模式
+	joint_motor_init(&motor,1,MIT_MODE);
 	HAL_Delay(1000);
-	for(int i=0;i<20;i++)
-	{
-	 enable_motor_mode(&hfdcan1, motor.para.id, MIT_MODE);//使能电机
-	 HAL_Delay(20);
-	}
+	enable_motor_mode(&hfdcan1, motor.para.id, MIT_MODE);
+	//for(int i=0;i<20;i++)
+	//{
+	 
+	// HAL_Delay(20);
+	//}
 	HAL_TIM_Base_Start_IT(&htim2);
   /* USER CODE END 2 */
 
@@ -137,10 +138,12 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   { 		
-		mit_ctrl(&hfdcan1, motor.para.id, 0.0f, 0.0f,0.0f, 0.0f,1.0f);//MIT模式发送力矩
-		//speed_ctrl(&hfdcan1,motor.para.id, 1.5f);//速度模式发送速度
+		mit_ctrl(&hfdcan1, motor.para.id, 0.0f, 0.0f,0.0f, 0.0f,1.0f);
+		//speed_ctrl(&hfdcan1,motor.para.id, 1.5f);
 		//pos_speed_ctrl(&hfdcan1,motor.para.id, 6.28f, 2.0f);
-		HAL_Delay(2);
+		HAL_Delay(1000);
+		mit_ctrl(&hfdcan1, motor.para.id, 0.0f, 0.0f,0.0f, 0.0f,0.0f);
+		HAL_Delay(10000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
