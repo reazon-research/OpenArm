@@ -1,5 +1,5 @@
-#ifndef __DM4310_DRV_H__
-#define __DM4310_DRV_H__
+#ifndef __DM_DRV_H__
+#define __DM_DRV_H__
 #include "main.h"
 #include "fdcan.h"
 #include "can_bsp.h"
@@ -20,10 +20,18 @@
 #define T_MIN -10.0f
 #define T_MAX 10.0f
 
+typedef enum
+{
+	DM4310 = 0,
+	DM4340 = 1,
+	DM3507 = 2
+} MotorType_t;
+
 
 typedef struct 
 {
 	uint16_t id;
+	MotorType_t type;
 	uint16_t state;
 	int p_int;
 	int v_int;
@@ -46,7 +54,7 @@ typedef struct
 
 
 
-extern void dm4310_fbdata(Joint_Motor_t *motor, uint8_t *rx_data,uint32_t data_len);
+extern void dm_fbdata(Joint_Motor_t *motor, uint8_t *rx_data,uint32_t data_len);
 
 
 extern void enable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id);
@@ -58,7 +66,7 @@ extern void pos_speed_ctrl(hcan_t* hcan,uint16_t motor_id, float pos, float vel)
 extern void speed_ctrl(hcan_t* hcan,uint16_t motor_id, float _vel);
 
 
-extern void joint_motor_init(Joint_Motor_t *motor,uint16_t id,uint16_t mode);
+extern void joint_motor_init(Joint_Motor_t *motor,uint16_t id,uint16_t mode, uint16_t type);
 
 	
 extern float Hex_To_Float(uint32_t *Byte,int num);//十六进制到浮点数
@@ -67,5 +75,5 @@ extern uint32_t FloatTohex(float HEX);//浮点数到十六进制转换
 extern float uint_to_float(int x_int, float x_min, float x_max, int bits);
 extern int float_to_uint(float x_float, float x_min, float x_max, int bits);
 
-#endif /* __DM4310_DRV_H__ */
+#endif /* __DM_DRV_H__ */
 

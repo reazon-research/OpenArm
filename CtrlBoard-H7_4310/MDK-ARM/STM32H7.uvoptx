@@ -870,8 +870,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\User\Devices\DM_Motor\dm4310_drv.c</PathWithFileName>
-      <FilenameWithoutPath>dm4310_drv.c</FilenameWithoutPath>
+      <PathWithFileName>..\User\Devices\DM_Motor\dm_drv.c</PathWithFileName>
+      <FilenameWithoutPath>dm_drv.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -882,8 +882,40 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\User\Devices\DM_Motor\dm4310_drv.h</PathWithFileName>
-      <FilenameWithoutPath>dm4310_drv.h</FilenameWithoutPath>
+      <PathWithFileName>..\User\Devices\DM_Motor\dm_drv.h</PathWithFileName>
+      <FilenameWithoutPath>dm_drv.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+  </Group>
+
+  <Group>
+    <GroupName>Control</GroupName>
+    <tvExp>1</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <RteFlg>0</RteFlg>
+    <File>
+      <GroupNumber>8</GroupNumber>
+      <FileNumber>47</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\User\Control\openarm_control.h</PathWithFileName>
+      <FilenameWithoutPath>openarm_control.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>8</GroupNumber>
+      <FileNumber>48</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\User\Control\openarm_control.c</PathWithFileName>
+      <FilenameWithoutPath>openarm_control.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

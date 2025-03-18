@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32H723xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Drivers/CMSIS/DSP/Include;../User/bsp;../User/Devices/DM_Motor</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Drivers/CMSIS/DSP/Include;../User/bsp;../User/Devices/DM_Motor;..\User\Control</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -686,14 +686,29 @@
           <GroupName>Device</GroupName>
           <Files>
             <File>
-              <FileName>dm4310_drv.c</FileName>
+              <FileName>dm_drv.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\Devices\DM_Motor\dm4310_drv.c</FilePath>
+              <FilePath>..\User\Devices\DM_Motor\dm_drv.c</FilePath>
             </File>
             <File>
-              <FileName>dm4310_drv.h</FileName>
+              <FileName>dm_drv.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\User\Devices\DM_Motor\dm4310_drv.h</FilePath>
+              <FilePath>..\User\Devices\DM_Motor\dm_drv.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Control</GroupName>
+          <Files>
+            <File>
+              <FileName>openarm_control.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\User\Control\openarm_control.h</FilePath>
+            </File>
+            <File>
+              <FileName>openarm_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Control\openarm_control.c</FilePath>
             </File>
           </Files>
         </Group>
