@@ -1,4 +1,4 @@
-#include "dm4310_drv.h"
+#include "dm_drv.h"
 
 #include "fdcan.h"
 #include "arm_math.h"
@@ -50,25 +50,26 @@ float uint_to_float(int x_int, float x_min, float x_max, int bits)
 	return ((float)x_int)*span/((float)((1<<bits)-1)) + offset;
 }
 
-void joint_motor_init(Joint_Motor_t *motor,uint16_t id,uint16_t mode)
+void joint_motor_init(Joint_Motor_t *motor,uint16_t id,uint16_t mode, uint16_t type)
 {
+	motor->para.id=id;
   motor->mode=mode;
-  motor->para.id=id;
+	motor->para.type = type;
 }
 
 
 /**
 ************************************************************************
-* @brief:      	dm4310_fbdata: 获取DM4310电机反馈数据函数
+* @brief:      	dm_fbdata: 获取DM电机反馈数据函数
 * @param[in]:   motor:    指向motor_t结构的指针，包含电机相关信息和反馈数据
 * @param[in]:   rx_data:  指向包含反馈数据的数组指针
 * @param[in]:   data_len: 数据长度
 * @retval:     	void
-* @details:    	从接收到的数据中提取DM4310电机的反馈信息，包括电机ID、
+* @details:    	从接收到的数据中提取DM电机的反馈信息，包括电机ID、
 *               状态、位置、速度、扭矩相关温度参数、寄存器数据等
 ************************************************************************
 **/
-void dm4310_fbdata(Joint_Motor_t *motor, uint8_t *rx_data,uint32_t data_len)
+void dm_fbdata(Joint_Motor_t *motor, uint8_t *rx_data,uint32_t data_len)
 { 
 	if(data_len==FDCAN_DLC_BYTES_8)
 	{//返回的数据有8个字节

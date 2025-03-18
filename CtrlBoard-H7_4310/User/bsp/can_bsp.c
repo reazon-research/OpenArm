@@ -1,6 +1,6 @@
 #include "can_bsp.h"
 #include "fdcan.h"
-#include "dm4310_drv.h"
+#include "dm_drv.h"
 #include "string.h"
 
 
@@ -135,7 +135,7 @@ uint8_t canx_send_data(FDCAN_HandleTypeDef *hcan, uint16_t id, uint8_t *data, ui
 }
 
 
-extern Joint_Motor_t motor;
+extern OpenArm_t arm;
 void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
 { 
   if((RxFifo0ITs & FDCAN_IT_RX_FIFO0_NEW_MESSAGE) != RESET)
@@ -148,7 +148,7 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
 			
 			switch(RxHeader1.Identifier)
 			{//电机反馈ID为0
-        case 0 :dm4310_fbdata(&motor, g_Can1RxData,RxHeader1.DataLength);break;
+        case 0 :dm_fbdata(&motor, g_Can1RxData,RxHeader1.DataLength);break;
 				
 				default: break;
 			}			
@@ -167,7 +167,7 @@ void HAL_FDCAN_RxFifo1Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo1ITs)
       HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO1, &RxHeader2, g_Can2RxData);
 			switch(RxHeader2.Identifier)
 			{ //电机反馈ID为0
-        case 0 :dm4310_fbdata(&motor, g_Can2RxData,RxHeader2.DataLength);break;
+        case 0 :dm_fbdata(&motor, g_Can2RxData,RxHeader2.DataLength);break;
 
 				default: break;
 			}	

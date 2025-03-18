@@ -43,7 +43,8 @@
 "stm32h7\system_stm32h7xx.o"
 "..\Drivers\CMSIS\DSP\Lib\ARM\arm_cortexM7lfdp_math.lib"
 "stm32h7\can_bsp.o"
-"stm32h7\dm4310_drv.o"
+"stm32h7\dm_drv.o"
+"stm32h7\openarm_control.o"
 --library_type=microlib --strict --scatter "STM32H7\STM32H7.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

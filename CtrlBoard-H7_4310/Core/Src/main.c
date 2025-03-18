@@ -31,7 +31,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "can_bsp.h"
-#include "dm4310_drv.h"
+#include "openarm_control.h"
 #include "arm_math.h"
 /* USER CODE END Includes */
 
@@ -42,7 +42,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-Joint_Motor_t motor;
+OpenArm_t arm;
 extern float vel_set;
 /* USER CODE END PD */
 
@@ -123,9 +123,12 @@ int main(void)
 	FDCAN1_Config();
 	FDCAN2_Config();
 	
-	joint_motor_init(&motor,1,MIT_MODE);
+	int id[7] = {1, 2, 3, 4, 5, 6, 7};
+	int mode[7] = {MIT_MODE, MIT_MODE, MIT_MODE, MIT_MODE, MIT_MODE, MIT_MODE, MIT_MODE};
+	int type[7] = {DM4340, DM4340, DM4340, DM4340, DM4310, DM4310, DM4310};
+	openarm_init(&arm, id, mode, type);
 	HAL_Delay(1000);
-	enable_motor_mode(&hfdcan1, motor.para.id, MIT_MODE);
+	//enable_motor_mode(&hfdcan1, motor.para.id, MIT_MODE);
 	//for(int i=0;i<20;i++)
 	//{
 	 
@@ -138,11 +141,11 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   { 		
-		mit_ctrl(&hfdcan1, motor.para.id, 0.0f, 0.0f,0.0f, 0.0f,1.0f);
+		//mit_ctrl(&hfdcan1, motor.para.id, 0.0f, 0.0f,0.0f, 0.0f,1.0f);
 		//speed_ctrl(&hfdcan1,motor.para.id, 1.5f);
 		//pos_speed_ctrl(&hfdcan1,motor.para.id, 6.28f, 2.0f);
 		HAL_Delay(1000);
-		mit_ctrl(&hfdcan1, motor.para.id, 0.0f, 0.0f,0.0f, 0.0f,0.0f);
+		//mit_ctrl(&hfdcan1, motor.para.id, 0.0f, 0.0f,0.0f, 0.0f,0.0f);
 		HAL_Delay(10000);
     /* USER CODE END WHILE */
 
