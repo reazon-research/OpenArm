@@ -1,6 +1,6 @@
 #include "can_bsp.h"
 #include "fdcan.h"
-#include "dm_drv.h"
+#include "openarm_control.h"
 #include "string.h"
 
 
@@ -145,10 +145,10 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
       /* Retrieve Rx messages from RX FIFO0 */
 			memset(g_Can1RxData, 0, sizeof(g_Can1RxData));	//接收前先清空数组	
       HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &RxHeader1, g_Can1RxData);
-			
+			int id = (g_Can1RxData[0])&0x0F;
 			switch(RxHeader1.Identifier)
 			{//电机反馈ID为0
-        case 0 :dm_fbdata(&motor, g_Can1RxData,RxHeader1.DataLength);break;
+        case 0 :dm_fbdata(&arm.motors[id], g_Can1RxData,RxHeader1.DataLength);break;
 				
 				default: break;
 			}			
@@ -165,9 +165,10 @@ void HAL_FDCAN_RxFifo1Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo1ITs)
       /* Retrieve Rx messages from RX FIFO0 */
 			memset(g_Can2RxData, 0, sizeof(g_Can2RxData));
       HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO1, &RxHeader2, g_Can2RxData);
+			int id = (g_Can1RxData[0])&0x0F;
 			switch(RxHeader2.Identifier)
 			{ //电机反馈ID为0
-        case 0 :dm_fbdata(&motor, g_Can2RxData,RxHeader2.DataLength);break;
+        case 0 :dm_fbdata(&arm.motors[id], g_Can2RxData,RxHeader2.DataLength);break;
 
 				default: break;
 			}	

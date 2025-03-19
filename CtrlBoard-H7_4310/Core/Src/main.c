@@ -123,17 +123,20 @@ int main(void)
 	FDCAN1_Config();
 	FDCAN2_Config();
 	
-	int id[7] = {1, 2, 3, 4, 5, 6, 7};
+	int id[7] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
+	int master_id[7] = {0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17}; 
 	int mode[7] = {MIT_MODE, MIT_MODE, MIT_MODE, MIT_MODE, MIT_MODE, MIT_MODE, MIT_MODE};
 	int type[7] = {DM4340, DM4340, DM4340, DM4340, DM4310, DM4310, DM4310};
-	openarm_init(&arm, id, mode, type);
+	float zero[7] = {0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f};
+	float one[7] = {1.0f,1.0f,1.0f,1.0f,1.0f,1.0f,1.0f};
+	openarm_init(&arm, id, master_id, mode, type);
 	HAL_Delay(1000);
-	//enable_motor_mode(&hfdcan1, motor.para.id, MIT_MODE);
-	//for(int i=0;i<20;i++)
-	//{
-	 
-	// HAL_Delay(20);
-	//}
+	
+	for(int i=0;i<NUM_MOTORS;i++)
+	{
+		enable_motor_mode(&hfdcan1, arm.motors[i].para.slave_id, MIT_MODE);
+		HAL_Delay(20);
+	}
 	HAL_TIM_Base_Start_IT(&htim2);
   /* USER CODE END 2 */
 
@@ -141,12 +144,18 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   { 		
-		//mit_ctrl(&hfdcan1, motor.para.id, 0.0f, 0.0f,0.0f, 0.0f,1.0f);
-		//speed_ctrl(&hfdcan1,motor.para.id, 1.5f);
-		//pos_speed_ctrl(&hfdcan1,motor.para.id, 6.28f, 2.0f);
-		HAL_Delay(1000);
-		//mit_ctrl(&hfdcan1, motor.para.id, 0.0f, 0.0f,0.0f, 0.0f,0.0f);
-		HAL_Delay(10000);
+//		for(int i = 0;i < NUM_MOTORS;i++){
+//			mit_ctrl(&hfdcan1, arm.motors[i].para.slave_id, 0.0f, 0.0f,0.0f, 0.0f,1.0f);
+//			//speed_ctrl(&hfdcan1,motor.para.id, 1.5f);
+//			//pos_speed_ctrl(&hfdcan1,motor.para.id, 6.28f, 2.0f);
+//			HAL_Delay(1000);
+//			mit_ctrl(&hfdcan1, arm.motors[i].para.slave_id, 0.0f, 0.0f,0.0f, 0.0f,0.0f);
+//		}
+//		move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, one);
+//		HAL_Delay(1000);
+//		move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
+//		HAL_Delay(10000);
+		
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

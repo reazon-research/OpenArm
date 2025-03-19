@@ -50,9 +50,10 @@ float uint_to_float(int x_int, float x_min, float x_max, int bits)
 	return ((float)x_int)*span/((float)((1<<bits)-1)) + offset;
 }
 
-void joint_motor_init(Joint_Motor_t *motor,uint16_t id,uint16_t mode, uint16_t type)
+void joint_motor_init(Joint_Motor_t *motor,uint16_t id, uint16_t master_id, uint16_t mode, uint16_t type)
 {
-	motor->para.id=id;
+	motor->para.slave_id=id;
+	motor->para.master_id=master_id;
   motor->mode=mode;
 	motor->para.type = type;
 }
@@ -73,7 +74,8 @@ void dm_fbdata(Joint_Motor_t *motor, uint8_t *rx_data,uint32_t data_len)
 { 
 	if(data_len==FDCAN_DLC_BYTES_8)
 	{//返回的数据有8个字节
-	  motor->para.id = (rx_data[0])&0x0F;
+	}	  
+		//motor->para.slave_id = (rx_data[0])&0x0F;
 	  motor->para.state = (rx_data[0])>>4;
 	  motor->para.p_int=(rx_data[1]<<8)|rx_data[2];
 	  motor->para.v_int=(rx_data[3]<<4)|(rx_data[4]>>4);
@@ -83,7 +85,7 @@ void dm_fbdata(Joint_Motor_t *motor, uint8_t *rx_data,uint32_t data_len)
 	  motor->para.tor = uint_to_float(motor->para.t_int, T_MIN, T_MAX, 12);  // 
 	  motor->para.Tmos = (float)(rx_data[6]);
 	  motor->para.Tcoil = (float)(rx_data[7]);
-	}
+
 }
 
 void enable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id)

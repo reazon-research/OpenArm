@@ -8,7 +8,7 @@
 #define POS_MODE			0x100
 #define SPEED_MODE		0x200
 
-//以下是DM4310的参数，用其他电机需要更改下面参数
+//DM4310 limits
 #define P_MIN -12.5f
 #define P_MAX 12.5f
 #define V_MIN -30.0f
@@ -30,7 +30,8 @@ typedef enum
 
 typedef struct 
 {
-	uint16_t id;
+	uint16_t slave_id;
+	uint16_t master_id;
 	MotorType_t type;
 	uint16_t state;
 	int p_int;
@@ -66,7 +67,7 @@ extern void pos_speed_ctrl(hcan_t* hcan,uint16_t motor_id, float pos, float vel)
 extern void speed_ctrl(hcan_t* hcan,uint16_t motor_id, float _vel);
 
 
-extern void joint_motor_init(Joint_Motor_t *motor,uint16_t id,uint16_t mode, uint16_t type);
+extern void joint_motor_init(Joint_Motor_t *motor,uint16_t id, uint16_t master_id, uint16_t mode, uint16_t type);
 
 	
 extern float Hex_To_Float(uint32_t *Byte,int num);//十六进制到浮点数

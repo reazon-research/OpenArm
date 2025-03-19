@@ -11,9 +11,9 @@
 * @details:    	
 ************************************************************************
 **/
-void openarm_init(OpenArm_t *arm, int id[], int mode[], int motor_type[]){
+void openarm_init(OpenArm_t *arm, int id[], int master_id[], int mode[], int motor_type[]){
 	for(int i = 0; i < NUM_MOTORS; i++){
-		joint_motor_init(&arm->motors[i], id[i], mode[i], motor_type[i]);
+		joint_motor_init(&arm->motors[i], id[i], master_id[i], mode[i], motor_type[i]);
 	}
 }
 
@@ -30,9 +30,9 @@ void openarm_init(OpenArm_t *arm, int id[], int mode[], int motor_type[]){
 * @details:    	
 ************************************************************************
 **/
-void move_mit(OpenArm_t *arm, hcan_t *hcan, float position[], float velocity[], float kp[], float kd[], float torque[]){
+void move_mit_all(OpenArm_t *arm, hcan_t *hcan, float position[], float velocity[], float kp[], float kd[], float torque[]){
 	for(int i = 0; i < NUM_MOTORS; i++){
-		mit_ctrl(hcan, arm->motors[i].para.id, position[i], velocity[i], kp[i], kd[i], torque[i]);
+		mit_ctrl(hcan, arm->motors[i].para.slave_id, position[i], velocity[i], kp[i], kd[i], torque[i]);
 	}
 }
 	
