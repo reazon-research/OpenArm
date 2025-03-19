@@ -1,0 +1,8 @@
+[submodule "software/openarm_mjcf"]
+	path = software/openarm_mjcf
+	url = https://github.com/reazon-research/openarm_mjcf
+	branch = master
+[submodule "software/openarm_ros2"]
+	path = software/openarm_ros2
+	url = https://github.com/reazon-research/openarm_ros2
+	branch = main
