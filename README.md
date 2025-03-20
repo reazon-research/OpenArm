@@ -1,4 +1,4 @@
-# OpenArm: A fully open-source robot arm project
+# OpenArm: An open-source robotic arm for human manipulation data collection
 
 ![DSCF3185](https://github.com/user-attachments/assets/2a5ea64c-ab9c-4994-870b-5300af98df7e)
 
