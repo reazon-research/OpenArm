@@ -27,10 +27,9 @@ typedef enum
 	DM3507 = 2
 } MotorType_t;
 
-
-typedef struct 
+typedef struct
 {
-	uint16_t slave_id;
+  int16_t slave_id;
 	uint16_t master_id;
 	MotorType_t type;
 	uint16_t state;
@@ -44,13 +43,6 @@ typedef struct
 
 	float Tmos;
 	float Tcoil;
-}motor_fbpara_t;
-
-
-typedef struct
-{
-	uint16_t mode;
-	motor_fbpara_t para;
 }Joint_Motor_t ;
 
 
@@ -67,7 +59,7 @@ extern void pos_speed_ctrl(hcan_t* hcan,uint16_t motor_id, float pos, float vel)
 extern void speed_ctrl(hcan_t* hcan,uint16_t motor_id, float _vel);
 
 
-extern void joint_motor_init(Joint_Motor_t *motor,uint16_t id, uint16_t master_id, uint16_t mode, uint16_t type);
+extern void joint_motor_init(Joint_Motor_t *motor,uint16_t id, uint16_t master_id, uint16_t type);
 
 	
 extern float Hex_To_Float(uint32_t *Byte,int num);//十六进制到浮点数

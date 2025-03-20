@@ -43,6 +43,7 @@
 "stm32h7\system_stm32h7xx.o"
 "..\Drivers\CMSIS\DSP\Lib\ARM\arm_cortexM7lfdp_math.lib"
 "stm32h7\can_bsp.o"
+"stm32h7\led_bsp.o"
 "stm32h7\dm_drv.o"
 "stm32h7\openarm_control.o"
 --library_type=microlib --strict --scatter "STM32H7\STM32H7.sct"

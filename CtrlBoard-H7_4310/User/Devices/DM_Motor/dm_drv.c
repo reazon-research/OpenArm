@@ -13,17 +13,6 @@ uint32_t FloatTohex(float HEX)//浮点数到十六进制转换
 	return *( uint32_t *)&HEX;
 }
 
-/**
-************************************************************************
-* @brief:      	float_to_uint: 浮点数转换为无符号整数函数
-* @param[in]:   x_float:	待转换的浮点数
-* @param[in]:   x_min:		范围最小值
-* @param[in]:   x_max:		范围最大值
-* @param[in]:   bits: 		目标无符号整数的位数
-* @retval:     	无符号整数结果
-* @details:    	将给定的浮点数 x 在指定范围 [x_min, x_max] 内进行线性映射，映射结果为一个指定位数的无符号整数
-************************************************************************
-**/
 int float_to_uint(float x_float, float x_min, float x_max, int bits)
 {
 	/* Converts a float to an unsigned int, given range and number of bits */
@@ -31,17 +20,7 @@ int float_to_uint(float x_float, float x_min, float x_max, int bits)
 	float offset = x_min;
 	return (int) ((x_float-offset)*((float)((1<<bits)-1))/span);
 }
-/**
-************************************************************************
-* @brief:      	uint_to_float: 无符号整数转换为浮点数函数
-* @param[in]:   x_int: 待转换的无符号整数
-* @param[in]:   x_min: 范围最小值
-* @param[in]:   x_max: 范围最大值
-* @param[in]:   bits:  无符号整数的位数
-* @retval:     	浮点数结果
-* @details:    	将给定的无符号整数 x_int 在指定范围 [x_min, x_max] 内进行线性映射，映射结果为一个浮点数
-************************************************************************
-**/
+
 float uint_to_float(int x_int, float x_min, float x_max, int bits)
 {
 	/* converts unsigned int to float, given range and number of bits */
@@ -50,41 +29,29 @@ float uint_to_float(int x_int, float x_min, float x_max, int bits)
 	return ((float)x_int)*span/((float)((1<<bits)-1)) + offset;
 }
 
-void joint_motor_init(Joint_Motor_t *motor,uint16_t id, uint16_t master_id, uint16_t mode, uint16_t type)
+void joint_motor_init(Joint_Motor_t *motor,uint16_t id, uint16_t master_id, uint16_t type)
 {
-	motor->para.slave_id=id;
-	motor->para.master_id=master_id;
-  motor->mode=mode;
-	motor->para.type = type;
+	motor->slave_id=id;
+	motor->master_id=master_id;
+	motor->type = type;
 }
 
-
-/**
-************************************************************************
-* @brief:      	dm_fbdata: 获取DM电机反馈数据函数
-* @param[in]:   motor:    指向motor_t结构的指针，包含电机相关信息和反馈数据
-* @param[in]:   rx_data:  指向包含反馈数据的数组指针
-* @param[in]:   data_len: 数据长度
-* @retval:     	void
-* @details:    	从接收到的数据中提取DM电机的反馈信息，包括电机ID、
-*               状态、位置、速度、扭矩相关温度参数、寄存器数据等
-************************************************************************
-**/
+// feedback message callback function
 void dm_fbdata(Joint_Motor_t *motor, uint8_t *rx_data,uint32_t data_len)
 { 
 	if(data_len==FDCAN_DLC_BYTES_8)
 	{//返回的数据有8个字节
 	}	  
-		//motor->para.slave_id = (rx_data[0])&0x0F;
-	  motor->para.state = (rx_data[0])>>4;
-	  motor->para.p_int=(rx_data[1]<<8)|rx_data[2];
-	  motor->para.v_int=(rx_data[3]<<4)|(rx_data[4]>>4);
-	  motor->para.t_int=((rx_data[4]&0xF)<<8)|rx_data[5];
-	  motor->para.pos = uint_to_float(motor->para.p_int, P_MIN, P_MAX, 16); // 
-	  motor->para.vel = uint_to_float(motor->para.v_int, V_MIN, V_MAX, 12); // 
-	  motor->para.tor = uint_to_float(motor->para.t_int, T_MIN, T_MAX, 12);  // 
-	  motor->para.Tmos = (float)(rx_data[6]);
-	  motor->para.Tcoil = (float)(rx_data[7]);
+		//motor->slave_id = (rx_data[0])&0x0F;
+	  motor->state = (rx_data[0])>>4;
+	  motor->p_int=(rx_data[1]<<8)|rx_data[2];
+	  motor->v_int=(rx_data[3]<<4)|(rx_data[4]>>4);
+	  motor->t_int=((rx_data[4]&0xF)<<8)|rx_data[5];
+	  motor->pos = uint_to_float(motor->p_int, P_MIN, P_MAX, 16); // 
+	  motor->vel = uint_to_float(motor->v_int, V_MIN, V_MAX, 12); // 
+	  motor->tor = uint_to_float(motor->t_int, T_MIN, T_MAX, 12);  // 
+	  motor->Tmos = (float)(rx_data[6]);
+	  motor->Tcoil = (float)(rx_data[7]);
 
 }
 
