@@ -33,6 +33,7 @@
 #include "can_bsp.h"
 #include "openarm_control.h"
 #include "arm_math.h"
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -54,11 +55,12 @@ extern float vel_set;
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+extern UART_HandleTypeDef huart2;  // Define the UART handle for USART2
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+int __io_putchar(int ch);
 /* USER CODE BEGIN PFP */
 
 
@@ -125,18 +127,14 @@ int main(void)
 	
 	int id[7] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
 	int master_id[7] = {0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17}; 
-	int mode[7] = {MIT_MODE, MIT_MODE, MIT_MODE, MIT_MODE, MIT_MODE, MIT_MODE, MIT_MODE};
+	int mode = MIT_MODE;
 	int type[7] = {DM4340, DM4340, DM4340, DM4340, DM4310, DM4310, DM4310};
 	float zero[7] = {0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f};
 	float one[7] = {1.0f,1.0f,1.0f,1.0f,1.0f,1.0f,1.0f};
 	openarm_init(&arm, id, master_id, mode, type);
 	HAL_Delay(1000);
 	
-	for(int i=0;i<NUM_MOTORS;i++)
-	{
-		enable_motor_mode(&hfdcan1, arm.motors[i].para.slave_id, MIT_MODE);
-		HAL_Delay(20);
-	}
+	openarm_enable(&arm, &hfdcan1);
 	HAL_TIM_Base_Start_IT(&htim2);
   /* USER CODE END 2 */
 
@@ -144,6 +142,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   { 		
+			printf("test\n\n\n");
 //		for(int i = 0;i < NUM_MOTORS;i++){
 //			mit_ctrl(&hfdcan1, arm.motors[i].para.slave_id, 0.0f, 0.0f,0.0f, 0.0f,1.0f);
 //			//speed_ctrl(&hfdcan1,motor.para.id, 1.5f);
@@ -224,6 +223,12 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+int __io_putchar(int ch)
+{
+	HAL_UART_Transmit(&huart2,(uint8_t*)&ch,1,HAL_MAX_DELAY);
+	return ch;
+}
+
 
 /* USER CODE END 4 */
 
