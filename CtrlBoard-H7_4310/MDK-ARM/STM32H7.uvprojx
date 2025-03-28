@@ -81,7 +81,7 @@
           </BeforeMake>
           <AfterMake>
             <RunUserProg1>0</RunUserProg1>
-            <RunUserProg2>1</RunUserProg2>
+            <RunUserProg2>0</RunUserProg2>
             <UserProg1Name></UserProg1Name>
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
@@ -138,7 +138,7 @@
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2V8M.DLL</Flash2>
-          <Flash3></Flash3>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -338,7 +338,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_HAL_DRIVER,STM32H723xx</Define>
+              <Define>USE_HAL_DRIVER,STM32H723xx, CMSIS_device_header</Define>
               <Undefine></Undefine>
               <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Drivers/CMSIS/DSP/Include;../User/bsp;../User/Devices/DM_Motor;..\User\Control</IncludePath>
             </VariousControls>
@@ -453,6 +453,11 @@
               <FileName>stm32h7xx_hal_msp.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Core/Src/stm32h7xx_hal_msp.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32h7xx_hal_conf.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\Inc\stm32h7xx_hal_conf.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -660,6 +665,26 @@
               <FileType>1</FileType>
               <FilePath>../Core/Src/system_stm32h7xx.c</FilePath>
             </File>
+            <File>
+              <FileName>RTE_Components.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\RTE\_STM32H7\RTE_Components.h</FilePath>
+            </File>
+            <File>
+              <FileName>core_cm7.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Drivers\CMSIS\Include\core_cm7.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm32h723xx.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Drivers\CMSIS\Device\ST\STM32H7xx\Include\stm32h723xx.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm32h7xx.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Drivers\CMSIS\Device\ST\STM32H7xx\Include\stm32h7xx.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -720,13 +745,44 @@
         <Group>
           <GroupName>::CMSIS</GroupName>
         </Group>
+        <Group>
+          <GroupName>::CMSIS-Compiler</GroupName>
+        </Group>
+        <Group>
+          <GroupName>::CMSIS-View</GroupName>
+        </Group>
       </Groups>
     </Target>
   </Targets>
 
   <RTE>
-    <apis/>
+    <apis>
+      <api Capiversion="1.1.0" Cclass="CMSIS-Compiler" Cgroup="STDOUT" condition="CortexDevice" exclusive="1">
+        <package name="CMSIS-Compiler" schemaVersion="1.7.36" url="https://www.keil.com/pack/" vendor="ARM" version="2.1.0"/>
+        <targetInfos>
+          <targetInfo name="STM32H7"/>
+        </targetInfos>
+      </api>
+    </apis>
     <components>
+      <component Cclass="CMSIS-Compiler" Cgroup="CORE" Cvendor="ARM" Cversion="1.1.0" condition="ARMCC CortexDevice">
+        <package name="CMSIS-Compiler" schemaVersion="1.7.36" url="https://www.keil.com/pack/" vendor="ARM" version="2.1.0"/>
+        <targetInfos>
+          <targetInfo name="STM32H7"/>
+        </targetInfos>
+      </component>
+      <component Capiversion="1.1.0" Cclass="CMSIS-Compiler" Cgroup="STDOUT" Csub="Event Recorder" Cvendor="ARM" Cversion="1.1.0" condition="CORE EVR">
+        <package name="CMSIS-Compiler" schemaVersion="1.7.36" url="https://www.keil.com/pack/" vendor="ARM" version="2.1.0"/>
+        <targetInfos>
+          <targetInfo name="STM32H7"/>
+        </targetInfos>
+      </component>
+      <component Cclass="CMSIS-View" Cgroup="Event Recorder" Cvariant="DAP" Cvendor="ARM" Cversion="1.6.0" condition="EventRecorder">
+        <package name="CMSIS-View" schemaVersion="1.7.36" url="https://www.keil.com/pack/" vendor="ARM" version="1.2.0"/>
+        <targetInfos>
+          <targetInfo name="STM32H7"/>
+        </targetInfos>
+      </component>
       <component Cclass="CMSIS" Cgroup="CORE" Cvendor="ARM" Cversion="6.1.0" condition="ARMv6_7_8-M Device">
         <package name="CMSIS" schemaVersion="1.7.36" url="https://www.keil.com/pack/" vendor="ARM" version="6.1.0"/>
         <targetInfos>
@@ -734,7 +790,16 @@
         </targetInfos>
       </component>
     </components>
-    <files/>
+    <files>
+      <file attr="config" category="header" name="EventRecorder\Config\EventRecorderConf.h" version="1.1.0">
+        <instance index="0">RTE\CMSIS-View\EventRecorderConf.h</instance>
+        <component Cclass="CMSIS-View" Cgroup="Event Recorder" Cvariant="DAP" Cvendor="ARM" Cversion="1.6.0" condition="EventRecorder"/>
+        <package name="CMSIS-View" schemaVersion="1.7.36" url="https://www.keil.com/pack/" vendor="ARM" version="1.2.0"/>
+        <targetInfos>
+          <targetInfo name="STM32H7"/>
+        </targetInfos>
+      </file>
+    </files>
   </RTE>
 
   <LayerInfo>
