@@ -44,6 +44,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define CONTROL_PERIOD_US 5000
 OpenArm_t arm;
 extern float vel_set;
 /* USER CODE END PD */
@@ -67,6 +68,12 @@ int __io_putchar(int ch)
 	HAL_UART_Transmit(&huart2,(uint8_t*)&ch,1,HAL_MAX_DELAY);
 	return ch;
 }
+
+void delay_us(uint32_t us) {
+    __HAL_TIM_SET_COUNTER(&htim2, 0);  // Reset timer counter
+    while (__HAL_TIM_GET_COUNTER(&htim2) < us);  // Wait for the required time
+}
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -139,18 +146,29 @@ int main(void)
 	
 	openarm_enable(&arm, &hfdcan1);
 	EventRecorderInitialize(EventRecordAll, 1);
-	HAL_TIM_Base_Start_IT(&htim2);
+	HAL_TIM_Base_Start(&htim2);
+	uint32_t last_time = __HAL_TIM_GET_COUNTER(&htim2);
   /* USER CODE END 2 */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   { 
-		//mit_ctrl(&hfdcan1, arm.motors[1].slave_id, 0.0f, 0.0f,0.0f, 0.0f,1.0f);
-		move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, one);
-		HAL_Delay(1000);
-		move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
-		HAL_Delay(10000);
+		uint32_t now = __HAL_TIM_GET_COUNTER(&htim2);
+		int32_t elapsed = now - last_time;  // Calculate time taken for the loop
+
+		if (elapsed > CONTROL_PERIOD_US) {
+				printf("WARNING: Control loop overran by %d us!\n", elapsed - CONTROL_PERIOD_US);
+				// No delay, just continue immediately
+		} else {
+				// Calculate how much time is left until the next cycle
+				uint32_t remaining_time = CONTROL_PERIOD_US - elapsed;
+				printf("Control loop took %d us. Waiting for: %d us\n\r", elapsed, remaining_time);
+				delay_us(remaining_time);  // Wait for the remaining time
+		}
 		
+		__HAL_TIM_SET_COUNTER(&htim2, 0);  // Reset timer counter
+		last_time = __HAL_TIM_GET_COUNTER(&htim2);  // Update time after waiting
+		move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
