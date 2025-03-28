@@ -2,6 +2,7 @@
 #include "fdcan.h"
 #include "openarm_control.h"
 #include "string.h"
+#include "stdio.h"
 
 
 FDCAN_RxHeaderTypeDef RxHeader1;
@@ -14,7 +15,7 @@ void FDCAN1_Config(void)
 {
   FDCAN_FilterTypeDef sFilterConfig;
   /* Configure Rx filter */	
-	sFilterConfig.IdType = FDCAN_STANDARD_ID;//标准ID，扩展ID不接收
+	sFilterConfig.IdType = FDCAN_STANDARD_ID;
   sFilterConfig.FilterIndex = 0;
   sFilterConfig.FilterType = FDCAN_FILTER_MASK;
   sFilterConfig.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;
@@ -24,18 +25,12 @@ void FDCAN1_Config(void)
 	{
 		Error_Handler();
 	}
-		
-/* 全局过滤设置 */
-/* 接收到消息ID与标准ID过滤不匹配，不接受 */
-/* 接收到消息ID与扩展ID过滤不匹配，不接受 */
-/* 过滤标准ID远程帧 */ 
-/* 过滤扩展ID远程帧 */ 
+	
   if (HAL_FDCAN_ConfigGlobalFilter(&hfdcan1, FDCAN_REJECT, FDCAN_REJECT, FDCAN_FILTER_REMOTE, FDCAN_FILTER_REMOTE) != HAL_OK)
   {
     Error_Handler();
   }
 
-	/* 开启RX FIFO0的新数据中断 */
   if (HAL_FDCAN_ActivateNotification(&hfdcan1, FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0) != HAL_OK)
   {
     Error_Handler();
@@ -128,7 +123,6 @@ uint8_t canx_send_data(FDCAN_HandleTypeDef *hcan, uint16_t id, uint8_t *data, ui
    // 发送CAN指令
   if(HAL_FDCAN_AddMessageToTxFifoQ(hcan, &TxHeader, data) != HAL_OK)
   {
-        // 发送失败处理
        Error_Handler();      
   }
 	 return 0;
@@ -138,6 +132,7 @@ uint8_t canx_send_data(FDCAN_HandleTypeDef *hcan, uint16_t id, uint8_t *data, ui
 extern OpenArm_t arm;
 void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
 { 
+	//printf("Running callback\r\n");
   if((RxFifo0ITs & FDCAN_IT_RX_FIFO0_NEW_MESSAGE) != RESET)
   {
     if(hfdcan->Instance == FDCAN1)

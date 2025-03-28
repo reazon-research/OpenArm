@@ -34,6 +34,7 @@
 #include "openarm_control.h"
 #include "arm_math.h"
 #include <stdio.h>
+#include "EventRecorder.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -60,11 +61,12 @@ extern UART_HandleTypeDef huart2;  // Define the UART handle for USART2
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-int __io_putchar(int ch);
 /* USER CODE BEGIN PFP */
-
-
-
+int __io_putchar(int ch)
+{
+	HAL_UART_Transmit(&huart2,(uint8_t*)&ch,1,HAL_MAX_DELAY);
+	return ch;
+}
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -79,6 +81,7 @@ int __io_putchar(int ch);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
+	
 //01 08 00 00 02 00 00 00
   /* USER CODE END 1 */
 
@@ -135,25 +138,18 @@ int main(void)
 	HAL_Delay(1000);
 	
 	openarm_enable(&arm, &hfdcan1);
+	EventRecorderInitialize(EventRecordAll, 1);
 	HAL_TIM_Base_Start_IT(&htim2);
   /* USER CODE END 2 */
-
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
-  { 		
-			printf("test\n\n\n");
-//		for(int i = 0;i < NUM_MOTORS;i++){
-//			mit_ctrl(&hfdcan1, arm.motors[i].para.slave_id, 0.0f, 0.0f,0.0f, 0.0f,1.0f);
-//			//speed_ctrl(&hfdcan1,motor.para.id, 1.5f);
-//			//pos_speed_ctrl(&hfdcan1,motor.para.id, 6.28f, 2.0f);
-//			HAL_Delay(1000);
-//			mit_ctrl(&hfdcan1, arm.motors[i].para.slave_id, 0.0f, 0.0f,0.0f, 0.0f,0.0f);
-//		}
-//		move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, one);
-//		HAL_Delay(1000);
-//		move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
-//		HAL_Delay(10000);
+  { 
+		//mit_ctrl(&hfdcan1, arm.motors[1].slave_id, 0.0f, 0.0f,0.0f, 0.0f,1.0f);
+		move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, one);
+		HAL_Delay(1000);
+		move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
+		HAL_Delay(10000);
 		
     /* USER CODE END WHILE */
 
@@ -223,12 +219,6 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-int __io_putchar(int ch)
-{
-	HAL_UART_Transmit(&huart2,(uint8_t*)&ch,1,HAL_MAX_DELAY);
-	return ch;
-}
-
 
 /* USER CODE END 4 */
 

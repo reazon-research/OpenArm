@@ -46,6 +46,9 @@
 "stm32h7\led_bsp.o"
 "stm32h7\dm_drv.o"
 "stm32h7\openarm_control.o"
+"stm32h7\retarget_io.o"
+"stm32h7\stdout_evr.o"
+"stm32h7\eventrecorder.o"
 --library_type=microlib --strict --scatter "STM32H7\STM32H7.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

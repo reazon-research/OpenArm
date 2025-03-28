@@ -2,6 +2,7 @@
 
 #include "fdcan.h"
 #include "arm_math.h"
+#include "stdio.h"
 
 float Hex_To_Float(uint32_t *Byte,int num)//十六进制到浮点数
 {
@@ -39,6 +40,7 @@ void joint_motor_init(Joint_Motor_t *motor,uint16_t id, uint16_t master_id, uint
 // feedback message callback function
 void dm_fbdata(Joint_Motor_t *motor, uint8_t *rx_data,uint32_t data_len)
 { 
+	//printf("Feedback data\r\n");
 	if(data_len==FDCAN_DLC_BYTES_8)
 	{//返回的数据有8个字节
 	}	  
