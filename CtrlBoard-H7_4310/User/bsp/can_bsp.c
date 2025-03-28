@@ -140,15 +140,26 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
       /* Retrieve Rx messages from RX FIFO0 */
 			memset(g_Can1RxData, 0, sizeof(g_Can1RxData));	//接收前先清空数组	
       HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &RxHeader1, g_Can1RxData);
-			int id = (g_Can1RxData[0])&0x0F;
-			switch(RxHeader1.Identifier)
-			{//电机反馈ID为0
-        case 0 :dm_fbdata(&arm.motors[id], g_Can1RxData,RxHeader1.DataLength);break;
-				
-				default: break;
-			}			
-	  }
-  }
+			
+			int motor_id = -1;  // Initialize motor_id as invalid
+			if (RxHeader1.Identifier != 0)
+			{
+					motor_id = RxHeader1.Identifier - 0x11; // Assuming motor IDs start from 0x11
+			}
+			else
+			{
+					motor_id = (g_Can1RxData[0]) & 0x0F;  // Mask to extract lower 4 bits
+			}
+			if (motor_id >= 0 && motor_id < NUM_MOTORS)
+			{
+					dm_fbdata(&arm.motors[motor_id], g_Can1RxData, RxHeader1.DataLength);
+			}
+			else
+			{
+					printf("Invalid motor ID: %d (CAN ID: 0x%X)\n\r", motor_id, RxHeader1.Identifier);
+			}
+		}			
+	}
 }
 
 void HAL_FDCAN_RxFifo1Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo1ITs)
