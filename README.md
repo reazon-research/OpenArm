@@ -1,6 +1,6 @@
 # OpenArm: An open-source robotic arm for human manipulation data collection
 
-![DSCF3161 (1)](https://github.com/user-attachments/assets/ecbb455b-983c-4fd6-9e5c-0b47f6fa947d)
+[![Watch the video](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=2-Au7Sc0uKw)
 
 ## Table of Contents:
 * [**Quick Start**](#Quick-Start)
