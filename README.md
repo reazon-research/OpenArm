@@ -1,9 +1,9 @@
 # OpenArm: An open-source robotic arm for human manipulation data collection
 
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/ecbb455b-983c-4fd6-9e5c-0b47f6fa947d" alt="Image 1" width="200"/>
-  <img src="https://github.com/user-attachments/assets/ecbb455b-983c-4fd6-9e5c-0b47f6fa947d" alt="Image 2" width="200"/>
-  <img src="https://github.com/user-attachments/assets/ecbb455b-983c-4fd6-9e5c-0b47f6fa947d" alt="Image 3" width="200"/>
+<div align="center" style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+  <img src="https://github.com/user-attachments/assets/ecbb455b-983c-4fd6-9e5c-0b47f6fa947d" alt="Image 1" style="width: 32%; max-width: 100%; height: auto;"/>
+  <img src="https://example.com/image2.jpg" alt="Image 2" style="width: 32%; max-width: 100%; height: auto;"/>
+  <img src="https://example.com/image3.jpg" alt="Image 3" style="width: 32%; max-width: 100%; height: auto;"/>
 </div>
 
 
