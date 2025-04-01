@@ -40,9 +40,9 @@ void joint_motor_init(Joint_Motor_t *motor,uint16_t id, uint16_t master_id, uint
 // feedback message callback function
 void dm_fbdata(Joint_Motor_t *motor, uint8_t *rx_data,uint32_t data_len)
 { 
-	//printf("Feedback data\r\n");
+	
 	if(data_len==FDCAN_DLC_BYTES_8)
-	{//返回的数据有8个字节
+	{
 	}	  
 		//motor->slave_id = (rx_data[0])&0x0F;
 	  motor->state = (rx_data[0])>>4;
@@ -52,6 +52,7 @@ void dm_fbdata(Joint_Motor_t *motor, uint8_t *rx_data,uint32_t data_len)
 	  motor->pos = uint_to_float(motor->p_int, P_MIN, P_MAX, 16); // 
 	  motor->vel = uint_to_float(motor->v_int, V_MIN, V_MAX, 12); // 
 	  motor->tor = uint_to_float(motor->t_int, T_MIN, T_MAX, 12);  // 
+		printf("Torque: %0.2f\r\n", motor->tor);
 	  motor->Tmos = (float)(rx_data[6]);
 	  motor->Tcoil = (float)(rx_data[7]);
 

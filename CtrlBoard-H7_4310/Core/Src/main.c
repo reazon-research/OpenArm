@@ -140,7 +140,6 @@ int main(void)
 	int mode = MIT_MODE;
 	int type[7] = {DM4340, DM4340, DM4340, DM4340, DM4310, DM4310, DM4310};
 	float zero[7] = {0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f};
-	float one[7] = {1.0f,1.0f,1.0f,1.0f,1.0f,1.0f,1.0f};
 	openarm_init(&arm, id, master_id, mode, type);
 	HAL_Delay(1000);
 	
@@ -151,6 +150,7 @@ int main(void)
   /* USER CODE END 2 */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+	uint8_t toggle = 0;
   while (1)
   { 
 		uint32_t now = __HAL_TIM_GET_COUNTER(&htim2);
@@ -166,9 +166,22 @@ int main(void)
 				delay_us(remaining_time);  // Wait for the remaining time
 		}
 		
+		if(toggle)
+		{
+			zero[6] = 1.0;
+			move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
+		}
+		else
+		{
+			zero[6] = 0.0;
+			move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
+		}
+		toggle ^= 1;
 		__HAL_TIM_SET_COUNTER(&htim2, 0);  // Reset timer counter
 		last_time = __HAL_TIM_GET_COUNTER(&htim2);  // Update time after waiting
-		move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
+		
+//    printf("TIM2 Counter: %u\n", __HAL_TIM_GET_COUNTER(&htim2));
+//    HAL_Delay(500); // Print every 500ms
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
