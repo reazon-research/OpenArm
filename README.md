@@ -30,7 +30,7 @@ For more background about project details and features, please visit our website
 - [**Other Resources**](#Other-Resources)
 
 ## 🛠️Hardware
-![OpenArm Spec Main Graphic](https://github.com/user-attachments/assets/028f184e-ae91-48ed-bf3f-22c21a6fb655)
+![OpenArm_Spec_Main_Graphic_WHITE](https://github.com/user-attachments/assets/899f0c82-6bc5-4f3b-a9a4-b341e68127cd)
 
 
 The CAD for the OpenArm v1 project can be accessed on OnShape through the following link: 
