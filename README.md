@@ -1,5 +1,12 @@
 # OpenArm: An open-source robotic arm for human manipulation data collection
 
+<div align="center" style="display: flex; justify-content: center; gap: 10%; flex-wrap: wrap;">
+  <img src="https://github.com/user-attachments/assets/ecbb455b-983c-4fd6-9e5c-0b47f6fa947d" alt="Image 1" style="width: 30%; max-width: 100%; height: auto;"/>
+  <img src="https://github.com/user-attachments/assets/ecbb455b-983c-4fd6-9e5c-0b47f6fa947d" alt="Image 2" style="width: 30%; max-width: 100%; height: auto;"/>
+  <img src="https://github.com/user-attachments/assets/ecbb455b-983c-4fd6-9e5c-0b47f6fa947d" alt="Image 3" style="width: 30%; max-width: 100%; height: auto;"/>
+</div>
+
+### [NEW] OpenArm v0.2
 [![Watch the video](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=2-Au7Sc0uKw)
 
 ## Table of Contents:
