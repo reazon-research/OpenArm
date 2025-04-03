@@ -1,4 +1,4 @@
-# OpenArm: An open-source robotic arm for human manipulation data collection
+# OpenArm: an open-source robotic arm for human manipulation data collection
 ![Group 177](https://github.com/user-attachments/assets/033b1c4d-2b5a-43d4-ac3c-0cde2157ff43)
 
 ### 🚀 OpenArm v0.2 (beta) Highlights
