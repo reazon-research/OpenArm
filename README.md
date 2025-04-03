@@ -4,7 +4,7 @@
 ### 🚀 OpenArm v0.2 (beta) Highlights
 
 - **Gravity Compensation:** Smoother teleoperation with real-time compensation.
-- **Force Feedback Teleoperation:** Unilateral and bilateral control with force feedback for better manipulation and data collection.
+- **Force Feedback Teleoperation:** Unilateral and **bilateral control** with force feedback for better manipulation and data collection.
 - **URDF Overhaul:** Improved default pose and model accuracy.
 - **Hardware Upgrades:** More stable and reliable components.
 - **Motor Supply Secured:** Reliable sourcing for future builds.
