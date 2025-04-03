@@ -2,7 +2,7 @@
 ![Group 177](https://github.com/user-attachments/assets/033b1c4d-2b5a-43d4-ac3c-0cde2157ff43)
 
 ### 🚀 OpenArm v0.2 (beta) Highlights
-
+[Watch Video](https://www.youtube.com/watch?v=2-Au7Sc0uKw)
 - **Gravity Compensation:** Smoother teleoperation with real-time compensation.
 - **Force Feedback Teleoperation:** Unilateral and **bilateral control** with force feedback for better manipulation and data collection.
 - **URDF Overhaul:** Improved default pose and model accuracy.
