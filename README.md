@@ -1,14 +1,14 @@
 # OpenArm: An open-source robotic arm for human manipulation data collection
+![Group 177](https://github.com/user-attachments/assets/033b1c4d-2b5a-43d4-ac3c-0cde2157ff43)
 
-<div align="center" style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
-  <img src="https://github.com/user-attachments/assets/ecbb455b-983c-4fd6-9e5c-0b47f6fa947d" alt="Image 1" style="width: 32%; max-width: 100%; height: auto;"/>
-  <img src="https://example.com/image2.jpg" alt="Image 2" style="width: 32%; max-width: 100%; height: auto;"/>
-  <img src="https://example.com/image3.jpg" alt="Image 3" style="width: 32%; max-width: 100%; height: auto;"/>
-</div>
+### 🚀 OpenArm v0.2 (beta) Highlights
+- **Gravity Compensation:** Smoother teleoperation with real-time compensation.
+- **Force Feedback Teleoperation:** Unilateral and bilateral control with force feedback for better manipulation and data collection.
+- **URDF Overhaul:** Improved default pose and model accuracy.
+- **Hardware Upgrades:** More stable and reliable components.
+- **Motor Supply Secured:** Reliable sourcing for future builds.
 
 
-### [NEW] OpenArm v0.2
-[![Watch the video](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=2-Au7Sc0uKw)
 
 ## Table of Contents:
 * [**Quick Start**](#Quick-Start)
