@@ -11,9 +11,10 @@ The project is under active development, and we’re collaborating with research
 - **Force Feedback Teleoperation:** Unilateral and **bilateral control** with force feedback for better manipulation and data collection.
 - **URDF Overhaul:** Improved default pose and model accuracy.
 
-### ▶️ Watch OpenArm v0.2 in Action:
 
-[<img src="https://github.com/user-attachments/assets/9d920921-383c-4d1a-980c-0412a1b59957" alt="openarm thumb 1" width="450">](https://www.youtube.com/watch?v=2-Au7Sc0uKw?si=RIR9v3v0valV4106 "OpenArm v0.2 beta")
+Watch [OpenArm v0.2](https://www.youtube.com/watch?v=2-Au7Sc0uKw?si=RIR9v3v0valV4106 "OpenArm v0.2 beta") in Action
+
+[<img src="https://github.com/user-attachments/assets/9d920921-383c-4d1a-980c-0412a1b59957" alt="openarm thumb 1" width="350">](https://www.youtube.com/watch?v=2-Au7Sc0uKw?si=RIR9v3v0valV4106 "OpenArm v0.2 beta")
 
 ## Table of Contents:
 * [**Quick Start**](#Quick-Start)
