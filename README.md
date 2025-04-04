@@ -21,7 +21,7 @@
   * [**Teleoperation**](#Teleoperation)
 * [**Other Resources**](#Other-Resources) 
 
-## Quick Start
+# Quick Start
 
 ```sh
 git clone --recurse-submodules https://github.com/reazon-research/OpenArm.git
