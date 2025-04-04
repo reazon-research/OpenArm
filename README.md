@@ -33,8 +33,6 @@ git clone --recurse-submodules https://github.com/reazon-research/OpenArm.git
 ```
 
 # About
-
-### 📚 Resources
 This repository includes everything needed to build, simulate, and operate OpenArm — including hardware files, software, and example setups for teleoperation and simulation.
 
 For more information and ways to get involved:
@@ -48,7 +46,6 @@ For more information and ways to get involved:
 
 # Hardware 🛠️
 ![OpenArm_Spec_Main_Graphic_WHITE](https://github.com/user-attachments/assets/33b801f6-6ee4-45a7-875e-de81dafd986b)
-
 
 The CAD for the OpenArm v1 project can be accessed on OnShape through the following link: 
 - [OnShape](https://cad.onshape.com/documents/b4c9f28b9b00f7d40a1a4250/w/fe370058f6ecce02af3b0093/e/c7e7f88d1c11b5ea0a83ba7c?renderMode=0&uiState=67b590ed2d89b65cc3bf2317)
