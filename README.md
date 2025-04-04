@@ -18,12 +18,12 @@ The project is under active development, and we’re collaborating with research
 ## Table of Contents:
 * [**Quick Start**](#Quick-Start)
 * [**About**](#About)
-* [**Hardware**](#Hardware-🛠️)
-* [**Software**](#Software-💾)
-  * [**Arm Control**](#Arm-Control-🦾)
-  * [**ROS2 Packages**](#ROS2-Packages-📦)
-  * [**Simulation**](#Simulation-🤖)
-  * [**Teleoperation**](#Teleoperation-🏗️)
+* [**Hardware**](#Hardware)
+* [**Software**](#Software)
+  * [**Arm Control**](#Arm-Control)
+  * [**ROS2 Packages**](#ROS2-Packages)
+  * [**Simulation**](#Simulation)
+  * [**Teleoperation**](#Teleoperation)
 * [**Contact Us**](#Contact-Us)
 
 ## Quick Start
@@ -44,7 +44,7 @@ For more information and ways to get involved:
   - [**X (@ReazonHILab)**](https://x.com/reazonhilab)
   - [**Contact Us**](#Contact-Us)
 
-## Hardware 🛠️
+## Hardware
 ![OpenArm_Spec_Main_Graphic_WHITE](https://github.com/user-attachments/assets/33b801f6-6ee4-45a7-875e-de81dafd986b)
 
 The CAD for the OpenArm v1 project can be accessed on OnShape through the following link: 
@@ -54,23 +54,23 @@ Machined, sheet metal, and off-the-shelf components can be purchased through MIS
 
 - [Risk Assessment Guideline](https://docs.google.com/spreadsheets/d/11ayqCXhusLvExf8lalkxcZMikRYgav0Hl6p7CVpsXZ8/edit?usp=sharing)
 
-## Software 💾
+## Software
 
-### Arm Control 🦾
+### Arm Control
 OpenArm’s software stack includes real-time motor control examples, enabling users to quickly set up and start moving the arm. It also provides motor calibration tools, a SocketCAN driver, and a step-by-step tutorials on setting up the CAN interface.
 - [Arm Control](https://github.com/reazon-research/OpenArm/tree/main/software/control)
 
-### ROS2 Packages 📦
+### ROS2 Packages
 Packages for camera integration, hardware bringup, and MoveIt2 can all be found under ROS2 packages. URDF descriptions for single and bimanual arm setups are also located here.
 - [ROS2 Packages](https://github.com/reazon-research/openarm_ros2)
 
-### Simulation 🤖
+### Simulation
 ![image](https://github.com/user-attachments/assets/38d35919-a526-4636-9b34-b4b4ad11a32e)
 To set up OpenArm in simulation environments, example documentation for MuJuCo, MoveIt2 (ROS2), and Genesis are provided.
 
 - [Arm Simulation with MuJuCo, MoveIt2, Genesis](https://github.com/reazon-research/openarm_simulation)
 
-### Teleoperation 🏗️
+### Teleoperation
 ![DSCF3195](https://github.com/user-attachments/assets/6bb219fa-276f-46a6-8c31-756a8cbc19bb)
 
 To configure one set of OpenArms to act in teleoperation, the setup is provided in the Unilateral and Bilateral links.
