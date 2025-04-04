@@ -2,14 +2,15 @@
 ![Group 177](https://github.com/user-attachments/assets/033b1c4d-2b5a-43d4-ac3c-0cde2157ff43)
 
 ### 🚀 OpenArm v0.2 (beta) Highlights
+<img src="https://github.com/user-attachments/assets/9d920921-383c-4d1a-980c-0412a1b59957" alt="openarm thumb 1" width="300">
+
+[▶ Watch Video](https://www.youtube.com/watch?v=2-Au7Sc0uKw)
 - **Gravity Compensation:** Smoother teleoperation with real-time compensation.
 - **Force Feedback Teleoperation:** Unilateral and **bilateral control** with force feedback for better manipulation and data collection.
 - **URDF Overhaul:** Improved default pose and model accuracy.
 
 
-<img src="https://github.com/user-attachments/assets/9d920921-383c-4d1a-980c-0412a1b59957" alt="openarm thumb 1" width="300">
 
-[▶ Watch Video](https://www.youtube.com/watch?v=2-Au7Sc0uKw)
 
 # Table of Contents:
 * [**Quick Start**](#Quick-Start)
@@ -27,7 +28,7 @@
 git clone --recurse-submodules https://github.com/reazon-research/OpenArm.git
 ```
 
-## About
+# About
 
 This repository outlines all the necessary materials and software required in order to build, setup, and deploy OpenArm. Examples to assist with robot simulation setup in Genesis and Gazebo environments and support for tele-operation with bilateral feedback implementation are provided.
 
