@@ -1,5 +1,10 @@
 # OpenArm: an open-source robotic arm for human manipulation data collection
+OpenArm is an open-source humanoid robot arm designed for AI and robotics research in human-centered environments. Its modular hardware and accessible software make it a flexible platform for teleoperation, imitation learning, and real-world data collection. Our goal is to advance physical intelligence by enabling robots that operate safely and effectively alongside people — in homes, service contexts, and caretaking settings. OpenArm offers high backdrivability and compliance, making it well-suited for interactive, assistive, and data-driven tasks.
+
+The project is under active development, and we’re collaborating with researchers, developers, and labs to shape the next generation of practical humanoid systems.
+
 ![Group 177](https://github.com/user-attachments/assets/033b1c4d-2b5a-43d4-ac3c-0cde2157ff43)
+
 
 ## 🚀 OpenArm v0.2 (beta) Updates:
 - **Gravity Compensation:** Smoother teleoperation with real-time compensation.
@@ -28,11 +33,6 @@ git clone --recurse-submodules https://github.com/reazon-research/OpenArm.git
 ```
 
 # About
-OpenArm is an open-source humanoid robot arm designed for AI and robotics research in human-centered environments. Its modular hardware and accessible software make it a flexible platform for teleoperation, imitation learning, and real-world data collection.
-
-Our goal is to advance physical intelligence by enabling robots that operate safely and effectively alongside people — in homes, service contexts, and caretaking settings. Powered by direct-drive (QDD-based) actuators, OpenArm offers high backdrivability and compliance, making it well-suited for interactive, assistive, and data-driven tasks.
-
-The project is under active development, and we’re collaborating with researchers, developers, and labs to shape the next generation of practical humanoid systems.
 
 ### 📚 Resources
 This repository includes everything needed to build, simulate, and operate OpenArm — including hardware files, software, and example setups for teleoperation and simulation.
