@@ -37,7 +37,7 @@ This repository includes everything needed to build, simulate, and operate OpenA
 
 For more information and ways to get involved:
 - OpenArm:
-  - [**Website**](https://private-reazon.notion.site/OpenArm-113446ca7f73805fa06cd8d24315122b)
+  - [**Website**](https://www.open-arm.org/)
   - [**Join our Discord**](https://discord.gg/K6kmFzXagm)
 - Reazon HI Lab:
   - [**Website**](https://www.hilab.jp/Reazon-Human-Interaction-Lab-113446ca7f7381a987f4f091d3f62dd5)
