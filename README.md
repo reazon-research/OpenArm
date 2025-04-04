@@ -28,15 +28,23 @@ git clone --recurse-submodules https://github.com/reazon-research/OpenArm.git
 ```
 
 # About
+OpenArm is an open-source humanoid robot arm designed for AI and robotics research in human-centered environments. Its modular hardware and accessible software make it a flexible platform for teleoperation, imitation learning, and real-world data collection.
 
-This repository outlines all the necessary materials and software required in order to build, setup, and deploy OpenArm. Examples to assist with robot simulation setup in Genesis and Gazebo environments and support for tele-operation with bilateral feedback implementation are provided.
+Our goal is to advance physical intelligence by enabling robots that operate safely and effectively alongside people — in homes, service contexts, and caretaking settings. Powered by direct-drive (QDD-based) actuators, OpenArm offers high backdrivability and compliance, making it well-suited for interactive, assistive, and data-driven tasks.
 
-For more background about project details and features, please visit our website, social media, and other resources:
-- [**OpenArm Website**](https://private-reazon.notion.site/OpenArm-113446ca7f73805fa06cd8d24315122b)
-- [**Reazon HI Lab Website**](https://www.hilab.jp/Reazon-Human-Interaction-Lab-113446ca7f7381a987f4f091d3f62dd5)
-- [**Human Interaction Lab X**](https://x.com/reazonhilab)
-- [**OpenArm Discord**](https://discord.gg/K6kmFzXagm)
-- [**Other Resources**](#Other-Resources)
+The project is under active development, and we’re collaborating with researchers, developers, and labs to shape the next generation of practical humanoid systems.
+
+### 📚 Resources
+This repository includes everything needed to build, simulate, and operate OpenArm — including hardware files, software, and example setups for teleoperation and simulation.
+
+For more information and ways to get involved:
+- OpenArm:
+  - [**Website**](https://private-reazon.notion.site/OpenArm-113446ca7f73805fa06cd8d24315122b)
+  - [**Join our Discord**](https://discord.gg/K6kmFzXagm)
+- Reazon HI Lab:
+  - [**Website**](https://www.hilab.jp/Reazon-Human-Interaction-Lab-113446ca7f7381a987f4f091d3f62dd5)
+  - [**X (@ReazonHILab)**](https://x.com/reazonhilab)
+  - [**Contact Us**](#Contact-Us)
 
 # Hardware 🛠️
 ![OpenArm_Spec_Main_Graphic_WHITE](https://github.com/user-attachments/assets/33b801f6-6ee4-45a7-875e-de81dafd986b)
@@ -46,6 +54,8 @@ The CAD for the OpenArm v1 project can be accessed on OnShape through the follow
 - [OnShape](https://cad.onshape.com/documents/b4c9f28b9b00f7d40a1a4250/w/fe370058f6ecce02af3b0093/e/c7e7f88d1c11b5ea0a83ba7c?renderMode=0&uiState=67b590ed2d89b65cc3bf2317)
 
 Machined, sheet metal, and off-the-shelf components can be purchased through MISUMi and Misumi and its manufacturing service Meviy, but similar services worldwide can also be used to procure the necessary parts. The Purchasing List/Bill of Materials can be found on the OnShape, as well as the Assembly Guide. 
+
+- [Risk Assessment Guideline](https://docs.google.com/spreadsheets/d/11ayqCXhusLvExf8lalkxcZMikRYgav0Hl6p7CVpsXZ8/edit?usp=sharing)
 
 # Software 💾
 
@@ -66,10 +76,8 @@ To set up OpenArm in simulation environments, example documentation for MuJuCo, 
 To configure one set of OpenArms to act in teleoperation, the setup is provided in the Unilateral and Bilateral links.
 - COMING SOON!
 
-# Other Resources 📠
-
-For more information about specifics regarding the OpenArm project, please have a look at the resources below. If you would like to get in contact with the OpenArm team with more specific questions about the project, please reach out via email and a member of the team will try to get in touch!
-- [Risk Assessment Guideline](https://docs.google.com/spreadsheets/d/11ayqCXhusLvExf8lalkxcZMikRYgav0Hl6p7CVpsXZ8/edit?usp=sharing)
+# Contact Us
+If you would like to get in contact with the OpenArm team with more specific questions about the project, please reach out via email and a member of the team will try to get in touch!
 - Email: [hi_public@reazon.jp](hi_public@reazon.jp)
 
 <a href="#top">Back to top</a>
