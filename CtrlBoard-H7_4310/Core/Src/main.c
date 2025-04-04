@@ -44,7 +44,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define CONTROL_PERIOD_US 5000
+#define CONTROL_PERIOD_US 900
+#define TOGGLE_PERIOD_US 5000000  // 5 seconds in microseconds
 OpenArm_t arm;
 extern float vel_set;
 /* USER CODE END PD */
@@ -67,11 +68,6 @@ int __io_putchar(int ch)
 {
 	HAL_UART_Transmit(&huart2,(uint8_t*)&ch,1,HAL_MAX_DELAY);
 	return ch;
-}
-
-void delay_us(uint32_t us) {
-    __HAL_TIM_SET_COUNTER(&htim2, 0);  // Reset timer counter
-    while (__HAL_TIM_GET_COUNTER(&htim2) < us);  // Wait for the required time
 }
 
 /* USER CODE END PFP */
@@ -139,46 +135,68 @@ int main(void)
 	int master_id[7] = {0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17}; 
 	int mode = MIT_MODE;
 	int type[7] = {DM4340, DM4340, DM4340, DM4340, DM4310, DM4310, DM4310};
+	float feedforward_torque = 0.0f;
+
+
 	float zero[7] = {0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f};
+	float one[7] = {1.0f,1.0f,1.0f,1.0f,1.0f,1.0f,1.0f};
+	float positions[7] = {0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f};
+	float torque_increment = 0.00001f;
 	openarm_init(&arm, id, master_id, mode, type);
 	HAL_Delay(1000);
 	
 	openarm_enable(&arm, &hfdcan1);
 	EventRecorderInitialize(EventRecordAll, 1);
 	HAL_TIM_Base_Start(&htim2);
-	uint32_t last_time = __HAL_TIM_GET_COUNTER(&htim2);
-  /* USER CODE END 2 */
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
+	
+	
+	uint32_t toggle_timer = 0;
 	uint8_t toggle = 0;
+	uint32_t last_time = 0;
+	uint32_t now = 0;
+	uint32_t t_schedule = 0;
+	__HAL_TIM_SET_COUNTER(&htim2, 0);  // Reset timer to avoid drift
+	
   while (1)
   { 
 		uint32_t now = __HAL_TIM_GET_COUNTER(&htim2);
-		int32_t elapsed = now - last_time;  // Calculate time taken for the loop
+    uint32_t elapsed = now - last_time;
 
-		if (elapsed > CONTROL_PERIOD_US) {
-				printf("WARNING: Control loop overran by %d us!\n", elapsed - CONTROL_PERIOD_US);
-				// No delay, just continue immediately
-		} else {
-				// Calculate how much time is left until the next cycle
-				uint32_t remaining_time = CONTROL_PERIOD_US - elapsed;
-				printf("Control loop took %d us. Waiting for: %d us\n\r", elapsed, remaining_time);
-				delay_us(remaining_time);  // Wait for the remaining time
-		}
+    t_schedule += CONTROL_PERIOD_US;
+
+    int32_t td = t_schedule - __HAL_TIM_GET_COUNTER(&htim2);
+
+    if (td > 0) {
+				td += 0xFFFFFFFF; // Account for overflow
+        while (__HAL_TIM_GET_COUNTER(&htim2) < t_schedule);  // Wait for the required time
+        printf("Control loop took %d us. Waiting for: %d us\n\r", elapsed, td);
+				
+    } else {
+        printf("WARNING: Control loop overran by %d us!\n", -td);
+    }
+    toggle_timer += CONTROL_PERIOD_US;
+
+    if (toggle_timer >= TOGGLE_PERIOD_US) {
+        toggle ^= 1;
+        toggle_timer = 0;
+    }
 		
-		if(toggle)
-		{
-			zero[6] = 1.0;
-			move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
-		}
-		else
-		{
-			zero[6] = 0.0;
-			move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
-		}
-		toggle ^= 1;
-		__HAL_TIM_SET_COUNTER(&htim2, 0);  // Reset timer counter
-		last_time = __HAL_TIM_GET_COUNTER(&htim2);  // Update time after waiting
+		EventRecord2(0x01, toggle, __HAL_TIM_GET_COUNTER(&htim2));
+		
+		last_time = __HAL_TIM_GET_COUNTER(&htim2);
+		
+    if (toggle) {
+        move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, one);
+    } else {
+        move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
+    }
+		
+//		if(positions[0] < 1){
+//			for (int i = 0; i < 7; i++) {
+//				positions[i] += torque_increment;
+//			}
+//		}
+//		move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, positions);
 		
 //    printf("TIM2 Counter: %u\n", __HAL_TIM_GET_COUNTER(&htim2));
 //    HAL_Delay(500); // Print every 500ms
