@@ -1,8 +1,6 @@
-[submodule "software/openarm_mjcf"]
-	path = software/openarm_mjcf
-	url = https://github.com/reazon-research/openarm_mjcf
-	branch = master
-[submodule "software/openarm_ros2"]
-	path = software/openarm_ros2
-	url = https://github.com/reazon-research/openarm_ros2
-	branch = main
+[submodule "simulation"]
+	path = simulation
+	url = https://github.com/reazon-research/openarm_simulation.git
+[submodule "ros2_packages"]
+	path = ros2_packages
+	url = https://github.com/reazon-research/openarm_ros2.git
