@@ -52,13 +52,14 @@ For more information and ways to get involved:
 </div>
 <br>
 
-The CAD for the OpenArm v1 project can be accessed on [OnShape](https://cad.onshape.com/documents/b4c9f28b9b00f7d40a1a4250/w/fe370058f6ecce02af3b0093/e/c7e7f88d1c11b5ea0a83ba7c?renderMode=0&uiState=67b590ed2d89b65cc3bf2317).
+The core design files for OpenArm v1 are available on [OnShape](https://cad.onshape.com/documents/b4c9f28b9b00f7d40a1a4250/w/fe370058f6ecce02af3b0093/e/c7e7f88d1c11b5ea0a83ba7c?renderMode=0&uiState=67b590ed2d89b65cc3bf2317), including:
+- CAD model
+- Bill of Materials (BOM)
+- Assembly Guide
 
 Machined, sheet metal, and off-the-shelf components can be purchased through [MiSUMi](https://jp.misumi-ec.com/) and its manufacturing service [Meviy](https://meviy.misumi-ec.com/worldwide/en/), but similar services worldwide can also be used to procure the necessary parts.
 
-The Purchasing List / Bill of Materials (BOM) can be found on OnShape, as well as the Assembly Guide. 
-
-- [Risk Assessment Guideline](https://docs.google.com/spreadsheets/d/11ayqCXhusLvExf8lalkxcZMikRYgav0Hl6p7CVpsXZ8/edit?usp=sharing)
+[Risk Assessment Guideline](https://docs.google.com/spreadsheets/d/11ayqCXhusLvExf8lalkxcZMikRYgav0Hl6p7CVpsXZ8/edit?usp=sharing)
 
 ## Software
 
@@ -68,7 +69,7 @@ OpenArm’s software stack includes real-time motor control examples, enabling u
 
 ### ROS2 Packages
 Packages for camera integration, hardware bringup, and MoveIt2 can all be found under ROS2 packages. URDF descriptions for single and bimanual arm setups are also located here.
-- [ROS2 Packages](https://github.com/reazon-research/openarm_ros2)
+ - [ROS2 Packages](https://github.com/reazon-research/openarm_ros2)
 
 ### Simulation
 ![image](https://github.com/user-attachments/assets/38d35919-a526-4636-9b34-b4b4ad11a32e)
