@@ -21,9 +21,10 @@ The project is under active development, and we’re collaborating with research
 * [**Hardware**](#Hardware)
 * [**Software**](#Software)
   * [**Arm Control**](#Arm-Control)
+  * [**ROS2 Packages**](#ROS2-Packages)
   * [**Simulation**](#Simulation)
   * [**Teleoperation**](#Teleoperation)
-* [**Other Resources**](#Other-Resources) 
+* [**Contact Us**](#Contact-Us)
 
 ## Quick Start
 
