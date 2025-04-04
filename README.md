@@ -46,12 +46,17 @@ For more information and ways to get involved:
   - [**Contact Us**](#Contact-Us)
 
 ## Hardware
-![OpenArm_Spec_Main_Graphic_WHITE](https://github.com/user-attachments/assets/33b801f6-6ee4-45a7-875e-de81dafd986b)
 
-The CAD for the OpenArm v1 project can be accessed on OnShape through the following link: 
-- [OnShape](https://cad.onshape.com/documents/b4c9f28b9b00f7d40a1a4250/w/fe370058f6ecce02af3b0093/e/c7e7f88d1c11b5ea0a83ba7c?renderMode=0&uiState=67b590ed2d89b65cc3bf2317)
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/33b801f6-6ee4-45a7-875e-de81dafd986b" alt="OpenArm_Spec_Main_Graphic_WHITE" style="width:80%;">
+</div>
+<br>
 
-Machined, sheet metal, and off-the-shelf components can be purchased through MISUMi and Misumi and its manufacturing service Meviy, but similar services worldwide can also be used to procure the necessary parts. The Purchasing List/Bill of Materials can be found on the OnShape, as well as the Assembly Guide. 
+The CAD for the OpenArm v1 project can be accessed on [OnShape](https://cad.onshape.com/documents/b4c9f28b9b00f7d40a1a4250/w/fe370058f6ecce02af3b0093/e/c7e7f88d1c11b5ea0a83ba7c?renderMode=0&uiState=67b590ed2d89b65cc3bf2317).
+
+Machined, sheet metal, and off-the-shelf components can be purchased through [MiSUMi](https://jp.misumi-ec.com/) and its manufacturing service [Meviy](https://meviy.misumi-ec.com/worldwide/en/), but similar services worldwide can also be used to procure the necessary parts.
+
+The Purchasing List / Bill of Materials (BOM) can be found on OnShape, as well as the Assembly Guide. 
 
 - [Risk Assessment Guideline](https://docs.google.com/spreadsheets/d/11ayqCXhusLvExf8lalkxcZMikRYgav0Hl6p7CVpsXZ8/edit?usp=sharing)
 
