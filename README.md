@@ -59,12 +59,15 @@ Machined, sheet metal, and off-the-shelf components can be purchased through MIS
 OpenArm’s software stack includes real-time motor control examples, enabling users to quickly set up and start moving the arm. It also provides motor calibration tools, a SocketCAN driver, and a step-by-step tutorials on setting up the CAN interface.
 - [Arm Control](https://github.com/reazon-research/OpenArm/tree/main/software/control)
 
+### ROS2 Packages 📦
+Packages for camera integration, hardware bringup, and MoveIt2 can all be found under ROS2 packages. URDF descriptions for single and bimanual arm setups are also located here.
+- [ROS2 Packages](https://github.com/reazon-research/openarm_ros2)
+
 ### Simulation 🤖
 ![image](https://github.com/user-attachments/assets/38d35919-a526-4636-9b34-b4b4ad11a32e)
 To set up OpenArm in simulation environments, example documentation for MuJuCo, MoveIt2 (ROS2), and Genesis are provided.
 
 - [Arm Simulation with MuJuCo, MoveIt2, Genesis](https://github.com/reazon-research/openarm_simulation)
-- [ROS2 Packages](https://github.com/reazon-research/openarm_ros2)
 
 ### Teleoperation 🏗️
 ![DSCF3195](https://github.com/user-attachments/assets/6bb219fa-276f-46a6-8c31-756a8cbc19bb)
