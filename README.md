@@ -18,12 +18,12 @@ The project is under active development, and we’re collaborating with research
 ## Table of Contents:
 * [**Quick Start**](#Quick-Start)
 * [**About**](#About)
-* [**Hardware**](#Hardware)
-* [**Software**](#Software)
-  * [**Arm Control**](#Arm-Control)
-  * [**ROS2 Packages**](#ROS2-Packages)
-  * [**Simulation**](#Simulation)
-  * [**Teleoperation**](#Teleoperation)
+* [**Hardware**](#Hardware-🛠️)
+* [**Software**](#Software-💾)
+  * [**Arm Control**](#Arm-Control-🦾)
+  * [**ROS2 Packages**](#ROS2-Packages-📦)
+  * [**Simulation**](#Simulation-🤖)
+  * [**Teleoperation**](#Teleoperation-🏗️)
 * [**Contact Us**](#Contact-Us)
 
 ## Quick Start
