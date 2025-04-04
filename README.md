@@ -9,7 +9,7 @@
 
 <img src="https://github.com/user-attachments/assets/9d920921-383c-4d1a-980c-0412a1b59957" alt="openarm thumb 1" width="300">
 
-[▶️ Watch Video](https://www.youtube.com/watch?v=2-Au7Sc0uKw)
+[▶ Watch Video](https://www.youtube.com/watch?v=2-Au7Sc0uKw)
 
 # Table of Contents:
 * [**Quick Start**](#Quick-Start)
