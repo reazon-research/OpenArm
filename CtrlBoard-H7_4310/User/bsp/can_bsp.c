@@ -3,6 +3,7 @@
 #include "openarm_control.h"
 #include "string.h"
 #include "stdio.h"
+#include "EventRecorder.h"
 
 
 FDCAN_RxHeaderTypeDef RxHeader1;
@@ -19,8 +20,8 @@ void FDCAN1_Config(void)
   sFilterConfig.FilterIndex = 0;
   sFilterConfig.FilterType = FDCAN_FILTER_MASK;
   sFilterConfig.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;
-  sFilterConfig.FilterID1 = 0x00000000; // 
-  sFilterConfig.FilterID2 = 0x00000000; // 
+  sFilterConfig.FilterID1 = 0x11; // 
+  sFilterConfig.FilterID2 = 0x17; // 
   if(HAL_FDCAN_ConfigFilter(&hfdcan1, &sFilterConfig) != HAL_OK)
 	{
 		Error_Handler();
@@ -115,8 +116,8 @@ uint8_t canx_send_data(FDCAN_HandleTypeDef *hcan, uint16_t id, uint8_t *data, ui
 	 }
 											
 	TxHeader.ErrorStateIndicator =  FDCAN_ESI_ACTIVE;
-  TxHeader.BitRateSwitch = FDCAN_BRS_OFF;//比特率切换关闭，
-  TxHeader.FDFormat =  FDCAN_CLASSIC_CAN;            // CAN2.0
+  TxHeader.BitRateSwitch = FDCAN_BRS_ON;//比特率切换关闭，
+  TxHeader.FDFormat =  FDCAN_FD_CAN;            // CAN2.0
   TxHeader.TxEventFifoControl =  FDCAN_NO_TX_EVENTS;  
   TxHeader.MessageMarker = 0;//消息标记
 
@@ -140,7 +141,7 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
       /* Retrieve Rx messages from RX FIFO0 */
 			memset(g_Can1RxData, 0, sizeof(g_Can1RxData));	//接收前先清空数组	
       HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &RxHeader1, g_Can1RxData);
-			
+			//EventRecord2(0x01, RxHeader1.Identifier, HAL_FDCAN_GetRxFifoFillLevel(hfdcan, FDCAN_RX_FIFO0));
 			int motor_id = -1;  // Initialize motor_id as invalid
 			if (RxHeader1.Identifier != 0)
 			{

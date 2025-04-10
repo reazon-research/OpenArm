@@ -53,7 +53,8 @@ void dm_fbdata(Joint_Motor_t *motor, uint8_t *rx_data,uint32_t data_len)
 	  motor->pos = uint_to_float(motor->p_int, P_MIN, P_MAX, 16); // 
 	  motor->vel = uint_to_float(motor->v_int, V_MIN, V_MAX, 12); // 
 	  motor->tor = uint_to_float(motor->t_int, T_MIN, T_MAX, 12);  // 
-		//printf("ID: %d Torque: %0.2f\r\n", (rx_data[0])&0x0F, motor->tor);
+		//EventRecord2(0x01, rx_data[0]&0x0F, motor->tor*1000);
+		printf("ID: %d Torque: %0.2f\r\n", (rx_data[0])&0x0F, motor->tor);
 	  motor->Tmos = (float)(rx_data[6]);
 	  motor->Tcoil = (float)(rx_data[7]);
 
