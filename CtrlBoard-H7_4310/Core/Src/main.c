@@ -44,7 +44,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define CONTROL_PERIOD_US 900
+#define CONTROL_PERIOD_US 1000
 #define TOGGLE_PERIOD_US 5000000  // 5 seconds in microseconds
 OpenArm_t arm;
 extern float vel_set;
@@ -139,9 +139,9 @@ int main(void)
 
 
 	float zero[7] = {0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f};
-	float one[7] = {1.0f,1.0f,1.0f,1.0f,1.0f,1.0f,1.0f};
+	float one[7] = {0.5f,0.25f,0.2f,1.0f,1.0f,1.0f,1.0f};
 	float positions[7] = {0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f};
-	float torque_increment = 0.00001f;
+	float torque_increment = 0.0001f;
 	openarm_init(&arm, id, master_id, mode, type);
 	HAL_Delay(1000);
 	
@@ -169,7 +169,7 @@ int main(void)
     if (td > 0) {
 				td += 0xFFFFFFFF; // Account for overflow
         while (__HAL_TIM_GET_COUNTER(&htim2) < t_schedule);  // Wait for the required time
-        printf("Control loop took %d us. Waiting for: %d us\n\r", elapsed, td);
+        //printf("Control loop took %d us. Waiting for: %d us\n\r", elapsed, td);
 				
     } else {
         printf("WARNING: Control loop overran by %d us!\n", -td);
@@ -180,23 +180,26 @@ int main(void)
         toggle ^= 1;
         toggle_timer = 0;
     }
-		
-		EventRecord2(0x01, toggle, __HAL_TIM_GET_COUNTER(&htim2));
-		
+				
 		last_time = __HAL_TIM_GET_COUNTER(&htim2);
+		//EventRecord2(0x03, positions[0]*100, 0x01);
+
+    
 		
-    if (toggle) {
-        move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, one);
-    } else {
-        move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
-    }
-		
-//		if(positions[0] < 1){
-//			for (int i = 0; i < 7; i++) {
-//				positions[i] += torque_increment;
-//			}
-//		}
-//		move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, positions);
+		if(positions[0] < 1.0f){
+			for (int i = 0; i < 7; i++) {
+				positions[i] += torque_increment;
+			}
+			move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, positions);
+		}
+		else{
+			if (toggle) {
+					move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, one);
+			} else {
+					move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
+			}
+		}
+
 		
 //    printf("TIM2 Counter: %u\n", __HAL_TIM_GET_COUNTER(&htim2));
 //    HAL_Delay(500); // Print every 500ms
