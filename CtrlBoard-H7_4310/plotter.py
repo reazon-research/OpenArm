@@ -28,11 +28,11 @@ with open('event_recorder_save_1.csv', newline='') as csvfile:
 
     # Extract the values under those titles if they exist
     for row in csvreader:
-        if column_indices['Event'] is not None:
-            events.append(row[column_indices['Event']])
+        if column_indices[key[0]] is not None:
+            events.append(row[column_indices[key[0]]])
 
-        if column_indices['Value'] is not None:
-            value_str = row[column_indices['Value']]
+        if column_indices[key[1]] is not None:
+            value_str = row[column_indices[key[1]]]
 
             # Split the string if it contains two hexadecimal values
             parts = value_str.split()
@@ -59,7 +59,7 @@ events = events[:min_length]
 values = values[:min_length]
 
 # Downsampling: Keep only every 10th point (or adjust the step as needed)
-downsample_rate = 10  # Adjust this number based on how much downsampling you want
+downsample_rate = 100  # Adjust this number based on how much downsampling you want
 events = events[::downsample_rate]
 values = values[::downsample_rate]
 
@@ -67,12 +67,12 @@ values = values[::downsample_rate]
 plt.figure(figsize=(10, 6))
 
 # Scatter plot instead of line plot for faster rendering
-plt.scatter(events, values, color='b', label='Event vs Value', s=10)  # s is the size of points
+plt.scatter(events, values, color='b', label='Event vs Velocity', s=10)  # s is the size of points
 
 # Customize the plot
 plt.xlabel('Event')
-plt.ylabel('Value')
-plt.title('Event vs Value Plot')
+plt.ylabel('Velocity')
+plt.title('Event vs Velocity Plot')
 plt.xticks(rotation=45)  # Rotate x-axis labels if needed
 plt.legend()
 
