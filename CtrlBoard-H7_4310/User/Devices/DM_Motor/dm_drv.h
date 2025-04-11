@@ -76,8 +76,8 @@ extern void speed_ctrl(hcan_t* hcan,uint16_t motor_id, float _vel);
 extern void joint_motor_init(Joint_Motor_t *motor,uint16_t id, uint16_t master_id, uint16_t type);
 
 	
-extern float Hex_To_Float(uint32_t *Byte,int num);//ʮ�����Ƶ�������
-extern uint32_t FloatTohex(float HEX);//��������ʮ������ת��
+extern float Hex_To_Float(uint32_t *Byte,int num);
+extern uint32_t FloatTohex(float HEX);
 
 extern float uint_to_float(int x_int, float x_min, float x_max, int bits);
 extern int float_to_uint(float x_float, float x_min, float x_max, int bits);

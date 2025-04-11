@@ -5,12 +5,12 @@
 #include "EventRecorder.h"
 #include "stdio.h"
 
-float Hex_To_Float(uint32_t *Byte,int num)//ʮ�����Ƶ�������
+float Hex_To_Float(uint32_t *Byte,int num)
 {
 	return *((float*)Byte);
 }
 
-uint32_t FloatTohex(float HEX)//��������ʮ������ת��
+uint32_t FloatTohex(float HEX)
 {
 	return *( uint32_t *)&HEX;
 }
@@ -86,12 +86,12 @@ void enable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id)
 }
 /**
 ************************************************************************
-* @brief:      	disable_motor_mode: ���õ��ģʽ����
-* @param[in]:   hcan:     ָ��CAN_HandleTypeDef�ṹ��ָ��
-* @param[in]:   motor_id: ���ID��ָ��Ŀ����
-* @param[in]:   mode_id:  ģʽID��ָ��Ҫ���õ�ģʽ
+* @brief:      	disable_motor_mode: 
+* @param[in]:   hcan:    
+* @param[in]:   motor_id: 
+* @param[in]:   mode_id:  
 * @retval:     	void
-* @details:    	ͨ��CAN�������ض�������ͽ����ض�ģʽ������
+* @details:    	
 ************************************************************************
 **/
 void disable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id)
@@ -113,16 +113,16 @@ void disable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id)
 
 /**
 ************************************************************************
-* @brief:      	mit_ctrl: MITģʽ�µĵ�����ƺ���
-* @param[in]:   hcan:			ָ��CAN_HandleTypeDef�ṹ��ָ�룬����ָ��CAN����
-* @param[in]:   motor_id:	���ID��ָ��Ŀ����
-* @param[in]:   pos:			λ�ø���ֵ
-* @param[in]:   vel:			�ٶȸ���ֵ
-* @param[in]:   kp:				λ�ñ���ϵ��
-* @param[in]:   kd:				λ��΢��ϵ��
-* @param[in]:   torq:			ת�ظ���ֵ
+* @brief:      	mit_ctrl: 
+* @param[in]:   hcan:			ָ
+* @param[in]:   motor_id:	
+* @param[in]:   pos:			
+* @param[in]:   vel:			
+* @param[in]:   kp:				
+* @param[in]:   kd:				
+* @param[in]:   torq:			
 * @retval:     	void
-* @details:    	ͨ��CAN������������MITģʽ�µĿ���֡��
+* @details:    	
 ************************************************************************
 **/
 extern OpenArm_t arm;
@@ -159,12 +159,12 @@ void mit_ctrl(hcan_t* hcan, uint16_t motor_id, float pos, float vel,float kp, fl
 }
 /**
 ************************************************************************
-* @brief:      	pos_speed_ctrl: λ���ٶȿ��ƺ���
-* @param[in]:   hcan:			ָ��CAN_HandleTypeDef�ṹ��ָ�룬����ָ��CAN����
-* @param[in]:   motor_id:	���ID��ָ��Ŀ����
-* @param[in]:   vel:			�ٶȸ���ֵ
+* @brief:      	pos_speed_ctrl: 
+* @param[in]:   hcan:			
+* @param[in]:   motor_id:	
+* @param[in]:   vel:			
 * @retval:     	void
-* @details:    	ͨ��CAN������������λ���ٶȿ�������
+* @details:    	
 ************************************************************************
 **/
 void pos_speed_ctrl(hcan_t* hcan,uint16_t motor_id, float pos, float vel)
@@ -191,12 +191,12 @@ void pos_speed_ctrl(hcan_t* hcan,uint16_t motor_id, float pos, float vel)
 }
 /**
 ************************************************************************
-* @brief:      	speed_ctrl: �ٶȿ��ƺ���
-* @param[in]:   hcan: 		ָ��CAN_HandleTypeDef�ṹ��ָ�룬����ָ��CAN����
-* @param[in]:   motor_id: ���ID��ָ��Ŀ����
-* @param[in]:   vel: 			�ٶȸ���ֵ
+* @brief:      	speed_ctrl: 
+* @param[in]:   hcan: 		ָ
+* @param[in]:   motor_id: 
+* @param[in]:   vel: 			
 * @retval:     	void
-* @details:    	ͨ��CAN�������������ٶȿ�������
+* @details:    	
 ************************************************************************
 **/
 void speed_ctrl(hcan_t* hcan,uint16_t motor_id, float vel)
