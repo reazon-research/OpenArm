@@ -138,12 +138,12 @@ int main(void)
 	float positions[NUM_MOTORS];
 	int mode = MIT_MODE;
 
-	int type[7] = {DM4310, DM4310, DM4310, DM4310, DM4310, DM4310, DM4310};
+	int type[8] = {DM4310, DM4310, DM4310, DM4310, DM4310, DM4310, DM4310, DM4310};
 	float feedforward_torque = 0.0f;
 	
 	for (int i = 0; i < NUM_MOTORS; ++i) {
-		id[i] = i + 1; // 0x01 to 0x07
-		master_id[i] = 0x10 + (i + 1); // 0x11 to 0x17
+		id[i] = i + 1; // 0x01 to 0x08
+		master_id[i] = 0x10 + (i + 1); // 0x11 to 0x18
 		type[i] = DM4310;
 		zero[i] = 0.0f;
 		one[i] = 1.0f;
@@ -196,7 +196,7 @@ int main(void)
 		EventRecord2(0x03, positions[0]*100, 0x01);
 
 		if(positions[0] < 1.0f){
-			for (int i = 0; i < 7; i++) {
+			for (int i = 0; i < NUM_MOTORS; i++) {
 				positions[i] += torque_increment;
 			}
 			move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, positions);
