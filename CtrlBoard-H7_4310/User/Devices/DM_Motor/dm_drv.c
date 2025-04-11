@@ -86,12 +86,11 @@ void enable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id)
 }
 /**
 ************************************************************************
-* @brief:      	disable_motor_mode: 
-* @param[in]:   hcan:    
-* @param[in]:   motor_id: 
-* @param[in]:   mode_id:  
+* @brief:      	disable_motor_mode: disables mode on desired motor
+* @param[in]:   hcan: handler for CANFD interface
+* @param[in]:   motor_id: slave id of motor to disable
+* @param[in]:   mode_id: the mode id defined in dm_drv.h
 * @retval:     	void
-* @details:    	
 ************************************************************************
 **/
 void disable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id)
@@ -113,11 +112,10 @@ void disable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id)
 
 /**
 ************************************************************************
-* @brief:      	change_baudrate: 
-* @param[in]:   hcan:    
-* @param[in]:   motor_id: 
+* @brief:      	change_baudrate: changes baudrate to 5Mbps
+* @param[in]:   hcan: handler for CANFD interface
+* @param[in]:   motor_id: slave id of motor to change baudrate for
 * @retval:     	void
-* @details:    	
 ************************************************************************
 **/
 void change_baudrate(hcan_t* hcan, uint16_t motor_id){
@@ -132,7 +130,8 @@ void change_baudrate(hcan_t* hcan, uint16_t motor_id){
         memcpy(data, command_list[i], 8);  // copy the command
         data[0] = motor_id;            // replace first byte with motor ID
         
-        canx_send_data(hcan, 0x7FF, data, 8); // assuming standard CAN ID
+				int dlc = (i == 1) ? 8 : 4;  // command 1 (index 1) is 8 bytes, others are 4
+        canx_send_data(hcan, 0x7FF, data, dlc); // assuming standard CAN ID
         printf("Sent to motor 0x%02X: [", motor_id);
         for (int j = 0; j < 8; ++j) printf(" %02X", data[j]);
         printf(" ]\n");
@@ -144,16 +143,15 @@ void change_baudrate(hcan_t* hcan, uint16_t motor_id){
 
 /**
 ************************************************************************
-* @brief:      	mit_ctrl: 
-* @param[in]:   hcan:			ָ
-* @param[in]:   motor_id:	
-* @param[in]:   pos:			
-* @param[in]:   vel:			
-* @param[in]:   kp:				
-* @param[in]:   kd:				
-* @param[in]:   torq:			
+* @brief:      	mit_ctrl: moves one motor using MIT control based on given parameters
+* @param[in]:   hcan:	handler for FDCAN bus
+* @param[in]:   motor_id:	slave_id of motor in CAN bus
+* @param[in]:   pos: desired position
+* @param[in]:   vel: desired velocity
+* @param[in]:   kp: position proportional gain
+* @param[in]:   kd: position differential gain
+* @param[in]:   torq: feedforward torque
 * @retval:     	void
-* @details:    	
 ************************************************************************
 **/
 extern OpenArm_t arm;
@@ -190,12 +188,11 @@ void mit_ctrl(hcan_t* hcan, uint16_t motor_id, float pos, float vel,float kp, fl
 }
 /**
 ************************************************************************
-* @brief:      	pos_speed_ctrl: 
-* @param[in]:   hcan:			
-* @param[in]:   motor_id:	
-* @param[in]:   vel:			
+* @brief:      	pos_speed_ctrl: position cascade mode that uses three-loop series control
+* @param[in]:   hcan: handler for CANFD bus
+* @param[in]:   motor_id:	slave id of motor in CAN bus
+* @param[in]:   vel: desired velocity
 * @retval:     	void
-* @details:    	
 ************************************************************************
 **/
 void pos_speed_ctrl(hcan_t* hcan,uint16_t motor_id, float pos, float vel)
@@ -222,12 +219,11 @@ void pos_speed_ctrl(hcan_t* hcan,uint16_t motor_id, float pos, float vel)
 }
 /**
 ************************************************************************
-* @brief:      	speed_ctrl: 
-* @param[in]:   hcan: 		ָ
-* @param[in]:   motor_id: 
-* @param[in]:   vel: 			
+* @brief:      	speed_ctrl: runs motor at set speed
+* @param[in]:   hcan: handler for CANFD bus
+* @param[in]:   motor_id: slave id of motor in CAN bus
+* @param[in]:   vel: desired velocity
 * @retval:     	void
-* @details:    	
 ************************************************************************
 **/
 void speed_ctrl(hcan_t* hcan,uint16_t motor_id, float vel)
@@ -255,7 +251,6 @@ void speed_ctrl(hcan_t* hcan,uint16_t motor_id, float vel)
 * @param[in]:   motor_type[]: array of motor types, refer to MotorType_t
 * @param[in]:   mode[]: array of motor control modes
 * @retval:     	void
-* @details:    	
 ************************************************************************
 **/
 void openarm_init(OpenArm_t *arm, int id[], int master_id[], int mode, int motor_type[]){
@@ -279,15 +274,15 @@ void openarm_disable(OpenArm_t *arm,  hcan_t *hcan){
 
 /**
 ************************************************************************
-* @brief:      	move_mit: moves robot arm according to MIT control params
+* @brief:      	move_mit: moves OpenArm according to MIT control params
 * @param[in]:   arm:	pointer to OpenArm struct
-* @param[in]:   hcan:	TODO
-* @param[in]:   position[]:	TODO
-* @param[in]:   kp[]: TODO
-* @param[in]:   kd[]: TODO
-* @param[in]:   tau[]: TODO
+* @param[in]:   hcan:	handler for CANFD interface
+* @param[in]:   position[]:	array of desired position values
+* @param[in]:   position[]:	array of desired velocity values
+* @param[in]:   kp[]: array of position proportional gain
+* @param[in]:   kd[]: array of position differential gain
+* @param[in]:   tau[]: array of torque
 * @retval:     	void
-* @details:    	
 ************************************************************************
 **/
 void move_mit_all(OpenArm_t *arm, hcan_t *hcan, float position[], float velocity[], float kp[], float kd[], float torque[]){
