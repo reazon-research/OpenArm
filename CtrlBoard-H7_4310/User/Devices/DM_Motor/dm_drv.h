@@ -4,9 +4,9 @@
 #include "fdcan.h"
 #include "can_bsp.h"
 
-#define MIT_MODE 			0x000
-#define POS_MODE			0x100
-#define SPEED_MODE		0x200
+#define MIT_MODE   0x000
+#define POS_MODE   0x100
+#define SPEED_MODE 0x200
 #define NUM_MOTORS 7
 
 //DM4310 limits
