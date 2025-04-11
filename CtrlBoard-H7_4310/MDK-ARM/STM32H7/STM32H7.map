@@ -57,6 +57,7 @@ Section Cross References
     main.o(.text.main) refers to stm32h7xx_hal_tim.o(.text.HAL_TIM_Base_Start) for HAL_TIM_Base_Start
     main.o(.text.main) refers to dm_drv.o(.text.move_mit_all) for move_mit_all
     main.o(.text.main) refers to printf5.o(i.__0printf$5) for __2printf
+    main.o(.text.main) refers to eventrecorder.o(.text.EventRecord2) for EventRecord2
     main.o(.ARM.exidx.text.main) refers to main.o(.text.main) for [Anonymous Symbol]
     main.o(.text.SystemClock_Config) refers to memseta.o(.text) for __aeabi_memclr4
     main.o(.text.SystemClock_Config) refers to stm32h7xx_hal_pwr_ex.o(.text.HAL_PWREx_ConfigSupply) for HAL_PWREx_ConfigSupply
@@ -4433,38 +4434,38 @@ Image Symbol Table
     [Anonymous Symbol]                       0x080077a8   Section        0  dm_drv.o(.text.dm_fbdata)
     [Anonymous Symbol]                       0x080078b0   Section        0  retarget_io.o(.text.fputc)
     [Anonymous Symbol]                       0x080078c8   Section        0  main.o(.text.main)
-    [Anonymous Symbol]                       0x08007b48   Section        0  dm_drv.o(.text.mit_ctrl)
-    [Anonymous Symbol]                       0x08007cd0   Section        0  dm_drv.o(.text.move_mit_all)
-    [Anonymous Symbol]                       0x08007d40   Section        0  dm_drv.o(.text.openarm_enable)
-    [Anonymous Symbol]                       0x08007d88   Section        0  dm_drv.o(.text.openarm_init)
-    [Anonymous Symbol]                       0x08007db8   Section        0  stdout_evr.o(.text.stdout_putchar)
-    i.__0printf$5                            0x08007e04   Section        0  printf5.o(i.__0printf$5)
-    i.__scatterload_copy                     0x08007e24   Section       14  handlers.o(i.__scatterload_copy)
-    i.__scatterload_null                     0x08007e32   Section        2  handlers.o(i.__scatterload_null)
-    i.__scatterload_zeroinit                 0x08007e34   Section       14  handlers.o(i.__scatterload_zeroinit)
-    _printf_core                             0x08007e45   Thumb Code   658  printf5.o(i._printf_core)
-    i._printf_core                           0x08007e44   Section        0  printf5.o(i._printf_core)
-    .L__const.HAL_FDCAN_Init.CvtEltSize      0x08008104   Data          76  stm32h7xx_hal_fdcan.o(.rodata..L__const.HAL_FDCAN_Init.CvtEltSize)
-    .Lswitch.table.UART_SetConfig.7          0x08008150   Data           6  stm32h7xx_hal_uart.o(.rodata..Lswitch.table.UART_SetConfig.7)
-    .Lswitch.table.UART_SetConfig.9          0x08008156   Data           6  stm32h7xx_hal_uart.o(.rodata..Lswitch.table.UART_SetConfig.9)
-    __tagsym$$used.0                         0x0800816c   Number         0  eventrecorder.o(.rodata.EventRecorderInfo)
-    DLCtoBytes                               0x0800819c   Data          16  stm32h7xx_hal_fdcan.o(.rodata.cst16)
-    [Anonymous Symbol]                       0x0800819c   Section        0  stm32h7xx_hal_fdcan.o(.rodata.cst16)
-    UARTEx_SetNbDataToProcess.numerator      0x080081ac   Data           8  stm32h7xx_hal_uart_ex.o(.rodata.cst8)
-    [Anonymous Symbol]                       0x080081ac   Section        0  stm32h7xx_hal_uart_ex.o(.rodata.cst8)
-    UARTEx_SetNbDataToProcess.denominator    0x080081b4   Data           8  stm32h7xx_hal_uart_ex.o(.rodata.cst8)
+    [Anonymous Symbol]                       0x08007ae8   Section        0  dm_drv.o(.text.mit_ctrl)
+    [Anonymous Symbol]                       0x08007c70   Section        0  dm_drv.o(.text.move_mit_all)
+    [Anonymous Symbol]                       0x08007ce0   Section        0  dm_drv.o(.text.openarm_enable)
+    [Anonymous Symbol]                       0x08007d28   Section        0  dm_drv.o(.text.openarm_init)
+    [Anonymous Symbol]                       0x08007d58   Section        0  stdout_evr.o(.text.stdout_putchar)
+    i.__0printf$5                            0x08007da4   Section        0  printf5.o(i.__0printf$5)
+    i.__scatterload_copy                     0x08007dc4   Section       14  handlers.o(i.__scatterload_copy)
+    i.__scatterload_null                     0x08007dd2   Section        2  handlers.o(i.__scatterload_null)
+    i.__scatterload_zeroinit                 0x08007dd4   Section       14  handlers.o(i.__scatterload_zeroinit)
+    _printf_core                             0x08007de5   Thumb Code   658  printf5.o(i._printf_core)
+    i._printf_core                           0x08007de4   Section        0  printf5.o(i._printf_core)
+    .L__const.HAL_FDCAN_Init.CvtEltSize      0x080080a4   Data          76  stm32h7xx_hal_fdcan.o(.rodata..L__const.HAL_FDCAN_Init.CvtEltSize)
+    .Lswitch.table.UART_SetConfig.7          0x080080f0   Data           6  stm32h7xx_hal_uart.o(.rodata..Lswitch.table.UART_SetConfig.7)
+    .Lswitch.table.UART_SetConfig.9          0x080080f6   Data           6  stm32h7xx_hal_uart.o(.rodata..Lswitch.table.UART_SetConfig.9)
+    __tagsym$$used.0                         0x0800810c   Number         0  eventrecorder.o(.rodata.EventRecorderInfo)
+    DLCtoBytes                               0x0800813c   Data          16  stm32h7xx_hal_fdcan.o(.rodata.cst16)
+    [Anonymous Symbol]                       0x0800813c   Section        0  stm32h7xx_hal_fdcan.o(.rodata.cst16)
+    UARTEx_SetNbDataToProcess.numerator      0x0800814c   Data           8  stm32h7xx_hal_uart_ex.o(.rodata.cst8)
+    [Anonymous Symbol]                       0x0800814c   Section        0  stm32h7xx_hal_uart_ex.o(.rodata.cst8)
+    UARTEx_SetNbDataToProcess.denominator    0x08008154   Data           8  stm32h7xx_hal_uart_ex.o(.rodata.cst8)
     .data                                    0x24000000   Section        4  stdout.o(.data)
     HAL_RCC_FDCAN_CLK_ENABLED                0x24000040   Data           4  fdcan.o(.bss.HAL_RCC_FDCAN_CLK_ENABLED)
     [Anonymous Symbol]                       0x24000040   Section        0  fdcan.o(.bss.HAL_RCC_FDCAN_CLK_ENABLED)
-    EventBuffer                              0x24001000   Data        1024  eventrecorder.o(.bss.noinit)
-    [Anonymous Symbol]                       0x24001000   Section        0  eventrecorder.o(.bss.noinit)
-    EventFilter                              0x24001400   Data         128  eventrecorder.o(.bss.noinit)
-    EventStatus                              0x24001480   Data          36  eventrecorder.o(.bss.noinit)
-    stdout_putchar.buffer                    0x240014a4   Data           8  stdout_evr.o(.bss.stdout_putchar.buffer)
-    [Anonymous Symbol]                       0x240014a4   Section        0  stdout_evr.o(.bss.stdout_putchar.buffer)
-    stdout_putchar.index                     0x240014ac   Data           4  stdout_evr.o(.bss.stdout_putchar.index)
-    [Anonymous Symbol]                       0x240014ac   Section        0  stdout_evr.o(.bss.stdout_putchar.index)
-    STACK                                    0x240014b8   Section     1024  startup_stm32h723xx.o(STACK)
+    EventBuffer                              0x24000fc0   Data        1024  eventrecorder.o(.bss.noinit)
+    [Anonymous Symbol]                       0x24000fc0   Section        0  eventrecorder.o(.bss.noinit)
+    EventFilter                              0x240013c0   Data         128  eventrecorder.o(.bss.noinit)
+    EventStatus                              0x24001440   Data          36  eventrecorder.o(.bss.noinit)
+    stdout_putchar.buffer                    0x24001464   Data           8  stdout_evr.o(.bss.stdout_putchar.buffer)
+    [Anonymous Symbol]                       0x24001464   Section        0  stdout_evr.o(.bss.stdout_putchar.buffer)
+    stdout_putchar.index                     0x2400146c   Data           4  stdout_evr.o(.bss.stdout_putchar.index)
+    [Anonymous Symbol]                       0x2400146c   Section        0  stdout_evr.o(.bss.stdout_putchar.index)
+    STACK                                    0x24001478   Section     1024  startup_stm32h723xx.o(STACK)
 
     Global Symbols
 
@@ -4826,23 +4827,23 @@ Image Symbol Table
     canx_send_data                           0x08007709   Thumb Code   100  can_bsp.o(.text.canx_send_data)
     dm_fbdata                                0x080077a9   Thumb Code   252  dm_drv.o(.text.dm_fbdata)
     fputc                                    0x080078b1   Thumb Code    22  retarget_io.o(.text.fputc)
-    main                                     0x080078c9   Thumb Code   508  main.o(.text.main)
-    mit_ctrl                                 0x08007b49   Thumb Code   368  dm_drv.o(.text.mit_ctrl)
-    move_mit_all                             0x08007cd1   Thumb Code   110  dm_drv.o(.text.move_mit_all)
-    openarm_enable                           0x08007d41   Thumb Code    70  dm_drv.o(.text.openarm_enable)
-    openarm_init                             0x08007d89   Thumb Code    42  dm_drv.o(.text.openarm_init)
-    stdout_putchar                           0x08007db9   Thumb Code    76  stdout_evr.o(.text.stdout_putchar)
-    __0printf$5                              0x08007e05   Thumb Code    22  printf5.o(i.__0printf$5)
-    __1printf$5                              0x08007e05   Thumb Code     0  printf5.o(i.__0printf$5)
-    __2printf                                0x08007e05   Thumb Code     0  printf5.o(i.__0printf$5)
-    __scatterload_copy                       0x08007e25   Thumb Code    14  handlers.o(i.__scatterload_copy)
-    __scatterload_null                       0x08007e33   Thumb Code     2  handlers.o(i.__scatterload_null)
-    __scatterload_zeroinit                   0x08007e35   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
-    D1CorePrescTable                         0x0800815c   Data          16  system_stm32h7xx.o(.rodata.D1CorePrescTable)
-    EventRecorderInfo                        0x0800816c   Data          24  eventrecorder.o(.rodata.EventRecorderInfo)
-    UARTPrescTable                           0x08008184   Data          24  stm32h7xx_hal_uart.o(.rodata.UARTPrescTable)
-    Region$$Table$$Base                      0x080081bc   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x080081dc   Number         0  anon$$obj.o(Region$$Table)
+    main                                     0x080078c9   Thumb Code   492  main.o(.text.main)
+    mit_ctrl                                 0x08007ae9   Thumb Code   368  dm_drv.o(.text.mit_ctrl)
+    move_mit_all                             0x08007c71   Thumb Code   110  dm_drv.o(.text.move_mit_all)
+    openarm_enable                           0x08007ce1   Thumb Code    70  dm_drv.o(.text.openarm_enable)
+    openarm_init                             0x08007d29   Thumb Code    42  dm_drv.o(.text.openarm_init)
+    stdout_putchar                           0x08007d59   Thumb Code    76  stdout_evr.o(.text.stdout_putchar)
+    __0printf$5                              0x08007da5   Thumb Code    22  printf5.o(i.__0printf$5)
+    __1printf$5                              0x08007da5   Thumb Code     0  printf5.o(i.__0printf$5)
+    __2printf                                0x08007da5   Thumb Code     0  printf5.o(i.__0printf$5)
+    __scatterload_copy                       0x08007dc5   Thumb Code    14  handlers.o(i.__scatterload_copy)
+    __scatterload_null                       0x08007dd3   Thumb Code     2  handlers.o(i.__scatterload_null)
+    __scatterload_zeroinit                   0x08007dd5   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
+    D1CorePrescTable                         0x080080fc   Data          16  system_stm32h7xx.o(.rodata.D1CorePrescTable)
+    EventRecorderInfo                        0x0800810c   Data          24  eventrecorder.o(.rodata.EventRecorderInfo)
+    UARTPrescTable                           0x08008124   Data          24  stm32h7xx_hal_uart.o(.rodata.UARTPrescTable)
+    Region$$Table$$Base                      0x0800815c   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x0800817c   Number         0  anon$$obj.o(Region$$Table)
     __stdout                                 0x24000000   Data           4  stdout.o(.data)
     SystemCoreClock                          0x24000004   Data           4  system_stm32h7xx.o(.data.SystemCoreClock)
     SystemD2Clock                            0x24000008   Data           4  system_stm32h7xx.o(.data.SystemD2Clock)
@@ -4850,29 +4851,29 @@ Image Symbol Table
     uwTickPrio                               0x24000010   Data           4  stm32h7xx_hal.o(.data.uwTickPrio)
     RxHeader1                                0x24000044   Data          40  can_bsp.o(.bss.RxHeader1)
     RxHeader2                                0x2400006c   Data          40  can_bsp.o(.bss.RxHeader2)
-    arm                                      0x24000094   Data         284  main.o(.bss.arm)
-    g_Can1RxData                             0x240001b0   Data          64  can_bsp.o(.bss.g_Can1RxData)
-    g_Can2RxData                             0x240001f0   Data          64  can_bsp.o(.bss.g_Can2RxData)
-    hdcmi                                    0x24000230   Data          80  dcmi.o(.bss.hdcmi)
-    hfdcan1                                  0x24000280   Data         160  fdcan.o(.bss.hfdcan1)
-    hfdcan2                                  0x24000320   Data         160  fdcan.o(.bss.hfdcan2)
-    hfdcan3                                  0x240003c0   Data         160  fdcan.o(.bss.hfdcan3)
-    hi2c1                                    0x24000460   Data          84  i2c.o(.bss.hi2c1)
-    hospi1                                   0x240004b4   Data          92  octospi.o(.bss.hospi1)
-    hpcd_USB_OTG_HS                          0x24000510   Data        1292  usb_otg.o(.bss.hpcd_USB_OTG_HS)
-    hspi1                                    0x24000a1c   Data         136  spi.o(.bss.hspi1)
-    hspi2                                    0x24000aa4   Data         136  spi.o(.bss.hspi2)
-    hspi3                                    0x24000b2c   Data         136  spi.o(.bss.hspi3)
-    htim1                                    0x24000bb4   Data          76  tim.o(.bss.htim1)
-    htim2                                    0x24000c00   Data          76  tim.o(.bss.htim2)
-    huart1                                   0x24000c4c   Data         148  usart.o(.bss.huart1)
-    huart10                                  0x24000ce0   Data         148  usart.o(.bss.huart10)
-    huart2                                   0x24000d74   Data         148  usart.o(.bss.huart2)
-    huart3                                   0x24000e08   Data         148  usart.o(.bss.huart3)
-    huart7                                   0x24000e9c   Data         148  usart.o(.bss.huart7)
-    huart9                                   0x24000f30   Data         148  usart.o(.bss.huart9)
-    uwTick                                   0x240014b0   Data           4  stm32h7xx_hal.o(.bss.uwTick)
-    __initial_sp                             0x240018b8   Data           0  startup_stm32h723xx.o(STACK)
+    arm                                      0x24000094   Data         244  main.o(.bss.arm)
+    g_Can1RxData                             0x24000188   Data          64  can_bsp.o(.bss.g_Can1RxData)
+    g_Can2RxData                             0x240001c8   Data          64  can_bsp.o(.bss.g_Can2RxData)
+    hdcmi                                    0x24000208   Data          80  dcmi.o(.bss.hdcmi)
+    hfdcan1                                  0x24000258   Data         160  fdcan.o(.bss.hfdcan1)
+    hfdcan2                                  0x240002f8   Data         160  fdcan.o(.bss.hfdcan2)
+    hfdcan3                                  0x24000398   Data         160  fdcan.o(.bss.hfdcan3)
+    hi2c1                                    0x24000438   Data          84  i2c.o(.bss.hi2c1)
+    hospi1                                   0x2400048c   Data          92  octospi.o(.bss.hospi1)
+    hpcd_USB_OTG_HS                          0x240004e8   Data        1292  usb_otg.o(.bss.hpcd_USB_OTG_HS)
+    hspi1                                    0x240009f4   Data         136  spi.o(.bss.hspi1)
+    hspi2                                    0x24000a7c   Data         136  spi.o(.bss.hspi2)
+    hspi3                                    0x24000b04   Data         136  spi.o(.bss.hspi3)
+    htim1                                    0x24000b8c   Data          76  tim.o(.bss.htim1)
+    htim2                                    0x24000bd8   Data          76  tim.o(.bss.htim2)
+    huart1                                   0x24000c24   Data         148  usart.o(.bss.huart1)
+    huart10                                  0x24000cb8   Data         148  usart.o(.bss.huart10)
+    huart2                                   0x24000d4c   Data         148  usart.o(.bss.huart2)
+    huart3                                   0x24000de0   Data         148  usart.o(.bss.huart3)
+    huart7                                   0x24000e74   Data         148  usart.o(.bss.huart7)
+    huart9                                   0x24000f08   Data         148  usart.o(.bss.huart9)
+    uwTick                                   0x24001470   Data           4  stm32h7xx_hal.o(.bss.uwTick)
+    __initial_sp                             0x24001878   Data           0  startup_stm32h723xx.o(STACK)
 
 
 
@@ -4882,9 +4883,9 @@ Memory Map of the image
 
   Image Entry point : 0x080002cd
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00008240, Max: 0x00100000, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x000081c0, Max: 0x00100000, ABSOLUTE)
 
-    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x000081dc, Max: 0x00100000, ABSOLUTE)
+    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x0000817c, Max: 0x00100000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -5172,79 +5173,79 @@ Memory Map of the image
     0x080078ac   0x080078ac   0x00000004   PAD
     0x080078b0   0x080078b0   0x00000016   Code   RO         2322    .text.fputc         retarget_io.o
     0x080078c6   0x080078c6   0x00000002   PAD
-    0x080078c8   0x080078c8   0x00000280   Code   RO           13    .text.main          main.o
-    0x08007b48   0x08007b48   0x00000188   Code   RO         2300    .text.mit_ctrl      dm_drv.o
-    0x08007cd0   0x08007cd0   0x0000006e   Code   RO         2312    .text.move_mit_all  dm_drv.o
-    0x08007d3e   0x08007d3e   0x00000002   PAD
-    0x08007d40   0x08007d40   0x00000046   Code   RO         2308    .text.openarm_enable  dm_drv.o
-    0x08007d86   0x08007d86   0x00000002   PAD
-    0x08007d88   0x08007d88   0x0000002a   Code   RO         2306    .text.openarm_init  dm_drv.o
-    0x08007db2   0x08007db2   0x00000006   PAD
-    0x08007db8   0x08007db8   0x0000004c   Code   RO         2340    .text.stdout_putchar  stdout_evr.o
-    0x08007e04   0x08007e04   0x00000020   Code   RO         2538    i.__0printf$5       mc_w.l(printf5.o)
-    0x08007e24   0x08007e24   0x0000000e   Code   RO         2714    i.__scatterload_copy  mc_w.l(handlers.o)
-    0x08007e32   0x08007e32   0x00000002   Code   RO         2715    i.__scatterload_null  mc_w.l(handlers.o)
-    0x08007e34   0x08007e34   0x0000000e   Code   RO         2716    i.__scatterload_zeroinit  mc_w.l(handlers.o)
-    0x08007e42   0x08007e42   0x00000002   PAD
-    0x08007e44   0x08007e44   0x000002c0   Code   RO         2545    i._printf_core      mc_w.l(printf5.o)
-    0x08008104   0x08008104   0x0000004c   Data   RO         1294    .rodata..L__const.HAL_FDCAN_Init.CvtEltSize  stm32h7xx_hal_fdcan.o
-    0x08008150   0x08008150   0x00000006   Data   RO         1974    .rodata..Lswitch.table.UART_SetConfig.7  stm32h7xx_hal_uart.o
-    0x08008156   0x08008156   0x00000006   Data   RO         1975    .rodata..Lswitch.table.UART_SetConfig.9  stm32h7xx_hal_uart.o
-    0x0800815c   0x0800815c   0x00000010   Data   RO         2237    .rodata.D1CorePrescTable  system_stm32h7xx.o
-    0x0800816c   0x0800816c   0x00000018   Data   RO         2376    .rodata.EventRecorderInfo  eventrecorder.o
-    0x08008184   0x08008184   0x00000018   Data   RO         1973    .rodata.UARTPrescTable  stm32h7xx_hal_uart.o
-    0x0800819c   0x0800819c   0x00000010   Data   RO         1295    .rodata.cst16       stm32h7xx_hal_fdcan.o
-    0x080081ac   0x080081ac   0x00000010   Data   RO         2016    .rodata.cst8        stm32h7xx_hal_uart_ex.o
-    0x080081bc   0x080081bc   0x00000020   Data   RO         2713    Region$$Table       anon$$obj.o
+    0x080078c8   0x080078c8   0x00000220   Code   RO           13    .text.main          main.o
+    0x08007ae8   0x08007ae8   0x00000188   Code   RO         2300    .text.mit_ctrl      dm_drv.o
+    0x08007c70   0x08007c70   0x0000006e   Code   RO         2312    .text.move_mit_all  dm_drv.o
+    0x08007cde   0x08007cde   0x00000002   PAD
+    0x08007ce0   0x08007ce0   0x00000046   Code   RO         2308    .text.openarm_enable  dm_drv.o
+    0x08007d26   0x08007d26   0x00000002   PAD
+    0x08007d28   0x08007d28   0x0000002a   Code   RO         2306    .text.openarm_init  dm_drv.o
+    0x08007d52   0x08007d52   0x00000006   PAD
+    0x08007d58   0x08007d58   0x0000004c   Code   RO         2340    .text.stdout_putchar  stdout_evr.o
+    0x08007da4   0x08007da4   0x00000020   Code   RO         2538    i.__0printf$5       mc_w.l(printf5.o)
+    0x08007dc4   0x08007dc4   0x0000000e   Code   RO         2714    i.__scatterload_copy  mc_w.l(handlers.o)
+    0x08007dd2   0x08007dd2   0x00000002   Code   RO         2715    i.__scatterload_null  mc_w.l(handlers.o)
+    0x08007dd4   0x08007dd4   0x0000000e   Code   RO         2716    i.__scatterload_zeroinit  mc_w.l(handlers.o)
+    0x08007de2   0x08007de2   0x00000002   PAD
+    0x08007de4   0x08007de4   0x000002c0   Code   RO         2545    i._printf_core      mc_w.l(printf5.o)
+    0x080080a4   0x080080a4   0x0000004c   Data   RO         1294    .rodata..L__const.HAL_FDCAN_Init.CvtEltSize  stm32h7xx_hal_fdcan.o
+    0x080080f0   0x080080f0   0x00000006   Data   RO         1974    .rodata..Lswitch.table.UART_SetConfig.7  stm32h7xx_hal_uart.o
+    0x080080f6   0x080080f6   0x00000006   Data   RO         1975    .rodata..Lswitch.table.UART_SetConfig.9  stm32h7xx_hal_uart.o
+    0x080080fc   0x080080fc   0x00000010   Data   RO         2237    .rodata.D1CorePrescTable  system_stm32h7xx.o
+    0x0800810c   0x0800810c   0x00000018   Data   RO         2376    .rodata.EventRecorderInfo  eventrecorder.o
+    0x08008124   0x08008124   0x00000018   Data   RO         1973    .rodata.UARTPrescTable  stm32h7xx_hal_uart.o
+    0x0800813c   0x0800813c   0x00000010   Data   RO         1295    .rodata.cst16       stm32h7xx_hal_fdcan.o
+    0x0800814c   0x0800814c   0x00000010   Data   RO         2016    .rodata.cst8        stm32h7xx_hal_uart_ex.o
+    0x0800815c   0x0800815c   0x00000020   Data   RO         2713    Region$$Table       anon$$obj.o
 
 
-    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x080081dc, Size: 0x00000000, Max: 0x00020000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x0800817c, Size: 0x00000000, Max: 0x00020000, ABSOLUTE)
 
     **** No section assigned to this execution region ****
 
 
-    Execution Region RW_IRAM2 (Exec base: 0x24000000, Load base: 0x08008200, Size: 0x000018b8, Max: 0x00050000, ABSOLUTE)
+    Execution Region RW_IRAM2 (Exec base: 0x24000000, Load base: 0x08008180, Size: 0x00001878, Max: 0x00050000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x24000000   0x08008200   0x00000004   Data   RW         2395    .data               mc_w.l(stdout.o)
-    0x24000004   0x08008204   0x00000004   Data   RW         2235    .data.SystemCoreClock  system_stm32h7xx.o
-    0x24000008   0x08008208   0x00000004   Data   RW         2236    .data.SystemD2Clock  system_stm32h7xx.o
-    0x2400000c   0x0800820c   0x00000001   Data   RW          890    .data.uwTickFreq    stm32h7xx_hal.o
-    0x2400000d   0x0800820d   0x00000003   PAD
-    0x24000010   0x08008210   0x00000004   Data   RW          889    .data.uwTickPrio    stm32h7xx_hal.o
-    0x24000014   0x08008214   0x0000002c   PAD
+    0x24000000   0x08008180   0x00000004   Data   RW         2395    .data               mc_w.l(stdout.o)
+    0x24000004   0x08008184   0x00000004   Data   RW         2235    .data.SystemCoreClock  system_stm32h7xx.o
+    0x24000008   0x08008188   0x00000004   Data   RW         2236    .data.SystemD2Clock  system_stm32h7xx.o
+    0x2400000c   0x0800818c   0x00000001   Data   RW          890    .data.uwTickFreq    stm32h7xx_hal.o
+    0x2400000d   0x0800818d   0x00000003   PAD
+    0x24000010   0x08008190   0x00000004   Data   RW          889    .data.uwTickPrio    stm32h7xx_hal.o
+    0x24000014   0x08008194   0x0000002c   PAD
     0x24000040        -       0x00000004   Zero   RW           66    .bss.HAL_RCC_FDCAN_CLK_ENABLED  fdcan.o
     0x24000044        -       0x00000028   Zero   RW         2257    .bss.RxHeader1      can_bsp.o
     0x2400006c        -       0x00000028   Zero   RW         2259    .bss.RxHeader2      can_bsp.o
-    0x24000094        -       0x0000011c   Zero   RW           19    .bss.arm            main.o
-    0x240001b0        -       0x00000040   Zero   RW         2256    .bss.g_Can1RxData   can_bsp.o
-    0x240001f0        -       0x00000040   Zero   RW         2258    .bss.g_Can2RxData   can_bsp.o
-    0x24000230        -       0x00000050   Zero   RW           44    .bss.hdcmi          dcmi.o
-    0x24000280        -       0x000000a0   Zero   RW           63    .bss.hfdcan1        fdcan.o
-    0x24000320        -       0x000000a0   Zero   RW           64    .bss.hfdcan2        fdcan.o
-    0x240003c0        -       0x000000a0   Zero   RW           65    .bss.hfdcan3        fdcan.o
-    0x24000460        -       0x00000054   Zero   RW           81    .bss.hi2c1          i2c.o
-    0x240004b4        -       0x0000005c   Zero   RW           96    .bss.hospi1         octospi.o
-    0x24000510        -       0x0000050c   Zero   RW          186    .bss.hpcd_USB_OTG_HS  usb_otg.o
-    0x24000a1c        -       0x00000088   Zero   RW          115    .bss.hspi1          spi.o
-    0x24000aa4        -       0x00000088   Zero   RW          116    .bss.hspi2          spi.o
-    0x24000b2c        -       0x00000088   Zero   RW          117    .bss.hspi3          spi.o
-    0x24000bb4        -       0x0000004c   Zero   RW          140    .bss.htim1          tim.o
-    0x24000c00        -       0x0000004c   Zero   RW          141    .bss.htim2          tim.o
-    0x24000c4c        -       0x00000094   Zero   RW          168    .bss.huart1         usart.o
-    0x24000ce0        -       0x00000094   Zero   RW          171    .bss.huart10        usart.o
-    0x24000d74        -       0x00000094   Zero   RW          169    .bss.huart2         usart.o
-    0x24000e08        -       0x00000094   Zero   RW          170    .bss.huart3         usart.o
-    0x24000e9c        -       0x00000094   Zero   RW          166    .bss.huart7         usart.o
-    0x24000f30        -       0x00000094   Zero   RW          167    .bss.huart9         usart.o
-    0x24000fc4   0x08008214   0x0000003c   PAD
-    0x24001000        -       0x000004a4   Zero   RW         2375    .bss.noinit         eventrecorder.o
-    0x240014a4        -       0x00000008   Zero   RW         2343    .bss.stdout_putchar.buffer  stdout_evr.o
-    0x240014ac        -       0x00000004   Zero   RW         2342    .bss.stdout_putchar.index  stdout_evr.o
-    0x240014b0        -       0x00000004   Zero   RW          891    .bss.uwTick         stm32h7xx_hal.o
-    0x240014b4   0x08008214   0x00000004   PAD
-    0x240014b8        -       0x00000400   Zero   RW            1    STACK               startup_stm32h723xx.o
+    0x24000094        -       0x000000f4   Zero   RW           19    .bss.arm            main.o
+    0x24000188        -       0x00000040   Zero   RW         2256    .bss.g_Can1RxData   can_bsp.o
+    0x240001c8        -       0x00000040   Zero   RW         2258    .bss.g_Can2RxData   can_bsp.o
+    0x24000208        -       0x00000050   Zero   RW           44    .bss.hdcmi          dcmi.o
+    0x24000258        -       0x000000a0   Zero   RW           63    .bss.hfdcan1        fdcan.o
+    0x240002f8        -       0x000000a0   Zero   RW           64    .bss.hfdcan2        fdcan.o
+    0x24000398        -       0x000000a0   Zero   RW           65    .bss.hfdcan3        fdcan.o
+    0x24000438        -       0x00000054   Zero   RW           81    .bss.hi2c1          i2c.o
+    0x2400048c        -       0x0000005c   Zero   RW           96    .bss.hospi1         octospi.o
+    0x240004e8        -       0x0000050c   Zero   RW          186    .bss.hpcd_USB_OTG_HS  usb_otg.o
+    0x240009f4        -       0x00000088   Zero   RW          115    .bss.hspi1          spi.o
+    0x24000a7c        -       0x00000088   Zero   RW          116    .bss.hspi2          spi.o
+    0x24000b04        -       0x00000088   Zero   RW          117    .bss.hspi3          spi.o
+    0x24000b8c        -       0x0000004c   Zero   RW          140    .bss.htim1          tim.o
+    0x24000bd8        -       0x0000004c   Zero   RW          141    .bss.htim2          tim.o
+    0x24000c24        -       0x00000094   Zero   RW          168    .bss.huart1         usart.o
+    0x24000cb8        -       0x00000094   Zero   RW          171    .bss.huart10        usart.o
+    0x24000d4c        -       0x00000094   Zero   RW          169    .bss.huart2         usart.o
+    0x24000de0        -       0x00000094   Zero   RW          170    .bss.huart3         usart.o
+    0x24000e74        -       0x00000094   Zero   RW          166    .bss.huart7         usart.o
+    0x24000f08        -       0x00000094   Zero   RW          167    .bss.huart9         usart.o
+    0x24000f9c   0x08008194   0x00000024   PAD
+    0x24000fc0        -       0x000004a4   Zero   RW         2375    .bss.noinit         eventrecorder.o
+    0x24001464        -       0x00000008   Zero   RW         2343    .bss.stdout_putchar.buffer  stdout_evr.o
+    0x2400146c        -       0x00000004   Zero   RW         2342    .bss.stdout_putchar.index  stdout_evr.o
+    0x24001470        -       0x00000004   Zero   RW          891    .bss.uwTick         stm32h7xx_hal.o
+    0x24001474   0x08008194   0x00000004   PAD
+    0x24001478        -       0x00000400   Zero   RW            1    STACK               startup_stm32h723xx.o
 
 
 ==============================================================================
@@ -5256,12 +5257,12 @@ Image component sizes
 
        666         96          0          0        208       7322   can_bsp.o
        350          0          0          0         80       6505   dcmi.o
-       874         32          0          0          0      14018   dm_drv.o
+       874         32          0          0          0      13990   dm_drv.o
       2932          0         24          0       1188      21569   eventrecorder.o
        800          0          0          0        484      12074   fdcan.o
        566          0          0          0          0       3383   gpio.o
        254          0          0          0         84       8097   i2c.o
-       850        132          0          0        284       5668   main.o
+       754         52          0          0        244       5774   main.o
        478          0          0          0         92       9013   octospi.o
         22          0          0          0          0       2143   retarget_io.o
        716          0          0          0        408       9050   spi.o
@@ -5294,9 +5295,9 @@ Image component sizes
        154          0          0          0       1292       6964   usb_otg.o
 
     ----------------------------------------------------------------------
-     31240        734        932         16       6308     582985   Object Totals
+     31144        654        932         16       6244     583063   Object Totals
          0          0         32          0          0          0   (incl. Generated)
-       558         12          0          3        108          0   (incl. Padding)
+       558         12          0          3         84          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
@@ -5340,15 +5341,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     32312        812        932         20       6308     582865   Grand Totals
-     32312        812        932         20       6308     582865   ELF Image Totals
-     32312        812        932         20          0          0   ROM Totals
+     32216        732        932         20       6244     582943   Grand Totals
+     32216        732        932         20       6244     582943   ELF Image Totals
+     32216        732        932         20          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                33244 (  32.46kB)
-    Total RW  Size (RW Data + ZI Data)              6328 (   6.18kB)
-    Total ROM Size (Code + RO Data + RW Data)      33264 (  32.48kB)
+    Total RO  Size (Code + RO Data)                33148 (  32.37kB)
+    Total RW  Size (RW Data + ZI Data)              6264 (   6.12kB)
+    Total ROM Size (Code + RO Data + RW Data)      33168 (  32.39kB)
 
 ==============================================================================
 

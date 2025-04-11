@@ -131,16 +131,27 @@ int main(void)
 	FDCAN1_Config();
 	FDCAN2_Config();
 	
-	int id[7] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
-	int master_id[7] = {0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17}; 
+	int id[NUM_MOTORS];
+	int master_id[NUM_MOTORS];
+	float zero[NUM_MOTORS];
+	float one[NUM_MOTORS];
+	float positions[NUM_MOTORS];
 	int mode = MIT_MODE;
+
 	int type[7] = {DM4310, DM4310, DM4310, DM4310, DM4310, DM4310, DM4310};
 	float feedforward_torque = 0.0f;
+	
+	for (int i = 0; i < NUM_MOTORS; ++i) {
+		id[i] = i + 1; // 0x01 to 0x07
+		master_id[i] = 0x10 + (i + 1); // 0x11 to 0x17
+		type[i] = DM4310;
+		zero[i] = 0.0f;
+		one[i] = 1.0f;
 
+		positions[i] = 0.0f;
+	}
 
-	float zero[7] = {0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f};
-	float one[7] = {0.5f,0.25f,0.2f,1.0f,1.0f,1.0f,1.0f};
-	float positions[7] = {0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f};
+	
 	float torque_increment = 0.0001f;
 	openarm_init(&arm, id, master_id, mode, type);
 	HAL_Delay(1000);
@@ -182,7 +193,7 @@ int main(void)
     }
 				
 		last_time = __HAL_TIM_GET_COUNTER(&htim2);
-		//EventRecord2(0x03, positions[0]*100, 0x01);
+		EventRecord2(0x03, positions[0]*100, 0x01);
 
 		if(positions[0] < 1.0f){
 			for (int i = 0; i < 7; i++) {

@@ -3,9 +3,9 @@
 <title>Static Call Graph - [STM32H7\STM32H7.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32H7\STM32H7.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6230001: Last Updated: Fri Apr 11 12:47:21 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6230001: Last Updated: Fri Apr 11 15:50:50 2025
 <BR><P>
-<H3>Maximum Stack Usage =        536 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        512 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 main &rArr; MX_OCTOSPI1_Init &rArr; HAL_OSPI_Init &rArr; HAL_OSPI_MspInit &rArr; HAL_RCCEx_PeriphCLKConfig &rArr; RCCEx_PLL3_Config
 <P>
@@ -731,7 +731,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EventRecorderTimerGetCount
 </UL>
-<BR>[Called By]<UL><LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dm_fbdata
+<BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dm_fbdata
 </UL>
 
 <P><STRONG><a name="[a2]"></a>EventRecordData</STRONG> (Thumb, 1408 bytes, Stack size 72 bytes, eventrecorder.o(.text.EventRecordData))
@@ -764,10 +765,10 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[a1]"></a>EventRecorderTimerGetCount</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, eventrecorder.o(.text.EventRecorderTimerGetCount))
-<BR><BR>[Called By]<UL><LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EventRecorderInitialize
+<BR><BR>[Called By]<UL><LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EventRecord2
+<LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EventRecorderInitialize
 <LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EventRecorderStart
 <LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EventRecordData
-<LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EventRecord2
 </UL>
 
 <P><STRONG><a name="[a7]"></a>EventRecorderTimerSetup</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, eventrecorder.o(.text.EventRecorderTimerSetup))
@@ -1845,10 +1846,11 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> printf5.o(i.__0printf$5)
 </UL>
-<P><STRONG><a name="[93]"></a>main</STRONG> (Thumb, 508 bytes, Stack size 184 bytes, main.o(.text.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 536<LI>Call Chain = main &rArr; MX_OCTOSPI1_Init &rArr; HAL_OSPI_Init &rArr; HAL_OSPI_MspInit &rArr; HAL_RCCEx_PeriphCLKConfig &rArr; RCCEx_PLL3_Config
+<P><STRONG><a name="[93]"></a>main</STRONG> (Thumb, 492 bytes, Stack size 160 bytes, main.o(.text.main))
+<BR><BR>[Stack]<UL><LI>Max Depth = 512<LI>Call Chain = main &rArr; MX_OCTOSPI1_Init &rArr; HAL_OSPI_Init &rArr; HAL_OSPI_MspInit &rArr; HAL_RCCEx_PeriphCLKConfig &rArr; RCCEx_PLL3_Config
 </UL>
-<BR>[Calls]<UL><LI><a href="#[12c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_mit_all
+<BR>[Calls]<UL><LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EventRecord2
+<LI><a href="#[12c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_mit_all
 <LI><a href="#[12b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_Start
 <LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EventRecorderInitialize
 <LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;openarm_enable

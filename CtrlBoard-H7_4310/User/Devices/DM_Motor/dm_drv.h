@@ -7,7 +7,7 @@
 #define MIT_MODE   0x000
 #define POS_MODE   0x100
 #define SPEED_MODE 0x200
-#define NUM_MOTORS 7
+#define NUM_MOTORS 6
 
 //DM4310 limits
 #define P_MIN_4310 -12.5f
