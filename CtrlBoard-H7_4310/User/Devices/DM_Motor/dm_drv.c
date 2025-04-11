@@ -113,6 +113,37 @@ void disable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id)
 
 /**
 ************************************************************************
+* @brief:      	change_baudrate: 
+* @param[in]:   hcan:    
+* @param[in]:   motor_id: 
+* @retval:     	void
+* @details:    	
+************************************************************************
+**/
+void change_baudrate(hcan_t* hcan, uint16_t motor_id){
+	uint8_t command_list[3][8] = {
+    {0x00, 0x00, 0x33, 0x23, 0x00, 0x00, 0x00, 0x00},
+    {0x00, 0x00, 0x55, 0x23, 0x09, 0x00, 0x00, 0x00},
+    {0x00, 0x00, 0xAA, 0x23, 0x00, 0x00, 0x00, 0x00},
+	};
+	
+	for (int i = 0; i < 3; ++i) {
+        uint8_t data[8];
+        memcpy(data, command_list[i], 8);  // copy the command
+        data[0] = motor_id;            // replace first byte with motor ID
+        
+        canx_send_data(hcan, 0x7FF, data, 8); // assuming standard CAN ID
+        printf("Sent to motor 0x%02X: [", motor_id);
+        for (int j = 0; j < 8; ++j) printf(" %02X", data[j]);
+        printf(" ]\n");
+
+        HAL_Delay(10);
+	}
+}
+
+
+/**
+************************************************************************
 * @brief:      	mit_ctrl: 
 * @param[in]:   hcan:			ָ
 * @param[in]:   motor_id:	

@@ -168,8 +168,11 @@ int main(void)
 	uint32_t t_schedule = 0;
 	__HAL_TIM_SET_COUNTER(&htim2, 0);  // Reset timer to avoid drift
 	
+	//change_baudrate(&hfdcan1, 1);
+	
   while (1)
   { 
+		
 		uint32_t now = __HAL_TIM_GET_COUNTER(&htim2);
     uint32_t elapsed = now - last_time;
 
@@ -216,6 +219,8 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
   }
+	
+	openarm_disable(&arm, &hfdcan1);
   /* USER CODE END 3 */
 }
 
