@@ -5,12 +5,12 @@
 #include "EventRecorder.h"
 #include "stdio.h"
 
-float Hex_To_Float(uint32_t *Byte,int num)//Ê®Áù½øÖÆµ½¸¡µãÊý
+float Hex_To_Float(uint32_t *Byte,int num)//Ê®ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 {
 	return *((float*)Byte);
 }
 
-uint32_t FloatTohex(float HEX)//¸¡µãÊýµ½Ê®Áù½øÖÆ×ª»»
+uint32_t FloatTohex(float HEX)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½
 {
 	return *( uint32_t *)&HEX;
 }
@@ -50,9 +50,17 @@ void dm_fbdata(Joint_Motor_t *motor, uint8_t *rx_data,uint32_t data_len)
 	  motor->p_int=(rx_data[1]<<8)|rx_data[2];
 	  motor->v_int=(rx_data[3]<<4)|(rx_data[4]>>4);
 	  motor->t_int=((rx_data[4]&0xF)<<8)|rx_data[5];
-	  motor->pos = uint_to_float(motor->p_int, P_MIN, P_MAX, 16); // 
-	  motor->vel = uint_to_float(motor->v_int, V_MIN, V_MAX, 12); // 
-	  motor->tor = uint_to_float(motor->t_int, T_MIN, T_MAX, 12);  // 
+		if(motor->type == DM4310){
+			motor->pos = uint_to_float(motor->p_int, P_MIN_4310, P_MAX_4310, 16); // 
+			motor->vel = uint_to_float(motor->v_int, V_MIN_4310, V_MAX_4310, 12); // 
+			motor->tor = uint_to_float(motor->t_int, T_MIN_4310, T_MAX_4310, 12);  // 
+		}
+		else if(motor->type == DM4340){
+			motor->pos = uint_to_float(motor->p_int, P_MIN_4340, P_MAX_4340, 16); // 
+			motor->vel = uint_to_float(motor->v_int, V_MIN_4340, V_MAX_4340, 12); // 
+			motor->tor = uint_to_float(motor->t_int, T_MIN_4340, T_MAX_4340, 12);  // 		
+		}
+	  
 		EventRecord2(0x01, rx_data[0]&0x0F, motor->vel);
 		//printf("ID: %d Velocity: %0.2f\r\n", (rx_data[0])&0x0F, motor->vel);
 	  motor->Tmos = (float)(rx_data[6]);
@@ -78,12 +86,12 @@ void enable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id)
 }
 /**
 ************************************************************************
-* @brief:      	disable_motor_mode: ½ûÓÃµç»úÄ£Ê½º¯Êý
-* @param[in]:   hcan:     Ö¸ÏòCAN_HandleTypeDef½á¹¹µÄÖ¸Õë
-* @param[in]:   motor_id: µç»úID£¬Ö¸¶¨Ä¿±êµç»ú
-* @param[in]:   mode_id:  Ä£Ê½ID£¬Ö¸¶¨Òª½ûÓÃµÄÄ£Ê½
+* @brief:      	disable_motor_mode: ï¿½ï¿½ï¿½Ãµï¿½ï¿½Ä£Ê½ï¿½ï¿½ï¿½ï¿½
+* @param[in]:   hcan:     Ö¸ï¿½ï¿½CAN_HandleTypeDefï¿½á¹¹ï¿½ï¿½Ö¸ï¿½ï¿½
+* @param[in]:   motor_id: ï¿½ï¿½ï¿½IDï¿½ï¿½Ö¸ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½
+* @param[in]:   mode_id:  Ä£Ê½IDï¿½ï¿½Ö¸ï¿½ï¿½Òªï¿½ï¿½ï¿½Ãµï¿½Ä£Ê½
 * @retval:     	void
-* @details:    	Í¨¹ýCAN×ÜÏßÏòÌØ¶¨µç»ú·¢ËÍ½ûÓÃÌØ¶¨Ä£Ê½µÄÃüÁî
+* @details:    	Í¨ï¿½ï¿½CANï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í½ï¿½ï¿½ï¿½ï¿½Ø¶ï¿½Ä£Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 ************************************************************************
 **/
 void disable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id)
@@ -105,29 +113,38 @@ void disable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id)
 
 /**
 ************************************************************************
-* @brief:      	mit_ctrl: MITÄ£Ê½ÏÂµÄµç»ú¿ØÖÆº¯Êý
-* @param[in]:   hcan:			Ö¸ÏòCAN_HandleTypeDef½á¹¹µÄÖ¸Õë£¬ÓÃÓÚÖ¸¶¨CAN×ÜÏß
-* @param[in]:   motor_id:	µç»úID£¬Ö¸¶¨Ä¿±êµç»ú
-* @param[in]:   pos:			Î»ÖÃ¸ø¶¨Öµ
-* @param[in]:   vel:			ËÙ¶È¸ø¶¨Öµ
-* @param[in]:   kp:				Î»ÖÃ±ÈÀýÏµÊý
-* @param[in]:   kd:				Î»ÖÃÎ¢·ÖÏµÊý
-* @param[in]:   torq:			×ª¾Ø¸ø¶¨Öµ
+* @brief:      	mit_ctrl: MITÄ£Ê½ï¿½ÂµÄµï¿½ï¿½ï¿½ï¿½ï¿½Æºï¿½ï¿½ï¿½
+* @param[in]:   hcan:			Ö¸ï¿½ï¿½CAN_HandleTypeDefï¿½á¹¹ï¿½ï¿½Ö¸ï¿½ë£¬ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½CANï¿½ï¿½ï¿½ï¿½
+* @param[in]:   motor_id:	ï¿½ï¿½ï¿½IDï¿½ï¿½Ö¸ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½
+* @param[in]:   pos:			Î»ï¿½Ã¸ï¿½ï¿½ï¿½Öµ
+* @param[in]:   vel:			ï¿½Ù¶È¸ï¿½ï¿½ï¿½Öµ
+* @param[in]:   kp:				Î»ï¿½Ã±ï¿½ï¿½ï¿½Ïµï¿½ï¿½
+* @param[in]:   kd:				Î»ï¿½ï¿½Î¢ï¿½ï¿½Ïµï¿½ï¿½
+* @param[in]:   torq:			×ªï¿½Ø¸ï¿½ï¿½ï¿½Öµ
 * @retval:     	void
-* @details:    	Í¨¹ýCAN×ÜÏßÏòµç»ú·¢ËÍMITÄ£Ê½ÏÂµÄ¿ØÖÆÖ¡¡£
+* @details:    	Í¨ï¿½ï¿½CANï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½MITÄ£Ê½ï¿½ÂµÄ¿ï¿½ï¿½ï¿½Ö¡ï¿½ï¿½
 ************************************************************************
 **/
+extern OpenArm_t arm;
 void mit_ctrl(hcan_t* hcan, uint16_t motor_id, float pos, float vel,float kp, float kd, float torq)
 {
 	uint8_t data[8];
 	uint16_t pos_tmp,vel_tmp,kp_tmp,kd_tmp,tor_tmp;
 	uint16_t id = motor_id + MIT_MODE;
-
-	pos_tmp = float_to_uint(pos,  P_MIN,  P_MAX,  16);
-	vel_tmp = float_to_uint(vel,  V_MIN,  V_MAX,  12);
-	kp_tmp  = float_to_uint(kp,   KP_MIN, KP_MAX, 12);
-	kd_tmp  = float_to_uint(kd,   KD_MIN, KD_MAX, 12);
-	tor_tmp = float_to_uint(torq, T_MIN,  T_MAX,  12);
+	if(arm.motors[motor_id-1].type == DM4310){
+		pos_tmp = float_to_uint(pos,  P_MIN_4310, P_MAX_4310,  16);
+		vel_tmp = float_to_uint(vel,  V_MIN_4310,  V_MAX_4310,  12);
+		kp_tmp  = float_to_uint(kp,   KP_MIN_4310, KP_MAX_4310, 12);
+		kd_tmp  = float_to_uint(kd,   KD_MIN_4310, KD_MAX_4310, 12);
+		tor_tmp = float_to_uint(torq, T_MIN_4310,  T_MAX_4310,  12);
+	}
+	else if(arm.motors[motor_id-1].type == DM4340){
+		pos_tmp = float_to_uint(pos,  P_MIN_4340,  P_MAX_4340,  16);
+		vel_tmp = float_to_uint(vel,  V_MIN_4340,  V_MAX_4340,  12);
+		kp_tmp  = float_to_uint(kp,   KP_MIN_4340, KP_MAX_4340, 12);
+		kd_tmp  = float_to_uint(kd,   KD_MIN_4340, KD_MAX_4340, 12);
+		tor_tmp = float_to_uint(torq, T_MIN_4340,  T_MAX_4340,  12);	
+	}
 
 	data[0] = (pos_tmp >> 8);
 	data[1] = pos_tmp;
@@ -142,12 +159,12 @@ void mit_ctrl(hcan_t* hcan, uint16_t motor_id, float pos, float vel,float kp, fl
 }
 /**
 ************************************************************************
-* @brief:      	pos_speed_ctrl: Î»ÖÃËÙ¶È¿ØÖÆº¯Êý
-* @param[in]:   hcan:			Ö¸ÏòCAN_HandleTypeDef½á¹¹µÄÖ¸Õë£¬ÓÃÓÚÖ¸¶¨CAN×ÜÏß
-* @param[in]:   motor_id:	µç»úID£¬Ö¸¶¨Ä¿±êµç»ú
-* @param[in]:   vel:			ËÙ¶È¸ø¶¨Öµ
+* @brief:      	pos_speed_ctrl: Î»ï¿½ï¿½ï¿½Ù¶È¿ï¿½ï¿½Æºï¿½ï¿½ï¿½
+* @param[in]:   hcan:			Ö¸ï¿½ï¿½CAN_HandleTypeDefï¿½á¹¹ï¿½ï¿½Ö¸ï¿½ë£¬ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½CANï¿½ï¿½ï¿½ï¿½
+* @param[in]:   motor_id:	ï¿½ï¿½ï¿½IDï¿½ï¿½Ö¸ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½
+* @param[in]:   vel:			ï¿½Ù¶È¸ï¿½ï¿½ï¿½Öµ
 * @retval:     	void
-* @details:    	Í¨¹ýCAN×ÜÏßÏòµç»ú·¢ËÍÎ»ÖÃËÙ¶È¿ØÖÆÃüÁî
+* @details:    	Í¨ï¿½ï¿½CANï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½Ù¶È¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 ************************************************************************
 **/
 void pos_speed_ctrl(hcan_t* hcan,uint16_t motor_id, float pos, float vel)
@@ -174,12 +191,12 @@ void pos_speed_ctrl(hcan_t* hcan,uint16_t motor_id, float pos, float vel)
 }
 /**
 ************************************************************************
-* @brief:      	speed_ctrl: ËÙ¶È¿ØÖÆº¯Êý
-* @param[in]:   hcan: 		Ö¸ÏòCAN_HandleTypeDef½á¹¹µÄÖ¸Õë£¬ÓÃÓÚÖ¸¶¨CAN×ÜÏß
-* @param[in]:   motor_id: µç»úID£¬Ö¸¶¨Ä¿±êµç»ú
-* @param[in]:   vel: 			ËÙ¶È¸ø¶¨Öµ
+* @brief:      	speed_ctrl: ï¿½Ù¶È¿ï¿½ï¿½Æºï¿½ï¿½ï¿½
+* @param[in]:   hcan: 		Ö¸ï¿½ï¿½CAN_HandleTypeDefï¿½á¹¹ï¿½ï¿½Ö¸ï¿½ë£¬ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½CANï¿½ï¿½ï¿½ï¿½
+* @param[in]:   motor_id: ï¿½ï¿½ï¿½IDï¿½ï¿½Ö¸ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½
+* @param[in]:   vel: 			ï¿½Ù¶È¸ï¿½ï¿½ï¿½Öµ
 * @retval:     	void
-* @details:    	Í¨¹ýCAN×ÜÏßÏòµç»ú·¢ËÍËÙ¶È¿ØÖÆÃüÁî
+* @details:    	Í¨ï¿½ï¿½CANï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶È¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 ************************************************************************
 **/
 void speed_ctrl(hcan_t* hcan,uint16_t motor_id, float vel)
@@ -199,6 +216,54 @@ void speed_ctrl(hcan_t* hcan,uint16_t motor_id, float vel)
 	canx_send_data(hcan, id, data, 4);
 }
 
+/**
+************************************************************************
+* @brief:      	openarm_init: initializes OpenArm motors with provided parameters
+* @param[in]:   arm:	pointer to OpenArm struct
+* @param[in]:   id[]:	array of slave ids 
+* @param[in]:   motor_type[]: array of motor types, refer to MotorType_t
+* @param[in]:   mode[]: array of motor control modes
+* @retval:     	void
+* @details:    	
+************************************************************************
+**/
+void openarm_init(OpenArm_t *arm, int id[], int master_id[], int mode, int motor_type[]){
+	arm->mode = mode;
+	for(int i = 0; i < NUM_MOTORS; i++){
+		joint_motor_init(&arm->motors[i], id[i], master_id[i], motor_type[i]);
+	}
+}
 
+void openarm_enable(OpenArm_t *arm,  hcan_t *hcan){
+	for(int i = 0; i < NUM_MOTORS; i++){
+		enable_motor_mode(hcan, arm->motors[i].slave_id, arm->mode);
+	}
+}
+
+void openarm_disable(OpenArm_t *arm,  hcan_t *hcan){
+	for(int i = 0; i < NUM_MOTORS; i++){
+		disable_motor_mode(hcan, arm->motors[i].slave_id, arm->mode);
+	}
+}
+
+/**
+************************************************************************
+* @brief:      	move_mit: moves robot arm according to MIT control params
+* @param[in]:   arm:	pointer to OpenArm struct
+* @param[in]:   hcan:	TODO
+* @param[in]:   position[]:	TODO
+* @param[in]:   kp[]: TODO
+* @param[in]:   kd[]: TODO
+* @param[in]:   tau[]: TODO
+* @retval:     	void
+* @details:    	
+************************************************************************
+**/
+void move_mit_all(OpenArm_t *arm, hcan_t *hcan, float position[], float velocity[], float kp[], float kd[], float torque[]){
+	for(int i = 0; i < NUM_MOTORS; i++){
+		mit_ctrl(hcan, arm->motors[i].slave_id, position[i], velocity[i], kp[i], kd[i], torque[i]);
+		while (HAL_FDCAN_GetTxFifoFreeLevel(&hfdcan1) == 0) {}
+	}
+}
 
 

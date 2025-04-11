@@ -728,21 +728,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Control</GroupName>
-          <Files>
-            <File>
-              <FileName>openarm_control.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\User\Control\openarm_control.h</FilePath>
-            </File>
-            <File>
-              <FileName>openarm_control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\Control\openarm_control.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>::CMSIS</GroupName>
         </Group>
         <Group>
