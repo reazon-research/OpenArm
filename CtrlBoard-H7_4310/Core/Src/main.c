@@ -31,7 +31,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "can_bsp.h"
-#include "openarm_control.h"
+#include "dm_drv.h"
 #include "arm_math.h"
 #include <stdio.h>
 #include "EventRecorder.h"
@@ -134,7 +134,7 @@ int main(void)
 	int id[7] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
 	int master_id[7] = {0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17}; 
 	int mode = MIT_MODE;
-	int type[7] = {DM4340, DM4340, DM4340, DM4340, DM4310, DM4310, DM4310};
+	int type[7] = {DM4310, DM4310, DM4310, DM4310, DM4310, DM4310, DM4310};
 	float feedforward_torque = 0.0f;
 
 
@@ -184,8 +184,6 @@ int main(void)
 		last_time = __HAL_TIM_GET_COUNTER(&htim2);
 		//EventRecord2(0x03, positions[0]*100, 0x01);
 
-    
-		
 		if(positions[0] < 1.0f){
 			for (int i = 0; i < 7; i++) {
 				positions[i] += torque_increment;

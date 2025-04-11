@@ -45,7 +45,6 @@
 "stm32h7\can_bsp.o"
 "stm32h7\led_bsp.o"
 "stm32h7\dm_drv.o"
-"stm32h7\openarm_control.o"
 "stm32h7\retarget_io.o"
 "stm32h7\stdout_evr.o"
 "stm32h7\eventrecorder.o"

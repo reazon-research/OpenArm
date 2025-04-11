@@ -38,8 +38,7 @@ stm32h7/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\Core\Inc\dcmi.h ..\Core\Inc\fdcan.h ..\Core\Inc\i2c.h \
   ..\Core\Inc\octospi.h ..\Core\Inc\spi.h ..\Core\Inc\tim.h \
   ..\Core\Inc\usart.h ..\Core\Inc\usb_otg.h ..\Core\Inc\gpio.h \
-  ..\User\bsp\can_bsp.h ..\User\Control\openarm_control.h \
-  ..\User\Devices\DM_Motor\dm_drv.h \
+  ..\User\bsp\can_bsp.h ..\User\Devices\DM_Motor\dm_drv.h \
   ..\Drivers\CMSIS\DSP\Include\arm_math.h \
   ..\Drivers\CMSIS\Include\cmsis_compiler.h \
   C:\Users\lokes\AppData\Local\Arm\Packs\ARM\CMSIS-View\1.2.0\EventRecorder\Include\EventRecorder.h
