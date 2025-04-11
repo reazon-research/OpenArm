@@ -121,7 +121,7 @@ uint8_t canx_send_data(FDCAN_HandleTypeDef *hcan, uint16_t id, uint8_t *data, ui
   TxHeader.TxEventFifoControl =  FDCAN_NO_TX_EVENTS;  
   TxHeader.MessageMarker = 0;//消息标记
 
-   // 发送CAN指令
+   
   if(HAL_FDCAN_AddMessageToTxFifoQ(hcan, &TxHeader, data) != HAL_OK)
   {
        Error_Handler();      
