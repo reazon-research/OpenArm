@@ -4116,7 +4116,7 @@ Removing Unused input sections from the image.
     Removing dm_drv.o(.ARM.exidx.text.enable_motor_mode), (8 bytes).
     Removing dm_drv.o(.text.disable_motor_mode), (36 bytes).
     Removing dm_drv.o(.ARM.exidx.text.disable_motor_mode), (8 bytes).
-    Removing dm_drv.o(.text.change_baudrate), (172 bytes).
+    Removing dm_drv.o(.text.change_baudrate), (180 bytes).
     Removing dm_drv.o(.ARM.exidx.text.change_baudrate), (8 bytes).
     Removing dm_drv.o(.ARM.exidx.text.mit_ctrl), (8 bytes).
     Removing dm_drv.o(.text.pos_speed_ctrl), (74 bytes).
@@ -4166,7 +4166,7 @@ Removing Unused input sections from the image.
     Removing cdrcmple.o(.text), (48 bytes).
     Removing depilogue.o(.text), (186 bytes).
 
-1865 unused section(s) (total 113150 bytes) removed from the image.
+1865 unused section(s) (total 113158 bytes) removed from the image.
 
 ==============================================================================
 
@@ -5282,7 +5282,7 @@ Image component sizes
 
        690         96          0          0        208       7329   can_bsp.o
        350          0          0          0         80       6505   dcmi.o
-       850         32          0          0          0      14415   dm_drv.o
+       850         32          0          0          0      14471   dm_drv.o
       2932          0         24          0       1188      21569   eventrecorder.o
        800          0          0          0        484      12074   fdcan.o
        566          0          0          0          0       3383   gpio.o
@@ -5320,7 +5320,7 @@ Image component sizes
        154          0          0          0       1292       6964   usb_otg.o
 
     ----------------------------------------------------------------------
-     31184        658        932         16       6308     583510   Object Totals
+     31184        658        932         16       6308     583566   Object Totals
          0          0         32          0          0          0   (incl. Generated)
        568         16          0          3         68          0   (incl. Padding)
 
@@ -5366,8 +5366,8 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     32676        734        932         20       6308     583454   Grand Totals
-     32676        734        932         20       6308     583454   ELF Image Totals
+     32676        734        932         20       6308     583510   Grand Totals
+     32676        734        932         20       6308     583510   ELF Image Totals
      32676        734        932         20          0          0   ROM Totals
 
 ==============================================================================
