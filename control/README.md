@@ -27,7 +27,7 @@ This repository provides examples and tools for controlling **DAMIAO motors** th
     ```bash
     sudo apt-get update && sudo apt-get install -y can-utils
     git clone git@github.com:reazon-research/OpenArm.git
-    cd OpenArm/software/arm_control
+    cd OpenArm/control
     pip install -r requirements.txt # being in a virtual environment may help
     ```
 ### Connect Motor to PC
