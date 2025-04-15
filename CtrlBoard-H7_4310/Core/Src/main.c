@@ -44,9 +44,10 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define CONTROL_PERIOD_US 500
+#define CONTROL_PERIOD_US 1000
 #define TOGGLE_PERIOD_US 5000000  // 5 seconds in microseconds
 OpenArm_t arm;
+int received;
 extern float vel_set;
 /* USER CODE END PD */
 
@@ -213,11 +214,10 @@ int main(void)
 //		}
 //		mit_ctrl(&hfdcan1, 1, 0.0, 0.0, 0.0, 0.0, 0.0);
 		if (toggle) {
-				move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
+				move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, one);
 		} else {
 				move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
 		}
-		
 //    printf("TIM2 Counter: %u\n", __HAL_TIM_GET_COUNTER(&htim2));
 //    HAL_Delay(500); // Print every 500ms
     /* USER CODE END WHILE */
