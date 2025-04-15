@@ -44,7 +44,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define CONTROL_PERIOD_US 1000
+#define CONTROL_PERIOD_US 500
 #define TOGGLE_PERIOD_US 5000000  // 5 seconds in microseconds
 OpenArm_t arm;
 extern float vel_set;
@@ -168,7 +168,7 @@ int main(void)
 	uint32_t t_schedule = 0;
 	__HAL_TIM_SET_COUNTER(&htim2, 0);  // Reset timer to avoid drift
 	
-	//change_baudrate(&hfdcan1, 1);
+	//change_baudrate(&hfdcan1, 1, BAUD_1M);
 	
   while (1)
   { 
@@ -198,20 +198,25 @@ int main(void)
 		last_time = __HAL_TIM_GET_COUNTER(&htim2);
 		EventRecord2(0x03, positions[0]*100, 0x01);
 
-		if(positions[0] < 1.0f){
-			for (int i = 0; i < NUM_MOTORS; i++) {
-				positions[i] += torque_increment;
-			}
-			move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, positions);
+//		if(positions[0] < 1.0f){
+//			for (int i = 0; i < NUM_MOTORS; i++) {
+//				positions[i] += torque_increment;
+//			}
+//			move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, positions);
+//		}
+//		else{
+//			if (toggle) {
+//					move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, one);
+//			} else {
+//					move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
+//			}
+//		}
+//		mit_ctrl(&hfdcan1, 1, 0.0, 0.0, 0.0, 0.0, 0.0);
+		if (toggle) {
+				move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
+		} else {
+				move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
 		}
-		else{
-			if (toggle) {
-					move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, one);
-			} else {
-					move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
-			}
-		}
-
 		
 //    printf("TIM2 Counter: %u\n", __HAL_TIM_GET_COUNTER(&htim2));
 //    HAL_Delay(500); // Print every 500ms

@@ -40,6 +40,20 @@ typedef enum
 	DM3507 = 2
 } MotorType_t;
 
+typedef enum {
+    BAUD_125K   = 0,
+    BAUD_200K   = 1,
+    BAUD_250K   = 2,
+    BAUD_500K   = 3,
+    BAUD_1M     = 4,
+    BAUD_2M     = 5,
+    BAUD_2_5M   = 6,
+    BAUD_3_2M   = 7,
+    BAUD_4M     = 8,
+    BAUD_5M     = 9
+} CAN_Baudrate_t;
+
+
 typedef struct
 {
   uint16_t slave_id;
@@ -68,7 +82,7 @@ extern void dm_fbdata(Joint_Motor_t *motor, uint8_t *rx_data,uint32_t data_len);
 
 extern void enable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id);
 extern void disable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id);
-extern void change_baudrate(hcan_t* hcan, uint16_t motor_id);
+extern void change_baudrate(hcan_t* hcan, uint16_t motor_id, uint8_t baudrate);
 
 extern void mit_ctrl(hcan_t* hcan, uint16_t motor_id, float pos, float vel,float kp, float kd, float torq);
 extern void pos_speed_ctrl(hcan_t* hcan,uint16_t motor_id, float pos, float vel);
