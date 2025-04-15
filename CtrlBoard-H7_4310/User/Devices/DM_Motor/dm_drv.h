@@ -37,7 +37,8 @@ typedef enum
 {
 	DM4310 = 0,
 	DM4340 = 1,
-	DM3507 = 2
+	DM3507 = 2,
+	DM8009 = 3
 } MotorType_t;
 
 typedef enum {
