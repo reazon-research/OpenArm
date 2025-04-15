@@ -19,15 +19,18 @@ void FDCAN1_Config(void)
 	sFilterConfig.IdType = FDCAN_STANDARD_ID;
   sFilterConfig.FilterIndex = 0;
   sFilterConfig.FilterType = FDCAN_FILTER_MASK;
-  sFilterConfig.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;
-  sFilterConfig.FilterID1 = 0x11; // 
-  sFilterConfig.FilterID2 = 0x17; // 
+	sFilterConfig.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;
+	sFilterConfig.FilterID1 = 0x00;
+	sFilterConfig.FilterID2 = 0x00;
   if(HAL_FDCAN_ConfigFilter(&hfdcan1, &sFilterConfig) != HAL_OK)
 	{
 		Error_Handler();
 	}
 	
-  if (HAL_FDCAN_ConfigGlobalFilter(&hfdcan1, FDCAN_REJECT, FDCAN_REJECT, FDCAN_FILTER_REMOTE, FDCAN_FILTER_REMOTE) != HAL_OK)
+  if (HAL_FDCAN_ConfigGlobalFilter(&hfdcan1, FDCAN_ACCEPT_IN_RX_FIFO0,
+    FDCAN_ACCEPT_IN_RX_FIFO0,
+    FDCAN_FILTER_REMOTE,
+    FDCAN_FILTER_REMOTE) != HAL_OK)
   {
     Error_Handler();
   }
@@ -36,13 +39,17 @@ void FDCAN1_Config(void)
   {
     Error_Handler();
   }
+	
+	/* Configure and enable Tx Delay Compensation : TdcOffset = DataTimeSeg1*DataPrescaler */
+  HAL_FDCAN_ConfigTxDelayCompensation(&hfdcan1, 18, 0);
+  HAL_FDCAN_EnableTxDelayCompensation(&hfdcan1);
  
-
   /* Start the FDCAN module */
   if (HAL_FDCAN_Start(&hfdcan1) != HAL_OK)
   {
     Error_Handler();
   }
+	
 }
 
 void FDCAN2_Config(void)
@@ -117,10 +124,10 @@ uint8_t canx_send_data(FDCAN_HandleTypeDef *hcan, uint16_t id, uint8_t *data, ui
 											
 	TxHeader.ErrorStateIndicator =  FDCAN_ESI_ACTIVE;
   TxHeader.BitRateSwitch = FDCAN_BRS_ON;//比特率切换关闭，
-  TxHeader.FDFormat =  FDCAN_FD_CAN;            // CAN2.0
+  TxHeader.FDFormat =  FDCAN_FD_CAN;
   TxHeader.TxEventFifoControl =  FDCAN_NO_TX_EVENTS;  
   TxHeader.MessageMarker = 0;//消息标记
-
+	
    
   if(HAL_FDCAN_AddMessageToTxFifoQ(hcan, &TxHeader, data) != HAL_OK)
   {
@@ -157,7 +164,7 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
 			}
 			else
 			{
-					printf("Invalid motor ID: %d (CAN ID: 0x%X)\n\r", motor_id, RxHeader1.Identifier);
+					//printf("Invalid motor ID: %d (CAN ID: 0x%X)\n\r", motor_id, RxHeader1.Identifier);
 			}
 		}			
 	}
