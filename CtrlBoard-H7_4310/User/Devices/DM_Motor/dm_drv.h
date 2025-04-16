@@ -33,12 +33,25 @@
 #define T_MIN_4340 -28.0f
 #define T_MAX_4340 28.0f
 
+//DM8009 limits
+#define P_MIN_8009 -12.5f
+#define P_MAX_8009 12.5f
+#define V_MIN_8009 -45.0f
+#define V_MAX_8009 45.0f
+#define KP_MIN_8009 0.0f
+#define KP_MAX_8009 500.0f
+#define KD_MIN_8009 0.0f
+#define KD_MAX_8009 5.0f
+#define T_MIN_8009 -54.0f
+#define T_MAX_8009 54.0f
+
 typedef enum
 {
 	DM4310 = 0,
 	DM4340 = 1,
-	DM3507 = 2,
-	DM8009 = 3
+	DM8009 = 2,
+	DM3507 = 3
+	
 } MotorType_t;
 
 typedef enum {

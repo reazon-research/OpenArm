@@ -3613,9 +3613,9 @@
       <ActiveTab>10</ActiveTab>
       <Doc>
         <Name>../Core/Src/main.c</Name>
-        <ColumnNumber>5</ColumnNumber>
-        <TopLine>196</TopLine>
-        <CurrentLine>220</CurrentLine>
+        <ColumnNumber>34</ColumnNumber>
+        <TopLine>109</TopLine>
+        <CurrentLine>143</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>
@@ -3650,7 +3650,7 @@
       <Doc>
         <Name>..\User\bsp\can_bsp.c</Name>
         <ColumnNumber>0</ColumnNumber>
-        <TopLine>131</TopLine>
+        <TopLine>133</TopLine>
         <CurrentLine>141</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
@@ -3694,18 +3694,18 @@
       </Doc>
       <Doc>
         <Name>..\User\Devices\DM_Motor\dm_drv.c</Name>
-        <ColumnNumber>0</ColumnNumber>
-        <TopLine>227</TopLine>
-        <CurrentLine>288</CurrentLine>
+        <ColumnNumber>18</ColumnNumber>
+        <TopLine>10</TopLine>
+        <CurrentLine>164</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>
       </Doc>
       <Doc>
         <Name>..\User\Devices\DM_Motor\dm_drv.h</Name>
-        <ColumnNumber>12</ColumnNumber>
-        <TopLine>1</TopLine>
-        <CurrentLine>41</CurrentLine>
+        <ColumnNumber>0</ColumnNumber>
+        <TopLine>7</TopLine>
+        <CurrentLine>47</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>
