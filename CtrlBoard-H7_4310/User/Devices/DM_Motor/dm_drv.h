@@ -45,6 +45,55 @@
 #define T_MIN_8009 -54.0f
 #define T_MAX_8009 54.0f
 
+// full parameter list + details https://github.com/cmjang/DM_Control_Python
+typedef enum {
+    RID_UV_VALUE=0, //Under-voltage value RW
+    RID_KT_VALUE=1, // Torque coefficient RW
+    RID_OT_VALUE=2, // Over-temperature RW
+    RID_OC_VALUE=3,  // Over-current value RW
+    RID_ACC		=4, // Acceleration RW
+    RID_DEC		=5, // Deceleration RW
+    RID_MAX_SPD	=6, // Maximum Speed RW
+    RID_MST_ID	=7, // Feedback ID RW
+    RID_ESC_ID	=8, // Receive ID RW
+    RID_TIMEOUT	=9, // Timeout Alarm Time RW
+    RID_CMODE	=10, // Control Mode RW
+    RID_DAMP	=11, // Motor damping coefficient RW
+    RID_INERTIA =12, // Motor Inertia RO
+    RID_HW_VER	=13, // Reserved RO
+    RID_SW_VER	=14, // Software Version RO
+    RID_SN		=15, // Reserved RO
+    RID_NPP		=16, // Motor Pole Pairs RO
+    RID_RS		=17, // Motor Phase Resistance RO
+    RID_LS		=18, // Motor Phase Inductance RO
+    RID_FLUX	=19, // Motor Flux value RO
+    RID_GR		=20, // Gear Reduction Ratio RO
+    RID_PMAX	=21, // Position Mapping Max RW
+    RID_VMAX	=22, // Speed Mapping Max RW
+    RID_TMAX	=23, // Torque Mapping Max RW
+    RID_I_BW	=24, // Current Loop Bandwidth RW
+    RID_KP_ASR	=25, // Speed Loop Kp RW
+    RID_KI_ASR	=26, // Speed Loop Ki RW
+    RID_KP_APR	=27, // Position Loop Kp RW
+    RID_KI_APR	=28, // Position Loop Ki RW
+    RID_OV_VALUE=29, // Over-voltage Value RW
+    RID_GREF	=30, // Gear Torque Efficiency RW
+    RID_DETA	=31, // Speed Loop Damping Coeff. RW
+    RID_V_BW	=32, // Speed Loop Filter Bandwidth RW
+    RID_IQ_CL	=33, // Current Loop Gain RW
+    RID_VL_CL	=34, // Speed Loop Gain RW
+    RID_CAN_BR	=35, // CAN Baud Rate Code RW
+    RID_SUB_VER	=36, // Sub-version RO
+    RID_U_OFF	=50, // U Phase Offset RO
+    RID_V_OFF	=51, // V Phase Offset RO
+    RID_K1		=52, // Compensation Factor 1 RO
+    RID_K2		=53, // Compensation Factor 2 RO
+    RID_M_OFF	=54, // Angle Offset RO
+    RID_DIR		=55, // Direction RO
+    RID_P_M		=80, // Motor Position RO
+    RID_X_OUT	=81 // Output Shaft Position RO
+} rid_e;
+
 typedef enum
 {
 	DM4310 = 0,

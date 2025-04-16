@@ -45,14 +45,26 @@ void MX_FDCAN1_Init(void)
   hfdcan1.Init.AutoRetransmission = ENABLE;
   hfdcan1.Init.TransmitPause = DISABLE;
   hfdcan1.Init.ProtocolException = ENABLE;
+	
+	// 1 Mbps
   hfdcan1.Init.NominalPrescaler = 4;
-  hfdcan1.Init.NominalSyncJumpWidth = 1;
   hfdcan1.Init.NominalTimeSeg1 = 19;
   hfdcan1.Init.NominalTimeSeg2 = 5;
+	hfdcan1.Init.NominalSyncJumpWidth = 1;
+	
+	// 4 Mbps
+	// hfdcan1.Init.DataPrescaler = 1;
+	// hfdcan1.Init.DataTimeSeg1 = 19;
+	// hfdcan1.Init.DataTimeSeg2 = 5;
+  // hfdcan1.Init.DataSyncJumpWidth = 4;
+
+	// 5 Mbps
   hfdcan1.Init.DataPrescaler = 1;
-  hfdcan1.Init.DataSyncJumpWidth = 1;
-  hfdcan1.Init.DataTimeSeg1 = 15;
-  hfdcan1.Init.DataTimeSeg2 = 4;
+  hfdcan1.Init.DataTimeSeg1 = 16;
+  hfdcan1.Init.DataTimeSeg2 = 3;
+	hfdcan1.Init.DataSyncJumpWidth = 2;
+	
+	
   hfdcan1.Init.MessageRAMOffset = 0;
   hfdcan1.Init.StdFiltersNbr = 5;
   hfdcan1.Init.ExtFiltersNbr = 5;
