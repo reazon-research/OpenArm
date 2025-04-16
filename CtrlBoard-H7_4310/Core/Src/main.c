@@ -218,8 +218,9 @@ int main(void)
 		} else {
 				move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
 		}
-//    printf("TIM2 Counter: %u\n", __HAL_TIM_GET_COUNTER(&htim2));
-//    HAL_Delay(500); // Print every 500ms
+		
+		//    printf("TIM2 Counter: %u\n", __HAL_TIM_GET_COUNTER(&htim2));
+		//    HAL_Delay(500); // Print every 500ms
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
