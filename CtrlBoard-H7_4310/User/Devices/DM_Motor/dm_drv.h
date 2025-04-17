@@ -32,6 +32,13 @@
 
 //DM3507 limits - ???
 
+typedef union
+{
+	float f_val;
+	uint32_t u_val;
+	uint8_t b_val[4];
+}float_type_u;
+
 // full parameter list + details - https://github.com/cmjang/DM_Control_Python
 typedef enum {
     RID_UV_VALUE=0, //Under-voltage value RW
@@ -104,6 +111,94 @@ typedef enum {
 
 typedef struct
 {
+	uint8_t read_flag;     // Flag indicating a read operation
+	uint8_t write_flag;    // Flag indicating a write operation
+	uint8_t save_flag;     // Flag indicating save-to-flash requested
+
+	// Motor protection & performance thresholds
+	float UV_Value;        // Under-voltage threshold [V] (RW)
+	float KT_Value;        // Torque coefficient (Nm/A) (RW)
+	float OT_Value;        // Over-temperature threshold [°C] (RW)
+	float OC_Value;        // Over-current threshold [A] (RW)
+	
+	// Motion profile parameters
+	float ACC;             // Acceleration [rad/s²] (RW)
+	float DEC;             // Deceleration [rad/s²] (RW)
+	float MAX_SPD;         // Maximum speed [rad/s] (RW)
+
+	// CAN communication settings
+	uint32_t MST_ID;       // CAN ID used for feedback (RW)
+	uint32_t ESC_ID;       // CAN ID used for receiving commands (RW)
+	uint32_t TIMEOUT;      // Timeout alarm threshold [ms] (RW)
+	uint32_t cmode;        // Control mode (e.g., torque, speed, position) (RW)
+
+	// Mechanical model
+	float Damp;            // Motor damping coefficient (RW)
+	float Inertia;         // Motor inertia [kg·m²] (RO)
+
+	// Device info
+	uint32_t hw_ver;       // Hardware version (RO/reserved)
+	uint32_t sw_ver;       // Software version (RO)
+	uint32_t SN;           // Serial number (RO/reserved)
+
+	// Motor electrical parameters
+	uint32_t NPP;          // Number of pole pairs (RO)
+	float Rs;              // Phase resistance [O] (RO)
+	float Ls;              // Phase inductance [H] (RO)
+	float Flux;            // Motor flux [Wb] (RO)
+
+	// Mechanical configuration
+	float Gr;              // Gear reduction ratio (RO)
+
+	// Control mapping limits
+	float PMAX;            // Max position range [rad] (RW)
+	float VMAX;            // Max speed range [rad/s] (RW)
+	float TMAX;            // Max torque range [Nm] (RW)
+
+	// Control loop tuning
+	float I_BW;            // Current loop bandwidth [Hz] (RW)
+	float KP_ASR;          // Speed loop proportional gain (Kp) (RW)
+	float KI_ASR;          // Speed loop integral gain (Ki) (RW)
+	float KP_APR;          // Position loop proportional gain (Kp) (RW)
+	float KI_APR;          // Position loop integral gain (Ki) (RW)
+
+	// Power protection
+	float OV_Value;        // Over-voltage threshold [V] (RW)
+
+	// Advanced control parameters
+	float GREF;            // Gear torque efficiency (RW)
+	float Deta;            // Speed loop damping coefficient (RW)
+	float V_BW;            // Speed loop filter bandwidth [Hz] (RW)
+	float IQ_cl;           // Current loop gain (RW)
+	float VL_cl;           // Speed loop gain (RW)
+
+	// Bus settings
+	uint32_t can_br;       // CAN bus baud rate code (RW)
+
+	// Firmware
+	uint32_t sub_ver;      // Software sub-version (RO)
+
+    // Phase offset calibration
+	float u_off;           // U-phase offset (RO)
+	float v_off;           // V-phase offset (RO)
+
+    // Compensation factors
+	float k1;              // Compensation factor 1 (RO)
+	float k2;              // Compensation factor 2 (RO)
+
+    // Offset and direction
+	float m_off;           // Angle offset [rad] (RO)
+	float dir;             // Motor direction flag (RO)
+
+    // Real-time motor feedback
+	float p_m;             // Actual motor rotor position [rad] (RO)
+	float x_out;           // Output shaft position after gear [rad] (RO)
+
+} esc_inf_t;
+
+
+typedef struct
+{
   uint16_t slave_id;
 	uint16_t master_id;
 	MotorType_t type;
@@ -119,10 +214,7 @@ typedef struct
 	float Tmos;
 	float Tcoil;
 	
-	// motor limits
-	float PMAX; 
-  float VMAX;		
-  float TMAX;
+	esc_inf_t tmp;
 }Joint_Motor_t;
 
 typedef struct 
@@ -136,6 +228,8 @@ extern void dm_fbdata(Joint_Motor_t *motor, uint8_t *rx_data,uint32_t data_len);
 extern void read_motor_data(uint16_t id, uint8_t rid);
 extern void change_motor_data(uint16_t id, uint8_t rid, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3);
 extern void write_motor_data(uint16_t id);
+
+extern void receive_motor_data(uint16_t motor_id, uint8_t *data);
 
 extern void enable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id);
 extern void disable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id);
