@@ -75,6 +75,15 @@ void dm_fbdata(Joint_Motor_t *motor, uint8_t *rx_data,uint32_t data_len)
 
 }
 
+/**
+************************************************************************
+* @brief:      	enable_motor_mode: enables motor
+* @param[in]:   hcan: handler for CANFD interface
+* @param[in]:   motor_id: slave id of motor to disable
+* @param[in]:   mode_id: the mode id defined in dm_drv.h
+* @retval:     	void
+************************************************************************
+**/
 void enable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id)
 {
 	uint8_t data[8];
@@ -93,7 +102,7 @@ void enable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id)
 }
 /**
 ************************************************************************
-* @brief:      	disable_motor_mode: disables mode on desired motor
+* @brief:      	disable_motor_mode: disables motor
 * @param[in]:   hcan: handler for CANFD interface
 * @param[in]:   motor_id: slave id of motor to disable
 * @param[in]:   mode_id: the mode id defined in dm_drv.h
@@ -113,6 +122,30 @@ void disable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id)
 	data[5] = 0xFF;
 	data[6] = 0xFF;
 	data[7] = 0xFD;
+	
+	canx_send_data(hcan, id, data, 8);
+}
+/**
+************************************************************************
+* @brief:      	set_zero_position: sets current position of motors as zero position
+* @param[in]:   hcan: handler for CANFD interface
+* @param[in]:   motor_id: slave id of motor to disable
+* @param[in]:   mode_id: the mode id defined in dm_drv.h
+* @retval:     	void
+************************************************************************
+**/
+void set_zero_position(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id){
+	uint8_t data[8];
+	uint16_t id = motor_id + mode_id;
+	
+	data[0] = 0xFF;
+	data[1] = 0xFF;
+	data[2] = 0xFF;
+	data[3] = 0xFF;
+	data[4] = 0xFF;
+	data[5] = 0xFF;
+	data[6] = 0xFF;
+	data[7] = 0xFE;
 	
 	canx_send_data(hcan, id, data, 8);
 }
