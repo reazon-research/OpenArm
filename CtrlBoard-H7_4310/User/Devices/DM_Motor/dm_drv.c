@@ -83,6 +83,32 @@ void dm_fbdata(Joint_Motor_t *motor, uint8_t *rx_data,uint32_t data_len)
 
 }
 
+void read_motor_data(uint16_t id, uint8_t rid)
+{
+	uint8_t can_id_l = id & 0x0F;
+	uint8_t can_id_h = (id >> 4) & 0x0F;
+	
+	uint8_t data[8] = {can_id_l, can_id_h, 0x33, rid, 0x00, 0x00, 0x00, 0x00};
+	canx_send_data(&hfdcan1, 0x7FF, data, 8);
+}
+
+void change_motor_data(uint16_t id, uint8_t rid, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3)
+{
+	uint8_t can_id_l = id & 0xFF;
+  uint8_t can_id_h = (id >> 8) & 0x07; 
+	uint8_t data[8] = {can_id_l, can_id_h, 0x55, rid, d0, d1, d2, d3};
+	canx_send_data(&hfdcan1, 0x7FF, data, 8);
+}
+
+void write_motor_data(uint16_t id)
+{
+	uint8_t can_id_l = id & 0xFF;
+  uint8_t can_id_h = (id >> 8) & 0x07;
+	
+	uint8_t data[8] = {can_id_l, can_id_h, 0xAA, 0x00, 0x00, 0x00, 0x00, 0x00};
+	canx_send_data(&hfdcan1, 0x7FF, data, 8);
+}
+
 /**
 ************************************************************************
 * @brief:      	enable_motor_mode: enables motor
