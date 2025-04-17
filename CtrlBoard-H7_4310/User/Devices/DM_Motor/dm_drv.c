@@ -36,6 +36,28 @@ void joint_motor_init(Joint_Motor_t *motor,uint16_t id, uint16_t master_id, uint
 	motor->slave_id=id;
 	motor->master_id=master_id;
 	motor->type = type;
+	switch(motor->type)
+		{
+			case DM4310:
+				motor->PMAX = P_MAX_4310;
+				motor->VMAX = V_MAX_4310;
+				motor->TMAX = T_MAX_4310;
+				break;
+			case DM4340:
+				motor->PMAX = P_MAX_4340;
+				motor->VMAX = V_MAX_4340;
+				motor->TMAX = T_MAX_4340;
+				break;
+			case DM8009:
+				motor->PMAX = P_MAX_8009;
+				motor->VMAX = V_MAX_8009;
+				motor->TMAX = T_MAX_8009;
+				break;
+			case DM3507:
+			default: 
+				break;
+		}
+	
 }
 
 // feedback message callback function
@@ -50,23 +72,9 @@ void dm_fbdata(Joint_Motor_t *motor, uint8_t *rx_data,uint32_t data_len)
 	  motor->p_int=(rx_data[1]<<8)|rx_data[2];
 	  motor->v_int=(rx_data[3]<<4)|(rx_data[4]>>4);
 	  motor->t_int=((rx_data[4]&0xF)<<8)|rx_data[5];
-		switch(motor->type)
-		{
-			case DM4310:
-				motor->pos = uint_to_float(motor->p_int, P_MIN_4310, P_MAX_4310, 16); // 
-				motor->vel = uint_to_float(motor->v_int, V_MIN_4310, V_MAX_4310, 12); // 
-				motor->tor = uint_to_float(motor->t_int, T_MIN_4310, T_MAX_4310, 12);  // 
-			case DM4340:
-				motor->pos = uint_to_float(motor->p_int, P_MIN_4340, P_MAX_4340, 16); // 
-				motor->vel = uint_to_float(motor->v_int, V_MIN_4340, V_MAX_4340, 12); // 
-				motor->tor = uint_to_float(motor->t_int, T_MIN_4340, T_MAX_4340, 12);  // 		
-			case DM8009:
-				motor->pos = uint_to_float(motor->p_int, P_MIN_8009, P_MAX_8009, 16); // 
-				motor->vel = uint_to_float(motor->v_int, V_MIN_8009, V_MAX_8009, 12); // 
-				motor->tor = uint_to_float(motor->t_int, T_MIN_8009, T_MAX_8009, 12);  // 		
-			case DM3507:
-			default: break;
-		}
+		motor->pos = uint_to_float(motor->p_int, -motor->PMAX, motor->PMAX, 16); // 
+		motor->vel = uint_to_float(motor->v_int, -motor->VMAX, motor->VMAX, 12); // 
+		motor->tor = uint_to_float(motor->t_int, -motor->TMAX, motor->TMAX, 12);  // 
 	  
 		//EventRecord2(0x01, rx_data[0]&0x0F, motor->vel);
 		//printf("ID: %d Velocity: %0.2f\r\n", (rx_data[0])&0x0F, motor->vel);
@@ -134,9 +142,9 @@ void disable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id)
 * @retval:     	void
 ************************************************************************
 **/
-void set_zero_position(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id){
+void set_zero_position(hcan_t* hcan, uint16_t motor_id){
 	uint8_t data[8];
-	uint16_t id = motor_id + mode_id;
+	uint16_t id = motor_id;
 	
 	data[0] = 0xFF;
 	data[1] = 0xFF;
@@ -194,38 +202,17 @@ void change_baudrate(hcan_t* hcan, uint16_t motor_id, uint8_t baudrate){
 extern OpenArm_t arm;
 void mit_ctrl(hcan_t* hcan, uint16_t motor_id, float pos, float vel,float kp, float kd, float torq)
 {
+	Joint_Motor_t motor = arm.motors[motor_id-1];
 	uint8_t data[8];
 	uint16_t pos_tmp,vel_tmp,kp_tmp,kd_tmp,tor_tmp;
 	uint16_t id = motor_id + MIT_MODE;
 	
-	switch(arm.motors[motor_id-1].type)
-	{
-		case DM4310:
-			pos_tmp = float_to_uint(pos,  P_MIN_4310, P_MAX_4310,  16);
-			vel_tmp = float_to_uint(vel,  V_MIN_4310,  V_MAX_4310,  12);
-			kp_tmp  = float_to_uint(kp,   KP_MIN_4310, KP_MAX_4310, 12);
-			kd_tmp  = float_to_uint(kd,   KD_MIN_4310, KD_MAX_4310, 12);
-			tor_tmp = float_to_uint(torq, T_MIN_4310,  T_MAX_4310,  12);
-			break;
-		case DM4340:
-			pos_tmp = float_to_uint(pos,  P_MIN_4340,  P_MAX_4340,  16);
-			vel_tmp = float_to_uint(vel,  V_MIN_4340,  V_MAX_4340,  12);
-			kp_tmp  = float_to_uint(kp,   KP_MIN_4340, KP_MAX_4340, 12);
-			kd_tmp  = float_to_uint(kd,   KD_MIN_4340, KD_MAX_4340, 12);
-			tor_tmp = float_to_uint(torq, T_MIN_4340,  T_MAX_4340,  12);	
-			break;
-		case DM8009:
-			pos_tmp = float_to_uint(pos,  P_MIN_8009,  P_MAX_8009,  16);
-			vel_tmp = float_to_uint(vel,  V_MIN_8009,  V_MAX_8009,  12);
-			kp_tmp  = float_to_uint(kp,   KP_MIN_8009, KP_MAX_8009, 12);
-			kd_tmp  = float_to_uint(kd,   KD_MIN_8009, KD_MAX_8009, 12);
-			tor_tmp = float_to_uint(torq, T_MIN_8009,  T_MAX_8009,  12);	
-			break;
-		case DM3507:
-			break;
-		default: printf("Motor type is invalid\n"); return;
-	}
-
+	pos_tmp = float_to_uint(pos, -motor.PMAX, motor.PMAX, 16); // 
+	vel_tmp = float_to_uint(vel, -motor.VMAX, motor.VMAX, 12); // 
+	tor_tmp = float_to_uint(torq, -motor.TMAX, motor.TMAX, 12);  // 
+	kp_tmp  = float_to_uint(kp, KP_MIN, KP_MAX, 12);
+	kd_tmp  = float_to_uint(kd, KD_MIN, KD_MAX, 12);
+	
 	data[0] = (pos_tmp >> 8);
 	data[1] = pos_tmp;
 	data[2] = (vel_tmp >> 4);
@@ -246,7 +233,7 @@ void mit_ctrl(hcan_t* hcan, uint16_t motor_id, float pos, float vel,float kp, fl
 * @retval:     	void
 ************************************************************************
 **/
-void pos_speed_ctrl(hcan_t* hcan,uint16_t motor_id, float pos, float vel)
+void pos_speed_ctrl(hcan_t* hcan, uint16_t motor_id, float pos, float vel)
 {
 	uint16_t id;
 	uint8_t *pbuf, *vbuf;

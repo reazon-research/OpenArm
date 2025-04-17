@@ -9,41 +9,28 @@
 #define SPEED_MODE 0x200
 #define NUM_MOTORS 8
 
+// Coefficient limits
+#define KP_MIN 0.0f
+#define KP_MAX 500.0f
+#define KD_MIN 0.0f
+#define KD_MAX 5.0f
+
 //DM4310 limits
-#define P_MIN_4310 -12.5f
 #define P_MAX_4310 12.5f
-#define V_MIN_4310 -30.0f
 #define V_MAX_4310 30.0f
-#define KP_MIN_4310 0.0f
-#define KP_MAX_4310 500.0f
-#define KD_MIN_4310 0.0f
-#define KD_MAX_4310 5.0f
-#define T_MIN_4310 -10.0f
 #define T_MAX_4310 10.0f
 
 //DM4340 limits
-#define P_MIN_4340 -12.5f
 #define P_MAX_4340 12.5f
-#define V_MIN_4340 -8.0f
 #define V_MAX_4340 8.0f
-#define KP_MIN_4340 0.0f
-#define KP_MAX_4340 500.0f
-#define KD_MIN_4340 0.0f
-#define KD_MAX_4340 5.0f
-#define T_MIN_4340 -28.0f
 #define T_MAX_4340 28.0f
 
 //DM8009 limits
-#define P_MIN_8009 -12.5f
 #define P_MAX_8009 12.5f
-#define V_MIN_8009 -45.0f
 #define V_MAX_8009 45.0f
-#define KP_MIN_8009 0.0f
-#define KP_MAX_8009 500.0f
-#define KD_MIN_8009 0.0f
-#define KD_MAX_8009 5.0f
-#define T_MIN_8009 -54.0f
 #define T_MAX_8009 54.0f
+
+//DM3507 limits - ???
 
 // full parameter list + details - https://github.com/cmjang/DM_Control_Python
 typedef enum {
@@ -131,7 +118,12 @@ typedef struct
 
 	float Tmos;
 	float Tcoil;
-}Joint_Motor_t ;
+	
+	// motor limits
+	float PMAX; 
+  float VMAX;		
+  float TMAX;
+}Joint_Motor_t;
 
 typedef struct 
 {
@@ -143,7 +135,7 @@ extern void dm_fbdata(Joint_Motor_t *motor, uint8_t *rx_data,uint32_t data_len);
 
 extern void enable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id);
 extern void disable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id);
-extern void set_zero_position(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id);
+extern void set_zero_position(hcan_t* hcan, uint16_t motor_id);
 extern void change_baudrate(hcan_t* hcan, uint16_t motor_id, uint8_t baudrate);
 
 extern void mit_ctrl(hcan_t* hcan, uint16_t motor_id, float pos, float vel,float kp, float kd, float torq);
