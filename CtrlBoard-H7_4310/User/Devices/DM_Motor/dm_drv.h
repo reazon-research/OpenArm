@@ -45,7 +45,7 @@
 #define T_MIN_8009 -54.0f
 #define T_MAX_8009 54.0f
 
-// full parameter list + details https://github.com/cmjang/DM_Control_Python
+// full parameter list + details - https://github.com/cmjang/DM_Control_Python
 typedef enum {
     RID_UV_VALUE=0, //Under-voltage value RW
     RID_KT_VALUE=1, // Torque coefficient RW
@@ -100,7 +100,6 @@ typedef enum
 	DM4340 = 1,
 	DM8009 = 2,
 	DM3507 = 3
-	
 } MotorType_t;
 
 typedef enum {
@@ -115,7 +114,6 @@ typedef enum {
     BAUD_4M     = 8,
     BAUD_5M     = 9
 } CAN_Baudrate_t;
-
 
 typedef struct
 {
@@ -145,6 +143,7 @@ extern void dm_fbdata(Joint_Motor_t *motor, uint8_t *rx_data,uint32_t data_len);
 
 extern void enable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id);
 extern void disable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id);
+extern void set_zero_position(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id);
 extern void change_baudrate(hcan_t* hcan, uint16_t motor_id, uint8_t baudrate);
 
 extern void mit_ctrl(hcan_t* hcan, uint16_t motor_id, float pos, float vel,float kp, float kd, float torq);
