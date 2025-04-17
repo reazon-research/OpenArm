@@ -28,9 +28,9 @@ void FDCAN1_Config(void)
 	}
 	
   if (HAL_FDCAN_ConfigGlobalFilter(&hfdcan1, FDCAN_ACCEPT_IN_RX_FIFO0,
-    FDCAN_ACCEPT_IN_RX_FIFO0,
-    FDCAN_FILTER_REMOTE,
-    FDCAN_FILTER_REMOTE) != HAL_OK)
+    FDCAN_REJECT,
+    FDCAN_REJECT_REMOTE,
+    FDCAN_REJECT_REMOTE) != HAL_OK)
   {
     Error_Handler();
   }

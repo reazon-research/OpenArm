@@ -214,7 +214,7 @@ int main(void)
 //		}
 //		mit_ctrl(&hfdcan1, 1, 0.0, 0.0, 0.0, 0.0, 0.0);
 		if (toggle) {
-				move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, one);
+				move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
 		} else {
 				move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
 		}
