@@ -234,14 +234,12 @@ extern void receive_motor_data(uint16_t motor_id, uint8_t *data);
 extern void enable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id);
 extern void disable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id);
 extern void set_zero_position(hcan_t* hcan, uint16_t motor_id);
-extern void change_baudrate(hcan_t* hcan, uint16_t motor_id, uint8_t baudrate);
 
 extern void mit_ctrl(hcan_t* hcan, uint16_t motor_id, float pos, float vel,float kp, float kd, float torq);
 extern void pos_speed_ctrl(hcan_t* hcan,uint16_t motor_id, float pos, float vel);
 extern void speed_ctrl(hcan_t* hcan,uint16_t motor_id, float _vel);
 
 extern void joint_motor_init(Joint_Motor_t *motor,uint16_t id, uint16_t master_id, uint16_t type);
-
 	
 extern float Hex_To_Float(uint32_t *Byte,int num);
 extern uint32_t FloatTohex(float HEX);
