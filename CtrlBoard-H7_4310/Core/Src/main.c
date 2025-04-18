@@ -145,7 +145,7 @@ int main(void)
 	for (int i = 0; i < NUM_MOTORS; ++i) {
 		id[i] = i + 1; // 0x01 to 0x08
 		master_id[i] = 0x10 + (i + 1); // 0x11 to 0x18
-		type[i] = DM4310;
+		//type[i] = DM8009;
 		zero[i] = 0.0f;
 		one[i] = 1.0f;
 
@@ -168,8 +168,6 @@ int main(void)
 	uint32_t now = 0;
 	uint32_t t_schedule = 0;
 	__HAL_TIM_SET_COUNTER(&htim2, 0);  // Reset timer to avoid drift
-	
-	//change_baudrate(&hfdcan1, 1, BAUD_1M);
 	
   while (1)
   { 
@@ -227,6 +225,7 @@ int main(void)
   }
 	
 	openarm_disable(&arm, &hfdcan1);
+	
   /* USER CODE END 3 */
 }
 

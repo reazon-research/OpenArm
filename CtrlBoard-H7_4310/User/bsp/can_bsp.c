@@ -28,9 +28,9 @@ void FDCAN1_Config(void)
 	}
 	
   if (HAL_FDCAN_ConfigGlobalFilter(&hfdcan1, FDCAN_ACCEPT_IN_RX_FIFO0,
-    FDCAN_REJECT,
-    FDCAN_REJECT_REMOTE,
-    FDCAN_REJECT_REMOTE) != HAL_OK)
+    FDCAN_ACCEPT_IN_RX_FIFO0,
+    FDCAN_FILTER_REMOTE,
+    FDCAN_FILTER_REMOTE) != HAL_OK)
   {
     Error_Handler();
   }
@@ -190,6 +190,65 @@ void HAL_FDCAN_RxFifo1Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo1ITs)
 			}	
     }
   }
+}
+
+/**
+************************************************************************
+* @brief:      	change_baudrate: sets baudrate to desired baudrate until power cycle
+* @param[in]:   hcan: handler for CANFD interface
+* @param[in]:   motor_id: slave id of motor to change baudrate for
+* @retval:     	void
+* @details:    	use inside FDCAN_Config before HAL_FDCAN_Start
+************************************************************************
+**/
+void set_baudrate(hcan_t* hcan, uint16_t motor_id, uint8_t baudrate, uint8_t mode){
+	if(mode == CAN_CLASS)
+	{
+		disable_motor_mode(&hfdcan1, motor_id, MIT_MODE);
+		read_motor_data(arm.motors[motor_id].slave_id, RID_CAN_BR);
+		HAL_Delay(100);
+		change_motor_data(arm.motors[motor_id].slave_id, RID_CAN_BR, BAUD_1M,0,0,0);
+		HAL_Delay(100);
+		enable_motor_mode(&hfdcan1, motor_id, MIT_MODE);
+		
+		hfdcan1.Init.DataPrescaler = 4;
+		hfdcan1.Init.DataTimeSeg1 = 19;
+		hfdcan1.Init.DataTimeSeg2 = 5;
+		hfdcan1.Init.DataSyncJumpWidth = 1;
+	}
+	else if (mode == CAN_FD_BRS)
+	{
+		disable_motor_mode(&hfdcan1, motor_id, MIT_MODE);
+		read_motor_data(arm.motors[motor_id].slave_id, RID_CAN_BR);
+		HAL_Delay(100);
+		change_motor_data(arm.motors[motor_id].slave_id, RID_CAN_BR, BAUD_5M,0,0,0);
+		HAL_Delay(100);
+		enable_motor_mode(&hfdcan1, motor_id, MIT_MODE);
+		
+		hfdcan1.Init.DataPrescaler = 1;
+		hfdcan1.Init.DataTimeSeg1 = 16;
+		hfdcan1.Init.DataTimeSeg2 = 3;
+		hfdcan1.Init.DataSyncJumpWidth = 2;
+	}
+}
+
+/**
+************************************************************************
+* @brief:      	write_baudrate: changes baudrate to desired baudrate permanently
+* @param[in]:   hcan: handler for CANFD interface
+* @param[in]:   motor_id: slave id of motor to change baudrate for
+* @retval:     	void
+************************************************************************
+**/
+void write_baudrate(hcan_t* hcan, uint16_t motor_id, uint8_t baudrate){
+	disable_motor_mode(&hfdcan1, motor_id, MIT_MODE);
+	read_motor_data(arm.motors[motor_id].slave_id, RID_CAN_BR);
+	HAL_Delay(100);
+	change_motor_data(arm.motors[motor_id].slave_id, RID_CAN_BR, BAUD_5M,0,0,0);
+	HAL_Delay(100);
+	write_motor_data(arm.motors[motor_id].slave_id);
+	HAL_Delay(100);
+	enable_motor_mode(&hfdcan1, motor_id, MIT_MODE);
 }
 
 

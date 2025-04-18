@@ -87,17 +87,17 @@ void dm_fbdata(Joint_Motor_t *motor, uint8_t *rx_data,uint32_t data_len)
 
 void read_motor_data(uint16_t id, uint8_t rid)
 {
-	uint8_t can_id_l = id & 0x0F;
-	uint8_t can_id_h = (id >> 4) & 0x0F;
+	uint8_t can_id_l = id & 0xFF;
+	uint8_t can_id_h = (id >> 4) & 0x07;
 	
-	uint8_t data[8] = {can_id_l, can_id_h, 0x33, rid, 0x00, 0x00, 0x00, 0x00};
-	canx_send_data(&hfdcan1, 0x7FF, data, 8);
+	uint8_t data[4] = {can_id_l, can_id_h, 0x33, rid};
+	canx_send_data(&hfdcan1, 0x7FF, data, 4);
 }
 
 void change_motor_data(uint16_t id, uint8_t rid, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3)
 {
 	uint8_t can_id_l = id & 0xFF;
-  uint8_t can_id_h = (id >> 8) & 0xFF;
+  uint8_t can_id_h = (id >> 8) & 0x07;
 	
 	uint8_t data[8] = {can_id_l, can_id_h, 0x55, rid, d0, d1, d2, d3};
 	canx_send_data(&hfdcan1, 0x7FF, data, 8);
@@ -106,10 +106,10 @@ void change_motor_data(uint16_t id, uint8_t rid, uint8_t d0, uint8_t d1, uint8_t
 void write_motor_data(uint16_t id)
 {
 	uint8_t can_id_l = id & 0xFF;
-  uint8_t can_id_h = (id >> 8) & 0xFF;
+  uint8_t can_id_h = (id >> 8) & 0x07;
 	
-	uint8_t data[8] = {can_id_l, can_id_h, 0xAA, 0x00, 0x00, 0x00, 0x00, 0x00};
-	canx_send_data(&hfdcan1, 0x7FF, data, 8);
+	uint8_t data[4] = {can_id_l, can_id_h, 0xAA, 0x00};
+	canx_send_data(&hfdcan1, 0x7FF, data, 4);
 }
 
 void receive_motor_data(uint16_t motor_id, uint8_t *data)
@@ -252,33 +252,6 @@ void set_zero_position(hcan_t* hcan, uint16_t motor_id){
 	data[7] = 0xFE;
 	
 	canx_send_data(hcan, id, data, 8);
-}
-
-/**
-************************************************************************
-* @brief:      	change_baudrate: changes baudrate to 5Mbps
-* @param[in]:   hcan: handler for CANFD interface
-* @param[in]:   motor_id: slave id of motor to change baudrate for
-* @retval:     	void
-************************************************************************
-**/
-void change_baudrate(hcan_t* hcan, uint16_t motor_id, uint8_t baudrate){
-	uint8_t command1[4] = {0x00, 0x00, 0x33, 0x23};
-	uint8_t command2[8] = {0x00, 0x00, 0x55, 0x23, baudrate, 0x00, 0x00, 0x00};
-	uint8_t command3[4] = {0x00, 0x00, 0xAA, 0x23};
-	// Array of pointers to the commands
-	uint8_t* command_list[3] = {command1, command2, command3};
-	
-	for (int i = 0; i < 3; ++i) {
-				int dlc = (i == 1) ? 8 : 4;  // command 1 (index 1) is 8 bytes, others are 4
-        command_list[i][0] = motor_id;  // replace first byte with motor ID
-        canx_send_data(hcan, 0x7FF, command_list[i], dlc); // assuming standard CAN ID
-        printf("Sent to motor 0x%02X: [", motor_id);
-        for (int j = 0; j < dlc; ++j) printf(" %02X", command_list[i][j]);
-        printf(" ]\n");
-
-        HAL_Delay(10);
-	}
 }
 
 
