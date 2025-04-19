@@ -150,7 +150,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGUARM</Key>
-          <Name>(105=920,-1021,1599,-663,0)</Name>
+          <Name>(105=857,0,1536,358,0)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -240,7 +240,7 @@
         </Mm>
       </MemoryWindow1>
       <ScvdPack>
-        <Filename>C:\Users\lokes\AppData\Local\Arm\Packs\ARM\CMSIS-View\1.2.0\EventRecorder\EventRecorder.scvd</Filename>
+        <Filename>C:\Users\tokiy\AppData\Local\Arm\Packs\ARM\CMSIS-View\1.2.0\EventRecorder\EventRecorder.scvd</Filename>
         <Type>ARM::CMSIS-View@1.2.0</Type>
         <SubType>1</SubType>
       </ScvdPack>
@@ -250,7 +250,7 @@
       <DebugFlag>
         <trace>0</trace>
         <periodic>1</periodic>
-        <aLwin>1</aLwin>
+        <aLwin>0</aLwin>
         <aCover>0</aCover>
         <aSer1>0</aSer1>
         <aSer2>0</aSer2>
@@ -482,7 +482,7 @@
 
   <Group>
     <GroupName>Drivers/STM32H7xx_HAL_Driver</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

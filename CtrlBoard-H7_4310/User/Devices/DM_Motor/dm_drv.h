@@ -7,8 +7,8 @@
 #define MIT_MODE   0x000
 #define POS_MODE   0x100
 #define SPEED_MODE 0x200
-#define NUM_MOTORS 8
-
+// #define NUM_MOTORS 8
+#define NUM_MOTORS 2
 // Coefficient limits
 #define KP_MIN 0.0f
 #define KP_MAX 500.0f
@@ -118,12 +118,12 @@ typedef struct
 	// Motor protection & performance thresholds
 	float UV_Value;        // Under-voltage threshold [V] (RW)
 	float KT_Value;        // Torque coefficient (Nm/A) (RW)
-	float OT_Value;        // Over-temperature threshold [°C] (RW)
+	float OT_Value;        // Over-temperature threshold [ï¿½C] (RW)
 	float OC_Value;        // Over-current threshold [A] (RW)
 	
 	// Motion profile parameters
-	float ACC;             // Acceleration [rad/s²] (RW)
-	float DEC;             // Deceleration [rad/s²] (RW)
+	float ACC;             // Acceleration [rad/sï¿½] (RW)
+	float DEC;             // Deceleration [rad/sï¿½] (RW)
 	float MAX_SPD;         // Maximum speed [rad/s] (RW)
 
 	// CAN communication settings
@@ -134,7 +134,7 @@ typedef struct
 
 	// Mechanical model
 	float Damp;            // Motor damping coefficient (RW)
-	float Inertia;         // Motor inertia [kg·m²] (RO)
+	float Inertia;         // Motor inertia [kgï¿½mï¿½] (RO)
 
 	// Device info
 	uint32_t hw_ver;       // Hardware version (RO/reserved)

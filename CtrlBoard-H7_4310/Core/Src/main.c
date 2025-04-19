@@ -46,7 +46,12 @@
 /* USER CODE BEGIN PD */
 #define CONTROL_PERIOD_US 1000
 #define TOGGLE_PERIOD_US 5000000  // 5 seconds in microseconds
+OpenArm_t arm_l;
+OpenArm_t arm_f;
 OpenArm_t arm;
+
+Joint_Motor_t motor;
+
 int received;
 extern float vel_set;
 /* USER CODE END PD */
@@ -139,6 +144,10 @@ int main(void)
 	float positions[NUM_MOTORS];
 	int mode = MIT_MODE;
 
+  float tau[NUM_MOTORS];
+  float tau_l[NUM_MOTORS];
+  float tau_f[NUM_MOTORS];
+
 	int type[8] = {DM4310, DM4310, DM4310, DM4310, DM4310, DM4310, DM4310, DM4310};
 	float feedforward_torque = 0.0f;
 	
@@ -154,10 +163,55 @@ int main(void)
 
 	
 	float torque_increment = 0.0001f;
-	openarm_init(&arm, id, master_id, mode, type);
-	HAL_Delay(1000);
+
+  int id_l[NUM_MOTORS] = {0x01, 0x02};
+  int master_id_l[NUM_MOTORS] = {0x11, 0x12};
+  int type_l[NUM_MOTORS] = {DM4310, DM4310};
+
+  int id_f[NUM_MOTORS] = {0x01, 0x02};
+  int master_id_f[NUM_MOTORS] = {0x11, 0x12};
+  int type_f[NUM_MOTORS] = {DM4310, DM4310};
+  
+
+	openarm_init(&arm_l, id_l, master_id_l, mode, type_l);
+	openarm_init(&arm_f, id_f, master_id_f, mode, type_f);
+	// openarm_init(&arm, id, master_id, mode, type);
+
+
+	// joint_motor_init(&motor,0x01,0x11,DM4310);
+	// joint_motor_init(&motor,0x02,0x12,DM4310);
+
+	HAL_Delay(500);
 	
-	openarm_enable(&arm, &hfdcan1);
+
+  // enable_motor_mode(&hfdcan1, 0x01, MIT_MODE);
+  // HAL_Delay(200);
+	// printf("enable\n\r");
+  // change_baudrate(&hfdcan1, 0x01, BAUD_5M);
+  // HAL_Delay(200);
+	// printf("change_baudrate\n\r");
+	// disable_motor_mode(&hfdcan1, 0x01, MIT_MODE);
+  // HAL_Delay(200);
+	// printf("disable\n\r");
+
+	// change_baudrate(&hfdcan1, 0x01, BAUD_1M);
+  // HAL_Delay(200);
+	// change_baudrate(&hfdcan1, 0x02, BAUD_1M);
+  // HAL_Delay(200);
+	// change_baudrate(&hfdcan2, 0x01, BAUD_1M);
+  // HAL_Delay(200);
+	// change_baudrate(&hfdcan1, 0x02, BAUD_1M);
+  // HAL_Delay(200);
+
+	// openarm_enable(&arm, &hfdcan1);
+	openarm_enable(&arm_l, &hfdcan1);
+  HAL_Delay(200);
+	openarm_enable(&arm_f, &hfdcan2);
+
+  // enable_motor_mode(&hfdcan1, 0x01, MIT_MODE);
+  // enable_motor_mode(&hfdcan1, 0x02, MIT_MODE);
+
+
 	EventRecorderInitialize(EventRecordAll, 1);
 	HAL_TIM_Base_Start(&htim2);
 	
@@ -177,6 +231,10 @@ int main(void)
 		uint32_t now = __HAL_TIM_GET_COUNTER(&htim2);
     uint32_t elapsed = now - last_time;
 
+    float hz = 1000000.0f / (float)elapsed;
+    // printf("Control loop: %.5f Hz)\n\r", hz);
+
+
     t_schedule += CONTROL_PERIOD_US;
 
     int32_t td = t_schedule - __HAL_TIM_GET_COUNTER(&htim2);
@@ -185,7 +243,6 @@ int main(void)
 				td += 0xFFFFFFFF; // Account for overflow
         while (__HAL_TIM_GET_COUNTER(&htim2) < t_schedule);  // Wait for the required time
         //printf("Control loop took %d us. Waiting for: %d us\n\r", elapsed, td);
-				
     } else {
         printf("WARNING: Control loop overran by %d us!\n", -td);
     }
@@ -199,34 +256,83 @@ int main(void)
 		last_time = __HAL_TIM_GET_COUNTER(&htim2);
 		EventRecord2(0x03, positions[0]*100, 0x01);
 
-//		if(positions[0] < 1.0f){
-//			for (int i = 0; i < NUM_MOTORS; i++) {
-//				positions[i] += torque_increment;
-//			}
-//			move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, positions);
-//		}
-//		else{
-//			if (toggle) {
-//					move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, one);
-//			} else {
-//					move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
-//			}
-//		}
-//		mit_ctrl(&hfdcan1, 1, 0.0, 0.0, 0.0, 0.0, 0.0);
-		if (toggle) {
-				move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
-		} else {
-				move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
-		}
-		
+    //		if(positions[0] < 1.0f){
+    //			for (int i = 0; i < NUM_MOTORS; i++) {
+    //				positions[i] += torque_increment;
+    //			}
+    //			move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, positions);
+    //		}
+    //		else{
+    //			if (toggle) {
+    //					move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, one);
+    //			} else {
+    //					move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
+    //			}
+    //		}
+    //		mit_ctrl(&hfdcan1, 1, 0.0, 0.0, 0.0, 0.0, 0.0);
+        
+		//  if (toggle) {
+		//  		move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
+		//  		// mit_ctrl(&hfdcan1, 0x02,0.0,0,0,0,0);
+		// 	  // printf("send pos 1.0\n\r");
+		//  		// while (HAL_FDCAN_GetTxFifoFreeLevel(&hfdcan1) == 0) {}
+		//  } else {
+		//  		move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
+		//  		// mit_ctrl(&hfdcan1, 0x02,0,0,0,0,0);
+		// 	  // printf("send pos 0.0\n\r");
+		//  		// while (HAL_FDCAN_GetTxFifoFreeLevel(&hfdcan1) == 0) {}
+		//  }
+
+
+    // tau[0] = 10.0*(arm.motors[1].pos - arm.motors[0].pos) + 0.4*(arm.motors[1].vel - arm.motors[0].vel);
+    // tau[1] = 10.0*(arm.motors[0].pos - arm.motors[1].pos) + 0.4*(arm.motors[0].vel - arm.motors[1].vel);
+
+    float kp[NUM_MOTORS] = {2.0f, 2.0f};
+    float kd[NUM_MOTORS] = {0.2f, 0.2f};
+
+    tau_l[0] = 3.0*(arm_f.motors[0].pos - arm_l.motors[0].pos);
+    tau_l[1] = 0;
+
+    tau_f[0] = 3.0*(arm_l.motors[0].pos - arm_f.motors[0].pos);
+    tau_f[1] = 0;
+
+		// move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
+		move_mit_all(&arm_l, &hfdcan1, zero, zero, kp, kd, zero);
+		move_mit_all(&arm_f, &hfdcan2, zero, zero, kp, kd, zero);
+
+    // printf("joint pos 1-1 : %f \n\r", arm_l.motors[0].pos);
+    // printf("joint pos 2-1 : %f \n\r", arm_f.motors[0].pos);
+    // printf("joint pos 1-2 : %f \n\r", arm_l.motors[1].pos);
+    // printf("joint pos 2-2 : %f \n\r", arm_f.motors[1].pos);
+
+    printf("joint pos 1-1 : %f joint pos 1-2 : %f \n\r", arm_l.motors[0].pos,arm_l.motors[1].pos);
+    // printf("joint pos 2-1 : %f joint pos 2-2 : %f \n\r", arm_f.motors[0].pos,arm_f.motors[1].pos);
+
+
+    // // change baudrate to 5000000
+    // enable_motor_mode(&hfdcan1, 0x01, MIT_MODE);
+    // HAL_Delay(1000);
+		// printf("enable\n\r");
+    // change_baudrate(&hfdcan1, 0x01, BAUD_1M);
+    // HAL_Delay(1000);
+		// printf("change_baudrate\n\r");
+	  // disable_motor_mode(&hfdcan1, 0x01, MIT_MODE);
+    // HAL_Delay(1000);
+		// printf("disable\n\r");
+
 		//    printf("TIM2 Counter: %u\n", __HAL_TIM_GET_COUNTER(&htim2));
 		//    HAL_Delay(500); // Print every 500ms
+		
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
   }
 	
-	openarm_disable(&arm, &hfdcan1);
+	//openarm_disable(&arm, &hfdcan1);
+	// disable_motor_mode(&hfdcan1, 0x02, MIT_MODE);
+	openarm_disable(&arm_l, &hfdcan1);
+	openarm_disable(&arm_f, &hfdcan2);
+
   /* USER CODE END 3 */
 }
 

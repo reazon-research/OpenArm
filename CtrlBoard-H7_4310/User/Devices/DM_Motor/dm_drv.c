@@ -59,7 +59,6 @@ void joint_motor_init(Joint_Motor_t *motor,uint16_t id, uint16_t master_id, uint
 			default: 
 				break;
 		}
-	
 }
 
 // feedback message callback function
@@ -316,6 +315,8 @@ void mit_ctrl(hcan_t* hcan, uint16_t motor_id, float pos, float vel,float kp, fl
 	data[5] = (kd_tmp >> 4);
 	data[6] = ((kd_tmp&0xF)<<4)|(tor_tmp>>8);
 	data[7] = tor_tmp;
+
+	// printf("mit ctrl send ID : %d\n\r", id);
 	
 	canx_send_data(hcan, id, data, 8);
 }
@@ -395,12 +396,14 @@ void openarm_init(OpenArm_t *arm, int id[], int master_id[], int mode, int motor
 
 void openarm_enable(OpenArm_t *arm,  hcan_t *hcan){
 	for(int i = 0; i < NUM_MOTORS; i++){
+		HAL_Delay(200);
 		enable_motor_mode(hcan, arm->motors[i].slave_id, arm->mode);
 	}
 }
 
 void openarm_disable(OpenArm_t *arm,  hcan_t *hcan){
 	for(int i = 0; i < NUM_MOTORS; i++){
+		HAL_Delay(200);
 		disable_motor_mode(hcan, arm->motors[i].slave_id, arm->mode);
 	}
 }
@@ -421,7 +424,7 @@ void openarm_disable(OpenArm_t *arm,  hcan_t *hcan){
 void move_mit_all(OpenArm_t *arm, hcan_t *hcan, float position[], float velocity[], float kp[], float kd[], float torque[]){
 	for(int i = 0; i < NUM_MOTORS; i++){
 		mit_ctrl(hcan, arm->motors[i].slave_id, position[i], velocity[i], kp[i], kd[i], torque[i]);
-		while (HAL_FDCAN_GetTxFifoFreeLevel(&hfdcan1) == 0) {}
+		while (HAL_FDCAN_GetTxFifoFreeLevel(hcan) == 0) {}
 	}
 }
 

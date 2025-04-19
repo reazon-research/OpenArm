@@ -39,4 +39,4 @@ stm32h7/dm_drv.o: ..\User\Devices\DM_Motor\dm_drv.c \
   ..\Core\Inc\fdcan.h ..\User\bsp\can_bsp.h \
   ..\Drivers\CMSIS\DSP\Include\arm_math.h \
   ..\Drivers\CMSIS\Include\cmsis_compiler.h \
-  C:\Users\lokes\AppData\Local\Arm\Packs\ARM\CMSIS-View\1.2.0\EventRecorder\Include\EventRecorder.h
+  C:\Users\tokiy\AppData\Local\Arm\Packs\ARM\CMSIS-View\1.2.0\EventRecorder\Include\EventRecorder.h
