@@ -183,7 +183,7 @@ void HAL_FDCAN_RxFifo1Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo1ITs)
       HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO1, &RxHeader2, g_Can2RxData);
 			int id = (g_Can1RxData[0])&0x0F;
 			switch(RxHeader2.Identifier)
-			{ //电机反馈ID为0
+			{
         case 0 :dm_fbdata(&arm.motors[id], g_Can2RxData,RxHeader2.DataLength);break;
 
 				default: break;
@@ -205,30 +205,30 @@ void set_baudrate(hcan_t* hcan, uint16_t motor_id, uint8_t baudrate, uint8_t mod
 	if(mode == CAN_CLASS)
 	{
 		disable_motor_mode(&hfdcan1, motor_id, MIT_MODE);
-		read_motor_data(arm.motors[motor_id].slave_id, RID_CAN_BR);
+		read_motor_data(motor_id, RID_CAN_BR);
 		HAL_Delay(100);
-		change_motor_data(arm.motors[motor_id].slave_id, RID_CAN_BR, BAUD_1M,0,0,0);
+		change_motor_data(motor_id, RID_CAN_BR, BAUD_1M,0,0,0);
 		HAL_Delay(100);
 		enable_motor_mode(&hfdcan1, motor_id, MIT_MODE);
 		
-		hfdcan1.Init.DataPrescaler = 4;
-		hfdcan1.Init.DataTimeSeg1 = 19;
-		hfdcan1.Init.DataTimeSeg2 = 5;
-		hfdcan1.Init.DataSyncJumpWidth = 1;
+		hcan->Init.DataPrescaler = 4;
+		hcan->Init.DataTimeSeg1 = 19;
+		hcan->Init.DataTimeSeg2 = 5;
+		hcan->Init.DataSyncJumpWidth = 1;
 	}
 	else if (mode == CAN_FD_BRS)
 	{
 		disable_motor_mode(&hfdcan1, motor_id, MIT_MODE);
-		read_motor_data(arm.motors[motor_id].slave_id, RID_CAN_BR);
+		read_motor_data(motor_id, RID_CAN_BR);
 		HAL_Delay(100);
-		change_motor_data(arm.motors[motor_id].slave_id, RID_CAN_BR, BAUD_5M,0,0,0);
+		change_motor_data(motor_id, RID_CAN_BR, baudrate,0,0,0);
 		HAL_Delay(100);
 		enable_motor_mode(&hfdcan1, motor_id, MIT_MODE);
 		
-		hfdcan1.Init.DataPrescaler = 1;
-		hfdcan1.Init.DataTimeSeg1 = 16;
-		hfdcan1.Init.DataTimeSeg2 = 3;
-		hfdcan1.Init.DataSyncJumpWidth = 2;
+		hcan->Init.DataPrescaler = 1;
+		hcan->Init.DataTimeSeg1 = 16;
+		hcan->Init.DataTimeSeg2 = 3;
+		hcan->Init.DataSyncJumpWidth = 2;
 	}
 }
 
@@ -242,13 +242,13 @@ void set_baudrate(hcan_t* hcan, uint16_t motor_id, uint8_t baudrate, uint8_t mod
 **/
 void write_baudrate(hcan_t* hcan, uint16_t motor_id, uint8_t baudrate){
 	disable_motor_mode(&hfdcan1, motor_id, MIT_MODE);
-	read_motor_data(arm.motors[motor_id].slave_id, RID_CAN_BR);
+	read_motor_data(motor_id, RID_CAN_BR);
 	HAL_Delay(100);
-	change_motor_data(arm.motors[motor_id].slave_id, RID_CAN_BR, BAUD_5M,0,0,0);
+	change_motor_data(motor_id, RID_CAN_BR, baudrate,0,0,0);
 	HAL_Delay(100);
-	write_motor_data(arm.motors[motor_id].slave_id);
+	write_motor_data(motor_id);
 	HAL_Delay(100);
-	enable_motor_mode(&hfdcan1, motor_id, MIT_MODE);
+	enable_motor_mode(hcan, motor_id, MIT_MODE);
 }
 
 
