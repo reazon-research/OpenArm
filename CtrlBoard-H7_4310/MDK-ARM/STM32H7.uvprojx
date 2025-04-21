@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32H723xx, CMSIS_device_header</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Drivers/CMSIS/DSP/Include;../User/bsp;../User/Devices/DM_Motor;..\User\Control</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Drivers/CMSIS/DSP/Include;../User/bsp;../User/Devices/DM_Motor;..\User\Control;..\User\Motion</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -710,6 +710,11 @@
               <FileType>1</FileType>
               <FilePath>..\User\bsp\led_bsp.c</FilePath>
             </File>
+            <File>
+              <FileName>key_bsp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\bsp\key_bsp.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -724,6 +729,21 @@
               <FileName>dm_drv.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\User\Devices\DM_Motor\dm_drv.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Motion</GroupName>
+          <Files>
+            <File>
+              <FileName>control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Motion\control.c</FilePath>
+            </File>
+            <File>
+              <FileName>control.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\User\Motion\control.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -378,6 +378,12 @@ void openarm_disable(OpenArm_t *arm,  hcan_t *hcan){
 	}
 }
 
+void openarm_set_zero_position(OpenArm_t *arm,  hcan_t *hcan){
+	for(int i = 0; i < NUM_MOTORS; i++){
+		set_zero_position(hcan, arm->motors[i].slave_id);
+	}
+}
+
 /**
 ************************************************************************
 * @brief:      	move_mit: moves OpenArm according to MIT control params
@@ -394,7 +400,7 @@ void openarm_disable(OpenArm_t *arm,  hcan_t *hcan){
 void move_mit_all(OpenArm_t *arm, hcan_t *hcan, float position[], float velocity[], float kp[], float kd[], float torque[]){
 	for(int i = 0; i < NUM_MOTORS; i++){
 		mit_ctrl(hcan, arm->motors[i].slave_id, position[i], velocity[i], kp[i], kd[i], torque[i]);
-		while (HAL_FDCAN_GetTxFifoFreeLevel(&hfdcan1) == 0) {}
+		while (HAL_FDCAN_GetTxFifoFreeLevel(hcan) == 0) {}
 	}
 }
 

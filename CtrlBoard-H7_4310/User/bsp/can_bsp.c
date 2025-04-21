@@ -15,6 +15,7 @@ uint8_t g_Can2RxData[64];
 void FDCAN1_Config(void)
 {
   FDCAN_FilterTypeDef sFilterConfig;
+
   /* Configure Rx filter */	
 	sFilterConfig.IdType = FDCAN_STANDARD_ID;
   sFilterConfig.FilterIndex = 0;
@@ -22,12 +23,14 @@ void FDCAN1_Config(void)
 	sFilterConfig.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;
 	sFilterConfig.FilterID1 = 0x00;
 	sFilterConfig.FilterID2 = 0x00;
+
   if(HAL_FDCAN_ConfigFilter(&hfdcan1, &sFilterConfig) != HAL_OK)
 	{
 		Error_Handler();
 	}
 	
-  if (HAL_FDCAN_ConfigGlobalFilter(&hfdcan1, FDCAN_ACCEPT_IN_RX_FIFO0,
+  if (HAL_FDCAN_ConfigGlobalFilter(&hfdcan1, 
+    FDCAN_ACCEPT_IN_RX_FIFO0,
     FDCAN_ACCEPT_IN_RX_FIFO0,
     FDCAN_FILTER_REMOTE,
     FDCAN_FILTER_REMOTE) != HAL_OK)
@@ -60,8 +63,8 @@ void FDCAN2_Config(void)
   sFilterConfig.FilterIndex = 1;
   sFilterConfig.FilterType = FDCAN_FILTER_MASK;
   sFilterConfig.FilterConfig = FDCAN_FILTER_TO_RXFIFO1;
-  sFilterConfig.FilterID1 = 0x00000000;
-  sFilterConfig.FilterID2 = 0x00000000;
+  sFilterConfig.FilterID1 = 0x00;
+  sFilterConfig.FilterID2 = 0x00;
   if (HAL_FDCAN_ConfigFilter(&hfdcan2, &sFilterConfig) != HAL_OK)
   {
     Error_Handler();
@@ -70,7 +73,11 @@ void FDCAN2_Config(void)
   /* Configure global filter:
      Filter all remote frames with STD and EXT ID
      Reject non matching frames with STD ID and EXT ID */
-  if (HAL_FDCAN_ConfigGlobalFilter(&hfdcan2, FDCAN_REJECT, FDCAN_REJECT, FDCAN_FILTER_REMOTE, FDCAN_FILTER_REMOTE) != HAL_OK)
+  if (HAL_FDCAN_ConfigGlobalFilter(&hfdcan2, 
+  FDCAN_ACCEPT_IN_RX_FIFO1,
+  FDCAN_ACCEPT_IN_RX_FIFO1,
+  FDCAN_FILTER_REMOTE, 
+  FDCAN_FILTER_REMOTE) != HAL_OK)
   {
     Error_Handler();
   }
@@ -80,6 +87,10 @@ void FDCAN2_Config(void)
   {
     Error_Handler();
   }
+	/* Configure and enable Tx Delay Compensation : TdcOffset = DataTimeSeg1*DataPrescaler */
+  HAL_FDCAN_ConfigTxDelayCompensation(&hfdcan2, 18, 0);
+  HAL_FDCAN_EnableTxDelayCompensation(&hfdcan2);
+ 
 
   if (HAL_FDCAN_Start(&hfdcan2) != HAL_OK)
   {
@@ -96,7 +107,7 @@ uint8_t canx_send_data(FDCAN_HandleTypeDef *hcan, uint16_t id, uint8_t *data, ui
   TxHeader.TxFrameType = FDCAN_DATA_FRAME;  
   if(len<=8)	
 	{
-	  TxHeader.DataLength = len<<16;     // ·¢ËÍ³¤¶È£º8byte
+	  TxHeader.DataLength = len<<16;     // ï¿½ï¿½ï¿½Í³ï¿½ï¿½È£ï¿½8byte
 	}
 	else  if(len==12)	
 	{
@@ -123,10 +134,10 @@ uint8_t canx_send_data(FDCAN_HandleTypeDef *hcan, uint16_t id, uint8_t *data, ui
 	 }
 											
 	TxHeader.ErrorStateIndicator =  FDCAN_ESI_ACTIVE;
-  TxHeader.BitRateSwitch = FDCAN_BRS_ON;//±ÈÌØÂÊÇÐ»»¹Ø±Õ£¬
+  TxHeader.BitRateSwitch = FDCAN_BRS_ON;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½Ø±Õ£ï¿½
   TxHeader.FDFormat =  FDCAN_FD_CAN;
   TxHeader.TxEventFifoControl =  FDCAN_NO_TX_EVENTS;  
-  TxHeader.MessageMarker = 0;//ÏûÏ¢±ê¼Ç
+  TxHeader.MessageMarker = 0;//ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½
 	
    
   if(HAL_FDCAN_AddMessageToTxFifoQ(hcan, &TxHeader, data) != HAL_OK)
@@ -140,13 +151,13 @@ uint8_t canx_send_data(FDCAN_HandleTypeDef *hcan, uint16_t id, uint8_t *data, ui
 extern OpenArm_t arm;
 void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
 { 
-	//printf("Running callback\r\n");
+	// printf("Running callback\r\n");
   if((RxFifo0ITs & FDCAN_IT_RX_FIFO0_NEW_MESSAGE) != RESET)
   {
     if(hfdcan->Instance == FDCAN1)
     {
       /* Retrieve Rx messages from RX FIFO0 */
-			memset(g_Can1RxData, 0, sizeof(g_Can1RxData));	//½ÓÊÕÇ°ÏÈÇå¿ÕÊý×é	
+			memset(g_Can1RxData, 0, sizeof(g_Can1RxData));	//ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	
 			while(HAL_FDCAN_GetRxFifoFillLevel(&hfdcan1, FDCAN_RX_FIFO0) > 0){
 				HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &RxHeader1, g_Can1RxData);
 				EventRecord2(0x01, RxHeader1.Identifier, HAL_FDCAN_GetRxFifoFillLevel(hfdcan, FDCAN_RX_FIFO0));
@@ -172,25 +183,60 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
 	}
 }
 
+extern OpenArm_t arm2;
 void HAL_FDCAN_RxFifo1Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo1ITs)
 {
+	// printf("Running callback\r\n");
   if((RxFifo1ITs & FDCAN_IT_RX_FIFO1_NEW_MESSAGE) != RESET)
   {
     if(hfdcan->Instance == FDCAN2)
     {
       /* Retrieve Rx messages from RX FIFO0 */
-			memset(g_Can2RxData, 0, sizeof(g_Can2RxData));
-      HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO1, &RxHeader2, g_Can2RxData);
-			int id = (g_Can1RxData[0])&0x0F;
-			switch(RxHeader2.Identifier)
-			{ //µç»ú·´À¡IDÎª0
-        case 0 :dm_fbdata(&arm.motors[id], g_Can2RxData,RxHeader2.DataLength);break;
-
-				default: break;
-			}	
-    }
-  }
+			memset(g_Can2RxData, 0, sizeof(g_Can2RxData));	//ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	
+			while(HAL_FDCAN_GetRxFifoFillLevel(&hfdcan2, FDCAN_RX_FIFO1) > 0){
+				HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO1, &RxHeader2, g_Can2RxData);
+				//EventRecord2(0x01, RxHeader2.Identifier, HAL_FDCAN_GetRxFifoFillLevel(hfdcan, FDCAN_RX_FIFO1));
+				int motor_id = -1;  // Initialize motor_id as invalid
+				if (RxHeader2.Identifier != 0)
+				{
+						motor_id = RxHeader2.Identifier - 0x11; // Assuming motor IDs start from 0x11
+				}
+				else
+				{
+						motor_id = (g_Can2RxData[0]) & 0x0F;  // Mask to extract lower 4 bits
+				}
+				if (motor_id >= 0 && motor_id < NUM_MOTORS)
+				{
+						dm_fbdata(&arm2.motors[motor_id], g_Can2RxData, RxHeader2.DataLength);
+				}
+				else
+				{
+						printf("Invalid motor ID: %d (CAN ID: 0x%X)\n\r", motor_id, RxHeader2.Identifier);
+				}
+			}
+		}			
+	}
 }
+
+// void HAL_FDCAN_RxFifo1Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo1ITs)
+// {
+//   if((RxFifo1ITs & FDCAN_IT_RX_FIFO1_NEW_MESSAGE) != RESET)
+//   {
+//     if(hfdcan->Instance == FDCAN2)
+//     {
+//       /* Retrieve Rx messages from RX FIFO0 */
+// 			memset(g_Can2RxData, 0, sizeof(g_Can2RxData));
+//       HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO1, &RxHeader2, g_Can2RxData);
+// 			int id = (g_Can1RxData[0])&0x0F;
+// 			switch(RxHeader2.Identifier)
+// 			{ //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½IDÎª0
+//         case 0 :dm_fbdata(&arm.motors[id], g_Can2RxData,RxHeader2.DataLength);break;
+
+// 				default: break;
+// 			}	
+//     }
+//   }
+// }
 
 /**
 ************************************************************************
@@ -241,14 +287,14 @@ void set_baudrate(hcan_t* hcan, uint16_t motor_id, uint8_t baudrate, uint8_t mod
 ************************************************************************
 **/
 void write_baudrate(hcan_t* hcan, uint16_t motor_id, uint8_t baudrate){
-	disable_motor_mode(&hfdcan1, motor_id, MIT_MODE);
-	read_motor_data(arm.motors[motor_id].slave_id, RID_CAN_BR);
+	disable_motor_mode(hcan, motor_id, MIT_MODE);
+	read_motor_data(motor_id, RID_CAN_BR);
 	HAL_Delay(100);
-	change_motor_data(arm.motors[motor_id].slave_id, RID_CAN_BR, BAUD_5M,0,0,0);
+	change_motor_data(motor_id, RID_CAN_BR, baudrate,0,0,0);
 	HAL_Delay(100);
-	write_motor_data(arm.motors[motor_id].slave_id);
+	write_motor_data(motor_id);
 	HAL_Delay(100);
-	enable_motor_mode(&hfdcan1, motor_id, MIT_MODE);
+	enable_motor_mode(hcan, motor_id, MIT_MODE);
 }
 
 

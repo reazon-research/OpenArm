@@ -7,7 +7,8 @@
 #define MIT_MODE   0x000
 #define POS_MODE   0x100
 #define SPEED_MODE 0x200
-#define NUM_MOTORS 8
+//#define NUM_MOTORS 8
+#define NUM_MOTORS 2
 
 // Coefficient limits
 #define KP_MIN 0.0f
