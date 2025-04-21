@@ -94,6 +94,15 @@ void read_motor_data(uint16_t id, uint8_t rid)
 	canx_send_data(&hfdcan1, 0x7FF, data, 4);
 }
 
+void read_ctrl_fbdata(uint16_t id)
+{
+	uint8_t can_id_l = id & 0xFF;
+	uint8_t can_id_h = (id >> 4) & 0x07;
+	
+	uint8_t data[4] = {can_id_l, can_id_h, 0xCC, 0x00};
+	canx_send_data(&hfdcan1, 0x7FF, data, 4);
+}
+
 void change_motor_data(uint16_t id, uint8_t rid, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3)
 {
 	uint8_t can_id_l = id & 0xFF;

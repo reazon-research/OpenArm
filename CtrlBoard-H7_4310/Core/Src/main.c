@@ -44,7 +44,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define CONTROL_PERIOD_US 1000
+#define CONTROL_PERIOD_US 2000
 #define TOGGLE_PERIOD_US 5000000  // 5 seconds in microseconds
 OpenArm_t arm;
 int received;
@@ -161,6 +161,10 @@ int main(void)
 	EventRecorderInitialize(EventRecordAll, 1);
 	HAL_TIM_Base_Start(&htim2);
 	
+	// write baudrate
+//	for (int i = 0; i < NUM_MOTORS; ++i) {
+//		write_baudrate(&hfdcan1, i, BAUD_5M);
+//	}
 	
 	uint32_t toggle_timer = 0;
 	uint8_t toggle = 0;

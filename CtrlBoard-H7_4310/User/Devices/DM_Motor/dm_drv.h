@@ -96,19 +96,6 @@ typedef enum
 	DM3507 = 3
 } MotorType_t;
 
-typedef enum {
-    BAUD_125K   = 0,
-    BAUD_200K   = 1,
-    BAUD_250K   = 2,
-    BAUD_500K   = 3,
-    BAUD_1M     = 4,
-    BAUD_2M     = 5,
-    BAUD_2_5M   = 6,
-    BAUD_3_2M   = 7,
-    BAUD_4M     = 8,
-    BAUD_5M     = 9
-} CAN_Baudrate_t;
-
 typedef struct
 {
 	uint8_t read_flag;     // Flag indicating a read operation
@@ -226,6 +213,7 @@ typedef struct
 extern void dm_fbdata(Joint_Motor_t *motor, uint8_t *rx_data,uint32_t data_len);
 
 extern void read_motor_data(uint16_t id, uint8_t rid);
+extern void read_ctrl_fbdata(uint16_t id);
 extern void change_motor_data(uint16_t id, uint8_t rid, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3);
 extern void write_motor_data(uint16_t id);
 

@@ -1,10 +1,23 @@
 #ifndef _CAN_BSP_H
 #define _CAN_BSP_H
 
+#include "main.h"
+
 #define CAN_CLASS   0
 #define CAN_FD_BRS  1
 
-#include "main.h"
+typedef enum {
+    BAUD_125K   = 0,
+    BAUD_200K   = 1,
+    BAUD_250K   = 2,
+    BAUD_500K   = 3,
+    BAUD_1M     = 4,
+    BAUD_2M     = 5,
+    BAUD_2_5M   = 6,
+    BAUD_3_2M   = 7,
+    BAUD_4M     = 8,
+    BAUD_5M     = 9
+} CAN_Baudrate_t;
 
 typedef FDCAN_HandleTypeDef hcan_t;
 
