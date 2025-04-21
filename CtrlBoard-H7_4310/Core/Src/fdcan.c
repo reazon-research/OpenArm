@@ -38,6 +38,7 @@ void MX_FDCAN1_Init(void)
 
   /* USER CODE BEGIN FDCAN1_Init 1 */
 
+
   /* USER CODE END FDCAN1_Init 1 */
   hfdcan1.Instance = FDCAN1;
   hfdcan1.Init.FrameFormat = FDCAN_FRAME_FD_BRS;
@@ -110,7 +111,7 @@ void MX_FDCAN2_Init(void)
   /* USER CODE END FDCAN2_Init 1 */
   hfdcan2.Instance = FDCAN2;
   hfdcan2.Init.FrameFormat = FDCAN_FRAME_FD_BRS;
-	//  hfdcan2.Init.FrameFormat = FDCAN_FRAME_CLASSIC;
+	// hfdcan2.Init.FrameFormat = FDCAN_FRAME_CLASSIC;
   hfdcan2.Init.Mode = FDCAN_MODE_NORMAL;
   hfdcan2.Init.AutoRetransmission = ENABLE;
   hfdcan2.Init.TransmitPause = DISABLE;
@@ -150,7 +151,7 @@ void MX_FDCAN2_Init(void)
   hfdcan2.Init.DataTimeSeg2 = 3;
 	hfdcan2.Init.DataSyncJumpWidth = 2;
 	
-
+  //donotchangethisoffset
   hfdcan2.Init.MessageRAMOffset = 854;
   hfdcan2.Init.StdFiltersNbr = 5;
   hfdcan2.Init.ExtFiltersNbr = 5;
@@ -169,6 +170,7 @@ void MX_FDCAN2_Init(void)
   {
     Error_Handler();
   }
+  
   /* USER CODE BEGIN FDCAN2_Init 2 */
 
   /* USER CODE END FDCAN2_Init 2 */

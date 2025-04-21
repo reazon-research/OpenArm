@@ -5,32 +5,6 @@ void aaaa(){
 	printf("control\n\r");
 }
 
-// void init_bilateral_info(BilateralInfo_t* info, float Ts, int role,
-//                          OpenArm_t* arm,
-//                          float Dn[], float Jn[], float gnd[], float gnf[],
-//                          float Gn[], float Kp[], float Kd[], float Kf[])
-// {
-//     info->Ts = Ts;
-//     info->role = role;
-//     info->arm = arm;  // ← ここで構造体をコピー
-
-//     memcpy(info->Dn, Dn, sizeof(info->Dn));
-//     memcpy(info->Jn, Jn, sizeof(info->Jn));
-//     memcpy(info->gnd, gnd, sizeof(info->gnd));
-//     memcpy(info->gnf, gnf, sizeof(info->gnf));
-//     memcpy(info->Gn, Gn, sizeof(info->Gn));
-//     memcpy(info->Kp, Kp, sizeof(info->Kp));
-//     memcpy(info->Kd, Kd, sizeof(info->Kd));
-//     memcpy(info->Kf, Kf, sizeof(info->Kf));
-
-//     memset(info->disturbance, 0, sizeof(info->disturbance));
-//     memset(info->disturbance_lowpass_in, 0, sizeof(info->disturbance_lowpass_in));
-//     memset(info->disturbance_lowpass_out, 0, sizeof(info->disturbance_lowpass_out));
-//     memset(info->reactionforce_lowpass_in, 0, sizeof(info->reactionforce_lowpass_in));
-//     memset(info->reactionforce_lowpass_out, 0, sizeof(info->reactionforce_lowpass_out));
-//     memset(info->joint_torque, 0, sizeof(info->joint_torque));
-// }
-
 void init_bilateral_info(BilateralInfo_t* info, float Ts, int role,
                          OpenArm_t* arm,
 						 FDCAN_HandleTypeDef *hcan,
@@ -81,7 +55,6 @@ void Get_Response(BilateralInfo_t* bilateinfo, float* pos, float* vel, float* ef
     }
 }
 
-// 
 void bilateral_control_v1(BilateralInfo_t* leader_info, BilateralInfo_t* follower_info){
 	// printf("bilateral v1 \n\r");
 	float pos_l[NUM_MOTORS], vel_l[NUM_MOTORS], effort_l[NUM_MOTORS];
@@ -101,9 +74,9 @@ void bilateral_control_v1(BilateralInfo_t* leader_info, BilateralInfo_t* followe
 	
 	for(int i = 0; i < NUM_MOTORS; i++){
 
-		float tau_leader_p = follower_info->Kp[i]*(pos_l[i] - pos_f[i]);
-		float tau_leader_v = follower_info->Kd[i]*(vel_l[i] - vel_f[i]);
-		float tau_leader_f = -follower_info->Kf[i]*(effort_l[i] + effort_f[i]);
+		float tau_leader_p = leader_info->Kp[i]*(pos_f[i] - pos_l[i]);
+		float tau_leader_v = leader_info->Kd[i]*(vel_f[i] - vel_l[i]);
+		float tau_leader_f = -leader_info->Kf[i]*(effort_f[i] + effort_l[i]);
 
 		float tau_follower_p = follower_info->Kp[i]*(pos_l[i] - pos_f[i]);
 		float tau_follower_v = follower_info->Kd[i]*(vel_l[i] - vel_f[i]);
@@ -112,29 +85,31 @@ void bilateral_control_v1(BilateralInfo_t* leader_info, BilateralInfo_t* followe
 		leader_info->joint_torque[i] = tau_leader_p + tau_leader_v + tau_leader_f + leader_info->disturbance[i];
 		follower_info->joint_torque[i] = tau_follower_p + tau_follower_v + tau_follower_f + follower_info->disturbance[i];
 
-		// Compute_Friction_Torque();
-		double a_l = leader_info->gnd[i]*leader_info->Ts;
-		double a_f = follower_info->gnd[i]*follower_info->Ts;
+		double a_dl = leader_info->gnd[i] * leader_info->Ts;
+		double a_df = follower_info->gnd[i] * follower_info->Ts;
+		double a_fl = leader_info->gnf[i] * leader_info->Ts;
+		double a_ff = follower_info->gnf[i] * follower_info->Ts;
+		// print("a_l : %f \n\r", a_dl);
 
 		//DOB leader
 		leader_info->disturbance_lowpass_in[i] = (leader_info->joint_torque[i]) + leader_info->gnd[i] * leader_info->Jn[i] * vel_l[i];
-		leader_info->disturbance_lowpass_out[i] += (leader_info->disturbance_lowpass_in[i] - leader_info->disturbance_lowpass_out[i]);
+		leader_info->disturbance_lowpass_out[i] +=  a_dl * (leader_info->disturbance_lowpass_in[i] - leader_info->disturbance_lowpass_out[i]);
 		leader_info->disturbance[i] = leader_info->disturbance_lowpass_out[i] - leader_info->gnd[i] * leader_info->Jn[i] * vel_l[i];
 		
 		//DOB follower
-		follower_info->disturbance_lowpass_in[i] = (follower_info->joint_torque[i]) + follower_info->gnd[i] * follower_info->Jn[i] * vel_l[i] - friction_l[i];
-		follower_info->disturbance_lowpass_out[i] += (follower_info->disturbance_lowpass_in[i] - follower_info->disturbance_lowpass_out[i]);
+		follower_info->disturbance_lowpass_in[i] = (follower_info->joint_torque[i]) + follower_info->gnd[i] * follower_info->Jn[i] * vel_l[i];
+		follower_info->disturbance_lowpass_out[i] += a_df * (follower_info->disturbance_lowpass_in[i] - follower_info->disturbance_lowpass_out[i]);
 		follower_info->disturbance[i] = follower_info->disturbance_lowpass_out[i] - follower_info->gnd[i] * follower_info->Jn[i] * vel_l[i];
 		
 		//RFOB leader
-		leader_info->reactionforce_lowpass_in[i] = (leader_info->joint_torque[i]) + leader_info->gnd[i] * leader_info->Jn[i] * vel_l[i];
-		leader_info->reactionforce_lowpass_out[i] += (leader_info->reactionforce_lowpass_in[i] - leader_info->reactionforce_lowpass_out[i]);
-		leader_info->reactionforce[i] = leader_info->reactionforce_lowpass_out[i] - leader_info->gnd[i] * leader_info->Jn[i] * vel_l[i];
+		leader_info->reactionforce_lowpass_in[i] = (leader_info->joint_torque[i]) + leader_info->gnf[i] * leader_info->Jn[i] * vel_l[i] - friction_l[i];
+		leader_info->reactionforce_lowpass_out[i] += a_fl * (leader_info->reactionforce_lowpass_in[i] - leader_info->reactionforce_lowpass_out[i]);
+		leader_info->reactionforce[i] = leader_info->reactionforce_lowpass_out[i] - leader_info->gnf[i] * leader_info->Jn[i] * vel_l[i];
 		
 		//RFOB follower
-		follower_info->reactionforce_lowpass_in[i] = (follower_info->joint_torque[i]) + follower_info->gnd[i] * follower_info->Jn[i] * vel_l[i] - friction_f[i];
-		follower_info->reactionforce_lowpass_out[i] += (follower_info->reactionforce_lowpass_in[i] - follower_info->reactionforce_lowpass_out[i]);
-		follower_info->reactionforce[i] = follower_info->reactionforce_lowpass_out[i] - follower_info->gnd[i] * follower_info->Jn[i] * vel_l[i];
+		follower_info->reactionforce_lowpass_in[i] = (follower_info->joint_torque[i]) + follower_info->gnf[i] * follower_info->Jn[i] * vel_f[i] - friction_f[i];
+		follower_info->reactionforce_lowpass_out[i] += a_ff * (follower_info->reactionforce_lowpass_in[i] - follower_info->reactionforce_lowpass_out[i]);
+		follower_info->reactionforce[i] = follower_info->reactionforce_lowpass_out[i] - follower_info->gnf[i] * follower_info->Jn[i] * vel_f[i];
 		
 		//fix input torque
 		leader_info->joint_torque[i] += (-tau_leader_p - tau_leader_v);
@@ -142,8 +117,13 @@ void bilateral_control_v1(BilateralInfo_t* leader_info, BilateralInfo_t* followe
 
 	}
 
+	// printf("dis : %f \n\r", leader_info->disturbance[1]);
+
 	move_mit_all(leader_info->arm, leader_info->hcan, pos_f, vel_f, leader_info->Kp, leader_info->Kd, leader_info->joint_torque);
 	move_mit_all(follower_info->arm, follower_info->hcan, pos_l, vel_l, follower_info->Kp, follower_info->Kd, follower_info->joint_torque);
+
+	// move_mit_all(leader_info->arm, leader_info->hcan, pos_f, vel_f, leader_info->Kp, leader_info->Kd, zero);
+	// move_mit_all(follower_info->arm, follower_info->hcan, pos_l, vel_l, follower_info->Kp, follower_info->Kd, zero);
 
 }
 

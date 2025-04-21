@@ -160,17 +160,18 @@ int main(void)
   float pos2[NUM_MOTORS];
 
 	
-	//int type[8] = {DM4310, DM4310, DM4310, DM4310, DM4310, DM4310, DM4310, DM4310};
-	int typel[2] = {DM4310, DM4310};
-	int typef[2] = {DM4340, DM4340};
+	// int type[NUM_MOTORS] = {DM4340, DM4340, DM4340, DM4340, DM4310, DM4310, DM4310, DM3507};
+	// int typel[2] = {DM4310, DM4310};
+	// int typef[2] = {DM4340, DM4340};
+	int typel[NUM_MOTORS] = {DM4340, DM4340, DM4340, DM4340, DM4310, DM4310, DM4310, DM4340};
+	int typef[NUM_MOTORS] = {DM4340, DM4340, DM4340, DM4340, DM4310, DM4310, DM4310, DM4340};
 
 	for (int i = 0; i < NUM_MOTORS; ++i) {
 		id[i] = i + 1; // 0x01 to 0x08
 		master_id[i] = 0x10 + (i + 1); // 0x11 to 0x18
 		//type[i] = DM8009;
 		zero[i] = 0.0f;
-		one[i] = 2.0f;
-
+		one[i] = 1.0f;
 		positions[i] = 0.0f;
 	}
 
@@ -181,60 +182,43 @@ int main(void)
 
 
   //bilateral control setting 
-
-  // float Ts = 0.001f;
-
-  // float Dn_leader[NUM_MOTORS] = {0.2f, 0.2f};
-  // float Jn_leader[NUM_MOTORS] = {0.3f, 0.3f};
-  // float gnd_leader[NUM_MOTORS] = {9.8f, 9.8f};
-  // float gnf_leader[NUM_MOTORS] = {0.0f, 0.0f};
-
-  // float Dn_follower[NUM_MOTORS] = {0.25f, 0.25f};
-  // float Jn_follower[NUM_MOTORS] = {0.35f, 0.35f};
-  // float gnd_follower[NUM_MOTORS] = {0.0f, 0.0f};
-  // float gnf_follower[NUM_MOTORS] = {9.8f, 9.8f};
-
-  // float Gn_leader[NUM_MOTORS] = {0.4f, 0.4f};
-  // float Kp_leader[NUM_MOTORS] = {5.0f, 5.0f};
-  // float Kd_leader[NUM_MOTORS] = {0.1f, 0.1f};
-  // float Kf_leader[NUM_MOTORS] = {0.2f, 0.2f};
-
-  // float Gn_follower[NUM_MOTORS] = {0.45f, 0.45f};
-  // float Kp_follower[NUM_MOTORS] = {4.5f, 4.5f};
-  // float Kd_follower[NUM_MOTORS] = {0.08f, 0.08f};
-  // float Kf_follower[NUM_MOTORS] = {0.15f, 0.15f};
-
-  // init_bilateral_info(&leader_info, Ts, role_leader,
-  //                     &arm,
-  //                     Dn_leader, Jn_leader,
-  //                     gnd_leader, gnf_leader,
-  //                     Gn_leader, Kp_leader, Kd_leader, Kf_leader);
-
-  // init_bilateral_info(&follower_info, Ts, role_follower,
-  //                     &arm2,
-  //                     Dn_follower, Jn_follower,
-  //                     gnd_follower, gnf_follower,
-  //                     Gn_follower, Kp_follower, Kd_follower, Kf_follower);
-
   float Ts = 0.001f;
 
-  float Dn_leader[NUM_MOTORS] = {0.2f, 0.2f};
-  float Jn_leader[NUM_MOTORS] = {0.3f, 0.3f};
-  float gnd_leader[NUM_MOTORS] = {3.0f, 3.0f};
-  float gnf_leader[NUM_MOTORS] = {3.0f, 3.0f};
-  float Gn_leader[NUM_MOTORS] = {0.4f, 0.4f};
-  float Kp_leader[NUM_MOTORS] = {5.0f, 5.0f};
-  float Kd_leader[NUM_MOTORS] = {0.1f, 0.1f};
-  float Kf_leader[NUM_MOTORS] = {0.2f, 0.2f};
+  // float Dn_leader[NUM_MOTORS] =  {0.07f, 0.07f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f};
+  // float Jn_leader[NUM_MOTORS] =  {0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f};
+  // float gnd_leader[NUM_MOTORS] = {5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 0.0f};
+  // float gnf_leader[NUM_MOTORS] = {5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 0.0f};
+  // float Gn_leader[NUM_MOTORS] =  {0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f};
+  // float Kp_leader[NUM_MOTORS] =  {12.0f, 12.0f, 12.0f, 12.0f, 12.0f, 12.0f, 12.0f, 0.0f};
+  // float Kd_leader[NUM_MOTORS] =  {0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.0f};
+  // float Kf_leader[NUM_MOTORS] =  {1.4f, 1.4f, 1.4f, 1.4f, 1.4f, 1.4f, 1.4f, 1.4f};
 
-  float Dn_follower[NUM_MOTORS] = {0.2f, 0.2f};
-  float Jn_follower[NUM_MOTORS] = {0.3f, 0.3f};
-  float gnd_follower[NUM_MOTORS] = {3.0f, 3.0f};
-  float gnf_follower[NUM_MOTORS] = {3.0f, 3.0f};
-  float Gn_follower[NUM_MOTORS] = {0.45f, 0.45f};
-  float Kp_follower[NUM_MOTORS] = {2.0f, 2.0f};
-  float Kd_follower[NUM_MOTORS] = {0.1f, 0.1f};
-  float Kf_follower[NUM_MOTORS] = {0.15f, 0.15f};
+  // float Dn_follower[NUM_MOTORS] =  {0.07f, 0.07f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f};
+  // float Jn_follower[NUM_MOTORS] =  {0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.000f};
+  // float gnd_follower[NUM_MOTORS] = {5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 0.0f};
+  // float gnf_follower[NUM_MOTORS] = {5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 0.0f};
+  // float Gn_follower[NUM_MOTORS] =  {0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f};
+  // float Kp_follower[NUM_MOTORS] =  {12.0f, 12.0f, 12.0f, 12.0f, 12.0f, 12.0f, 12.0f, 0.0f};
+  // float Kd_follower[NUM_MOTORS] =  {0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.0f};
+  // float Kf_follower[NUM_MOTORS] =  {1.4f, 1.4f, 1.4f, 1.4f, 1.4f, 1.4f, 1.4f, 1.4f};
+  
+  float Dn_leader[NUM_MOTORS] =  {0.07f, 0.07f, 0.03f, 0.03f, 0.03f, 0.003f, 0.003f, 0.00f};
+  float Jn_leader[NUM_MOTORS] =  {0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f};
+  float gnd_leader[NUM_MOTORS] = {5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 0.0f};
+  float gnf_leader[NUM_MOTORS] = {5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 0.0f};
+  float Gn_leader[NUM_MOTORS] =  {0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f};
+  float Kp_leader[NUM_MOTORS] =  {130.0f, 120.0f, 110.0f, 110.0f, 12.0f, 15.0f, 15.0f, 0.0f};
+  float Kd_leader[NUM_MOTORS] =  {2.4f, 1.4f, 1.4f, 1.4f, 0.4f, 0.4f, 0.4f, 0.0f};
+  float Kf_leader[NUM_MOTORS] =  {0.4f, 0.4f, 0.4f, 0.4f, 0.2f, 0.2f, 0.2f, 0.0f};
+
+  float Dn_follower[NUM_MOTORS] =  {0.07f, 0.07f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f};
+  float Jn_follower[NUM_MOTORS] =  {0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.000f};
+  float gnd_follower[NUM_MOTORS] = {5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 0.0f};
+  float gnf_follower[NUM_MOTORS] = {5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 0.0f};
+  float Gn_follower[NUM_MOTORS] =  {0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f};
+  float Kp_follower[NUM_MOTORS] =  {130.0f, 120.0f, 110.0f, 110.0f, 12.0f, 15.0f, 15.0f, 0.0f};
+  float Kd_follower[NUM_MOTORS] =  {2.4f, 1.4f, 1.4f, 1.4f, 1.4f, 0.4f, 0.4f, 0.0f};
+  float Kf_follower[NUM_MOTORS] =  {0.4f, 0.4f, 0.4f, 0.4f, 0.2f, 0.2f, 0.2f, 0.0f};
 
   float disturbance_leader[NUM_MOTORS] = {0};
   float reactionforce_leader[NUM_MOTORS] = {0};
@@ -266,22 +250,54 @@ int main(void)
                       disturbance_follower, reaction_in_follower,
                       reaction_out_follower, reactionforce_follower ,joint_torque_follower);
 
-  // write_baudrate(&hfdcan1, 0x01, BAUD_5M);
-  // write_baudrate(&hfdcan1, 0x02, BAUD_5M);
+  // OpenArm baudrate change(hfdcan1)
+	// write_baudrate(&hfdcan1, 0x01, BAUD_5M);
+  // HAL_Delay(500);
+	// write_baudrate(&hfdcan1, 0x02, BAUD_5M);
+  // HAL_Delay(500);
+  // write_baudrate(&hfdcan1, 0x03, BAUD_5M);
+  // HAL_Delay(500);
+  // write_baudrate(&hfdcan1, 0x04, BAUD_5M);
+  // HAL_Delay(500);
+  // write_baudrate(&hfdcan1, 0x05, BAUD_5M);
+  // HAL_Delay(500);
+  // write_baudrate(&hfdcan1, 0x06, BAUD_5M);
+  // HAL_Delay(500);
+  // write_baudrate(&hfdcan1, 0x07, BAUD_5M);
+  // HAL_Delay(500);
+  // write_baudrate(&hfdcan1, 0x08, BAUD_5M);
 
-  // write_baudrate(&hfdcan2, 0x01, BAUD_5M);
-  // write_baudrate(&hfdcan2, 0x02, BAUD_5M);
+  // OpenArm baudrate change(hfdca2)
+	// write_baudrate(&hfdcan2, 0x01, BAUD_5M);
+  // HAL_Delay(500);
+	// write_baudrate(&hfdcan2, 0x02, BAUD_5M);
+  // HAL_Delay(500);
+  // write_baudrate(&hfdcan2, 0x03, BAUD_5M);
+  // HAL_Delay(500);
+  // write_baudrate(&hfdcan2, 0x04, BAUD_5M);
+  // HAL_Delay(500);
+  // write_baudrate(&hfdcan2, 0x05, BAUD_5M);
+  // HAL_Delay(500);
+  // write_baudrate(&hfdcan2, 0x06, BAUD_5M);
+  // HAL_Delay(500);
+  // write_baudrate(&hfdcan2, 0x07, BAUD_5M);
+  // HAL_Delay(500);
+  // write_baudrate(&hfdcan2, 0x08, BAUD_5M);
 
 	openarm_enable(&arm, &hfdcan1);
 	openarm_enable(&arm2, &hfdcan2);
-
-	EventRecorderInitialize(EventRecordAll, 1);
+	
+	printf("EVENT RECORDER BEFORE\n\r");
+	//EventRecorderInitialize(EventRecordAll, 1);
 	HAL_TIM_Base_Start(&htim2);
 
-	set_zero_position(&hfdcan1, 0x01);
-	set_zero_position(&hfdcan1, 0x02);
-	set_zero_position(&hfdcan2, 0x01);
-	set_zero_position(&hfdcan2, 0x02);
+  openarm_set_zero_position(&arm, &hfdcan1);
+  openarm_set_zero_position(&arm2, &hfdcan2);
+
+	// set_zero_position(&hfdcan1, 0x01);
+	// set_zero_position(&hfdcan1, 0x02);
+	// set_zero_position(&hfdcan2, 0x01);
+	// set_zero_position(&hfdcan2, 0x02);
 
 	
 	uint32_t toggle_timer = 0;
@@ -293,7 +309,6 @@ int main(void)
 
   GPIO_PinState last_key_state = GPIO_PIN_SET;
   bool torque_disabled = false;  
-
 
   while (1)
   { 
@@ -323,45 +338,28 @@ int main(void)
 		last_time = __HAL_TIM_GET_COUNTER(&htim2);
 		// EventRecord2(0x03, positions[0]*100, 0x01);
 
-
     // bilateral control
-    // tau[0] = 5.0*(arm2.motors[0].pos - arm.motors[0].pos) + 0.1*(arm2.motors[0].vel - arm.motors[0].vel);
-    // tau[1] = 20.0*(arm2.motors[1].pos - arm.motors[1].pos) + 1.8*(arm2.motors[1].vel - arm.motors[1].vel);
-    // tau2[0] = 5.0*(arm.motors[0].pos - arm2.motors[0].pos) + 0.1*(arm.motors[0].vel - arm2.motors[0].vel);
-    // tau2[1] = 20.0*(arm.motors[1].pos - arm2.motors[1].pos) + 1.8*(arm.motors[1].vel - arm2.motors[1].vel);
-    float kp[2] = {2.0, 2.0};
-    float kd[2] = {0.1, 0.1};
+    bilateral_control_v1(&leader_info, &follower_info);
 
-    vel[0] = arm.motors[0].vel;
-    vel[1] = arm.motors[1].vel;
-    vel2[0] = arm2.motors[0].vel;
-    vel2[1] = arm2.motors[1].vel;
+    //  move_mit_all(&arm, &hfdcan1, zero, zero, leader_info.Kp, leader_info.Kd, zero);
+    //  move_mit_all(&arm2, &hfdcan2, zero, zero, follower_info.Kp, follower_info.Kd, zero);
 
-    pos[0] = arm.motors[0].pos;
-    pos[1] = arm.motors[1].pos;
-    pos2[0] = arm2.motors[0].pos;
-    pos2[1] = arm2.motors[1].pos;
-
-		 move_mit_all(&arm, &hfdcan1, pos2, vel2, kp, kd, zero);
-		 move_mit_all(&arm2, &hfdcan2, pos, vel, kp, kd, zero);
-//		move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
-//		move_mit_all(&arm2, &hfdcan2, zero, zero, zero, zero, zero);
 
 		// if (toggle) {
-		// 		move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, tau);
-		// 		move_mit_all(&arm2, &hfdcan2, zero, zero, zero, zero, tau2);
+		// 		move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
+		// 		move_mit_all(&arm2, &hfdcan2, zero, zero, zero, zero, zero);
 		// } else {
-		// 		move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, tau);
-    //   	move_mit_all(&arm2, &hfdcan2, zero, zero, zero, zero, tau2);
+		// 		move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
+    //   	move_mit_all(&arm2, &hfdcan2, zero, zero, zero, zero, zero);
 		// }
-
-    printf("pos 1 : %f pos 2 : %f\n\r", arm.motors[0].pos, arm2.motors[0].pos);
 
     if (key_1 == GPIO_PIN_RESET) {
         printf("pushed\n\r");
     }
-		
 
+    printf("pos 1 : %f pos 2 : %f\n\r", arm2.motors[0].pos, arm2.motors[1].pos);
+	  // printf("dis : %f \n\r", leader_info.disturbance[0]);
+	  // printf("dis : %f \n\r", arm.motors[1].vel);
 
     if (!torque_disabled) {
         GPIO_PinState current_key_state = key_bsp_read_pin(GPIOA, GPIO_PIN_15);
@@ -378,8 +376,11 @@ int main(void)
 
         last_key_state = current_key_state;
     }
-		//    printf("TIM2 Counter: %u\n", __HAL_TIM_GET_COUNTER(&htim2));
-		//    HAL_Delay(500); // Print every 500ms
+		
+		// printf("TIM2 Counter: %u\n", __HAL_TIM_GET_COUNTER(&htim2));
+		// HAL_Delay(500); // Print every 500ms
+    // HAL_Delay(1);
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
