@@ -134,7 +134,6 @@ int main(void)
   MX_USB_OTG_HS_PCD_Init();
   MX_FDCAN2_Init();
   MX_TIM2_Init();
-
   /* USER CODE BEGIN 2 */
 	Power_OUT1_ON;
 	Power_OUT2_ON;

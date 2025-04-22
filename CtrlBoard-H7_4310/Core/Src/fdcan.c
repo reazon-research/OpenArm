@@ -41,54 +41,33 @@ void MX_FDCAN1_Init(void)
 
   /* USER CODE END FDCAN1_Init 1 */
   hfdcan1.Instance = FDCAN1;
-  hfdcan1.Init.FrameFormat = FDCAN_FRAME_FD_BRS;
-	// hfdcan1.Init.FrameFormat = FDCAN_FRAME_CLASSIC;
+  hfdcan1.Init.FrameFormat = FDCAN_FRAME_CLASSIC;
   hfdcan1.Init.Mode = FDCAN_MODE_NORMAL;
-  hfdcan1.Init.AutoRetransmission = ENABLE;
+  hfdcan1.Init.AutoRetransmission = DISABLE;
   hfdcan1.Init.TransmitPause = DISABLE;
   hfdcan1.Init.ProtocolException = ENABLE;
-	
-	// 1 Mbps
   hfdcan1.Init.NominalPrescaler = 4;
+  hfdcan1.Init.NominalSyncJumpWidth = 1;
   hfdcan1.Init.NominalTimeSeg1 = 19;
   hfdcan1.Init.NominalTimeSeg2 = 5;
-	hfdcan1.Init.NominalSyncJumpWidth = 1;
-	
-	// 1 Mbps - data phase
-	// hfdcan1.Init.DataPrescaler = 4;
-  // hfdcan1.Init.DataTimeSeg1 = 19;
-  // hfdcan1.Init.DataTimeSeg2 = 5;
-	// hfdcan1.Init.DataSyncJumpWidth = 1;
-	
-	// 4 Mbps
-	// hfdcan1.Init.DataPrescaler = 1;
-	// hfdcan1.Init.DataTimeSeg1 = 19;
-	// hfdcan1.Init.DataTimeSeg2 = 5;
-  // hfdcan1.Init.DataSyncJumpWidth = 4;
-
-	// 5 Mbps
-  hfdcan1.Init.DataPrescaler = 1;
-  hfdcan1.Init.DataTimeSeg1 = 16;
-  hfdcan1.Init.DataTimeSeg2 = 3;
-	hfdcan1.Init.DataSyncJumpWidth = 2;
-	
-	
+  hfdcan1.Init.DataPrescaler = 4;
+  hfdcan1.Init.DataSyncJumpWidth = 1;
+  hfdcan1.Init.DataTimeSeg1 = 19;
+  hfdcan1.Init.DataTimeSeg2 = 5;
   hfdcan1.Init.MessageRAMOffset = 0;
   hfdcan1.Init.StdFiltersNbr = 5;
   hfdcan1.Init.ExtFiltersNbr = 5;
-  hfdcan1.Init.RxFifo0ElmtsNbr = 16;
-  hfdcan1.Init.RxFifo0ElmtSize = FDCAN_DATA_BYTES_8;
+  hfdcan1.Init.RxFifo0ElmtsNbr = 4;
+  hfdcan1.Init.RxFifo0ElmtSize = FDCAN_DATA_BYTES_24;
   hfdcan1.Init.RxFifo1ElmtsNbr = 0;
   hfdcan1.Init.RxFifo1ElmtSize = FDCAN_DATA_BYTES_24;
   hfdcan1.Init.RxBuffersNbr = 0;
   hfdcan1.Init.RxBufferSize = FDCAN_DATA_BYTES_8;
   hfdcan1.Init.TxEventsNbr = 0;
   hfdcan1.Init.TxBuffersNbr = 0;
-  hfdcan1.Init.TxFifoQueueElmtsNbr = 16;
+  hfdcan1.Init.TxFifoQueueElmtsNbr = 8;
   hfdcan1.Init.TxFifoQueueMode = FDCAN_TX_FIFO_OPERATION;
   hfdcan1.Init.TxElmtSize = FDCAN_DATA_BYTES_24;
-
-
   if (HAL_FDCAN_Init(&hfdcan1) != HAL_OK)
   {
     Error_Handler();
@@ -110,67 +89,37 @@ void MX_FDCAN2_Init(void)
 
   /* USER CODE END FDCAN2_Init 1 */
   hfdcan2.Instance = FDCAN2;
-  hfdcan2.Init.FrameFormat = FDCAN_FRAME_FD_BRS;
-	// hfdcan2.Init.FrameFormat = FDCAN_FRAME_CLASSIC;
+  hfdcan2.Init.FrameFormat = FDCAN_FRAME_CLASSIC;
   hfdcan2.Init.Mode = FDCAN_MODE_NORMAL;
-  hfdcan2.Init.AutoRetransmission = ENABLE;
+  hfdcan2.Init.AutoRetransmission = DISABLE;
   hfdcan2.Init.TransmitPause = DISABLE;
   hfdcan2.Init.ProtocolException = ENABLE;
-
-  // hfdcan2.Init.NominalPrescaler = 5;
-  // hfdcan2.Init.NominalSyncJumpWidth = 1;
-  // hfdcan2.Init.NominalTimeSeg1 = 14;
-  // hfdcan2.Init.NominalTimeSeg2 = 5;
-
-  // hfdcan2.Init.DataPrescaler = 5;
-  // hfdcan2.Init.DataSyncJumpWidth = 1;
-  // hfdcan2.Init.DataTimeSeg1 = 14;
-  // hfdcan2.Init.DataTimeSeg2 = 5;
-
-	// 1 Mbps
-  hfdcan2.Init.NominalPrescaler = 4;
-  hfdcan2.Init.NominalTimeSeg1 = 19;
+  hfdcan2.Init.NominalPrescaler = 5;
+  hfdcan2.Init.NominalSyncJumpWidth = 1;
+  hfdcan2.Init.NominalTimeSeg1 = 14;
   hfdcan2.Init.NominalTimeSeg2 = 5;
-	hfdcan2.Init.NominalSyncJumpWidth = 1;
-	
-	// 1 Mbps - data phase
-	// hfdcan2.Init.DataPrescaler = 4;
-  // hfdcan2.Init.DataTimeSeg1 = 19;
-  // hfdcan2.Init.DataTimeSeg2 = 5;
-	// hfdcan2.Init.DataSyncJumpWidth = 1;
-	
-	// 4 Mbps
-	// hfdcan2.Init.DataPrescaler = 1;
-	// hfdcan2.Init.DataTimeSeg1 = 19;
-	// hfdcan2.Init.DataTimeSeg2 = 5;
-  // hfdcan2.Init.DataSyncJumpWidth = 4;
-
-	// 5 Mbps
-  hfdcan2.Init.DataPrescaler = 1;
-  hfdcan2.Init.DataTimeSeg1 = 16;
-  hfdcan2.Init.DataTimeSeg2 = 3;
-	hfdcan2.Init.DataSyncJumpWidth = 2;
-	
-  //donotchangethisoffset
+  hfdcan2.Init.DataPrescaler = 5;
+  hfdcan2.Init.DataSyncJumpWidth = 1;
+  hfdcan2.Init.DataTimeSeg1 = 14;
+  hfdcan2.Init.DataTimeSeg2 = 5;
   hfdcan2.Init.MessageRAMOffset = 854;
   hfdcan2.Init.StdFiltersNbr = 5;
   hfdcan2.Init.ExtFiltersNbr = 5;
   hfdcan2.Init.RxFifo0ElmtsNbr = 0;
   hfdcan2.Init.RxFifo0ElmtSize = FDCAN_DATA_BYTES_8;
-  hfdcan2.Init.RxFifo1ElmtsNbr = 16;
+  hfdcan2.Init.RxFifo1ElmtsNbr = 4;
   hfdcan2.Init.RxFifo1ElmtSize = FDCAN_DATA_BYTES_24;
   hfdcan2.Init.RxBuffersNbr = 0;
   hfdcan2.Init.RxBufferSize = FDCAN_DATA_BYTES_8;
   hfdcan2.Init.TxEventsNbr = 0;
   hfdcan2.Init.TxBuffersNbr = 0;
-  hfdcan2.Init.TxFifoQueueElmtsNbr = 16;
+  hfdcan2.Init.TxFifoQueueElmtsNbr = 4;
   hfdcan2.Init.TxFifoQueueMode = FDCAN_TX_FIFO_OPERATION;
-  hfdcan2.Init.TxElmtSize = FDCAN_DATA_BYTES_24;
+  hfdcan2.Init.TxElmtSize = FDCAN_DATA_BYTES_16;
   if (HAL_FDCAN_Init(&hfdcan2) != HAL_OK)
   {
     Error_Handler();
   }
-  
   /* USER CODE BEGIN FDCAN2_Init 2 */
 
   /* USER CODE END FDCAN2_Init 2 */
