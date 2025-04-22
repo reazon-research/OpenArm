@@ -41,18 +41,37 @@ void init_bilateral_info(BilateralInfo_t* info, float Ts, int role,
     info->joint_torque              = joint_torque;
 }
 
+void Get_Response(BilateralInfo_t* bilateinfo, float* pos, float* vel, float* effort){
+
+    for (int i = 0; i < NUM_MOTORS; i++) {
+		pos[i] = bilateinfo->arm->motors[i].pos;
+		vel[i] = bilateinfo->arm->motors[i].vel;
+		effort[i] = bilateinfo->reactionforce[i];
+    }
+
+	pos[NUM_MOTORS-1] = -pos[NUM_MOTORS-1];
+	vel[NUM_MOTORS-1] = -vel[NUM_MOTORS-1];
+	effort[NUM_MOTORS-1] = -effort[NUM_MOTORS-1];
+
+
+}
+
 void Compute_Friction_Torque(BilateralInfo_t* bilateinfo, float* vel, float* friction){
     for (int i = 0; i < NUM_MOTORS; i++) {
         friction[i] = bilateinfo->Dn[i] * vel[i];
     }
 }
 
-void Get_Response(BilateralInfo_t* bilateinfo, float* pos, float* vel, float* effort){
-    for (int i = 0; i < NUM_MOTORS; i++) {
-		pos[i] = bilateinfo->arm->motors[i].pos;
-		vel[i] = bilateinfo->arm->motors[i].vel;
-		effort[i] = bilateinfo->reactionforce[i];
-    }
+void Comupute_Gravity_Torque(BilateralInfo_t* bilateinfo, float* pos, float* gravity){
+
+}
+
+void Comupute_Corioli_Torque(BilateralInfo_t* bilateinfo, float* pos, float* vel, float* corioli){
+
+}
+
+void Comupute_Inertia_Diag(BilateralInfo_t* bilateinfo, float* pos, float* inertia_diag){
+
 }
 
 void bilateral_control_v1(BilateralInfo_t* leader_info, BilateralInfo_t* follower_info){
@@ -71,7 +90,22 @@ void bilateral_control_v1(BilateralInfo_t* leader_info, BilateralInfo_t* followe
 	float friction_f[NUM_MOTORS];
 	Compute_Friction_Torque(leader_info, vel_l, friction_l);
 	Compute_Friction_Torque(follower_info, vel_f, friction_f);
-	
+
+	// float gravity_l[NUM_MOTORS];
+	// float gravity_f[NUM_MOTORS];
+	// Comupute_Gravity_Torque(leader_info, pos_l, gravity_l);
+	// Comupute_Gravity_Torque(follower_info, pos_f, gravity_f);
+
+	// float corioli_l[NUM_MOTORS];
+	// float corioli_f[NUM_MOTORS];
+	// Comupute_Corioli_Torque(leader_info, pos_l, vel_l, gravity_l);
+	// Comupute_Corioli_Torque(follower_info, pos_f, vel_l, gravity_f);
+
+	// float inertia_diag_l[NUM_MOTORS];
+	// float inertia_diag_f[NUM_MOTORS];
+	// Comupute_Inertia_Diag(leader_info, pos_l, inertia_diag_l);
+	// Comupute_Inertia_Diag(follower_info, pos_f, inertia_diag_f);
+
 	for(int i = 0; i < NUM_MOTORS; i++){
 
 		float tau_leader_p = leader_info->Kp[i]*(pos_f[i] - pos_l[i]);
@@ -81,6 +115,12 @@ void bilateral_control_v1(BilateralInfo_t* leader_info, BilateralInfo_t* followe
 		float tau_follower_p = follower_info->Kp[i]*(pos_l[i] - pos_f[i]);
 		float tau_follower_v = follower_info->Kd[i]*(vel_l[i] - vel_f[i]);
 		float tau_follower_f = -follower_info->Kf[i]*(effort_l[i] + effort_f[i]);
+		
+		// if (i == NUM_MOTORS-1){
+		// 	float tau_follower_p = follower_info->Kp[i]*(-pos_l[i] + pos_f[i]);
+		// 	float tau_follower_v = follower_info->Kd[i]*(-vel_l[i] + vel_f[i]);
+		// 	float tau_follower_f = -follower_info->Kf[i]*(effort_l[i] + effort_f[i]);
+		// }
 
 		leader_info->joint_torque[i] = tau_leader_p + tau_leader_v + tau_leader_f + leader_info->disturbance[i];
 		follower_info->joint_torque[i] = tau_follower_p + tau_follower_v + tau_follower_f + follower_info->disturbance[i];
@@ -118,10 +158,17 @@ void bilateral_control_v1(BilateralInfo_t* leader_info, BilateralInfo_t* followe
 	}
 
 	// printf("dis : %f \n\r", leader_info->disturbance[1]);
+	
+	pos_l[NUM_MOTORS -1] *= GRIP_SCALE;
+	pos_f[NUM_MOTORS -1] *= 1.0f/GRIP_SCALE;
+
+	vel_l[NUM_MOTORS -1] *= GRIP_SCALE;
+	vel_f[NUM_MOTORS -1] *= 1.0f/GRIP_SCALE;
 
 	move_mit_all(leader_info->arm, leader_info->hcan, pos_f, vel_f, leader_info->Kp, leader_info->Kd, leader_info->joint_torque);
 	move_mit_all(follower_info->arm, follower_info->hcan, pos_l, vel_l, follower_info->Kp, follower_info->Kd, follower_info->joint_torque);
 
+	
 	// move_mit_all(leader_info->arm, leader_info->hcan, pos_f, vel_f, leader_info->Kp, leader_info->Kd, zero);
 	// move_mit_all(follower_info->arm, follower_info->hcan, pos_l, vel_l, follower_info->Kp, follower_info->Kd, zero);
 

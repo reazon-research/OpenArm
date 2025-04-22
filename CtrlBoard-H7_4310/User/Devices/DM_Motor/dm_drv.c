@@ -292,6 +292,7 @@ void mit_ctrl(hcan_t* hcan, uint16_t motor_id, float pos, float vel,float kp, fl
 	
 	canx_send_data(hcan, id, data, 8);
 }
+
 /**
 ************************************************************************
 * @brief:      	pos_speed_ctrl: position cascade mode that uses three-loop series control

@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32H7\STM32H7.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32H7\STM32H7.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6230001: Last Updated: Tue Apr 22 02:01:37 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6230001: Last Updated: Tue Apr 22 14:17:59 2025
 <BR><P>
 <H3>Maximum Stack Usage =       1772 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1895,7 +1895,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32h723xx.o(RESET)
 </UL>
-<P><STRONG><a name="[130]"></a>bilateral_control_v1</STRONG> (Thumb, 1084 bytes, Stack size 448 bytes, control.o(.text.bilateral_control_v1))
+<P><STRONG><a name="[130]"></a>bilateral_control_v1</STRONG> (Thumb, 1264 bytes, Stack size 448 bytes, control.o(.text.bilateral_control_v1))
 <BR><BR>[Stack]<UL><LI>Max Depth = 612<LI>Call Chain = bilateral_control_v1 &rArr; move_mit_all &rArr; canx_send_data &rArr; HAL_FDCAN_AddMessageToTxFifoQ &rArr; FDCAN_CopyMessageToRAM
 </UL>
 <BR>[Calls]<UL><LI><a href="#[131]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_mit_all
@@ -1941,7 +1941,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[93]"></a>main</STRONG> (Thumb, 1536 bytes, Stack size 1160 bytes, main.o(.text.main))
+<P><STRONG><a name="[93]"></a>main</STRONG> (Thumb, 1532 bytes, Stack size 1160 bytes, main.o(.text.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1772<LI>Call Chain = main &rArr; bilateral_control_v1 &rArr; move_mit_all &rArr; canx_send_data &rArr; HAL_FDCAN_AddMessageToTxFifoQ &rArr; FDCAN_CopyMessageToRAM
 </UL>
 <BR>[Calls]<UL><LI><a href="#[13b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;openarm_disable

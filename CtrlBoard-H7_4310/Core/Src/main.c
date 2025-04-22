@@ -50,8 +50,6 @@
 /* USER CODE BEGIN PD */
 #define CONTROL_PERIOD_US 1000
 #define TOGGLE_PERIOD_US 5000000  // 5 seconds in microseconds
-#define ROLE_LEADER 1
-#define ROLE_FOLLWER 2
 
 OpenArm_t arm;
 OpenArm_t arm2;
@@ -202,23 +200,23 @@ int main(void)
   // float Kd_follower[NUM_MOTORS] =  {0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.0f};
   // float Kf_follower[NUM_MOTORS] =  {1.4f, 1.4f, 1.4f, 1.4f, 1.4f, 1.4f, 1.4f, 1.4f};
   
-  float Dn_leader[NUM_MOTORS] =  {0.07f, 0.07f, 0.03f, 0.03f, 0.03f, 0.003f, 0.003f, 0.00f};
-  float Jn_leader[NUM_MOTORS] =  {0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f};
-  float gnd_leader[NUM_MOTORS] = {5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 0.0f};
-  float gnf_leader[NUM_MOTORS] = {5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 0.0f};
-  float Gn_leader[NUM_MOTORS] =  {0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f};
-  float Kp_leader[NUM_MOTORS] =  {130.0f, 120.0f, 110.0f, 110.0f, 12.0f, 15.0f, 15.0f, 0.0f};
-  float Kd_leader[NUM_MOTORS] =  {2.4f, 1.4f, 1.4f, 1.4f, 0.4f, 0.4f, 0.4f, 0.0f};
-  float Kf_leader[NUM_MOTORS] =  {0.4f, 0.4f, 0.4f, 0.4f, 0.2f, 0.2f, 0.2f, 0.0f};
+  float Dn_leader[NUM_MOTORS] =  {0.1f, 0.1f, 0.03f, 0.03f, 0.03f, 0.003f, 0.003f, 0.001f};
+  float Jn_leader[NUM_MOTORS] =  {0.03f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f};
+  float gnd_leader[NUM_MOTORS] = {10.0f, 10.0f, 10.0f, 10.0f, 5.0f, 5.0f, 5.0f, 0.0f};
+  float gnf_leader[NUM_MOTORS] = {10.0f, 10.0f, 10.0f, 10.0f, 5.0f, 5.0f, 5.0f, 0.0f};
+  float Gn_leader[NUM_MOTORS] =  {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.2f, 0.0f, 0.0f};
+  float Kp_leader[NUM_MOTORS] =  {160.0f, 140.0f, 110.0f, 110.0f, 12.0f, 15.0f, 15.0f, 6.0f};
+  float Kd_leader[NUM_MOTORS] =  {3.4f, 2.4f, 1.4f, 1.4f, 0.4f, 0.4f, 0.4f, 0.03f};
+  float Kf_leader[NUM_MOTORS] =  {0.7f, 0.7f, 0.7f, 0.7f, 0.4f, 0.4f, 0.4f, 0.0f};
 
-  float Dn_follower[NUM_MOTORS] =  {0.07f, 0.07f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f};
-  float Jn_follower[NUM_MOTORS] =  {0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.000f};
-  float gnd_follower[NUM_MOTORS] = {5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 0.0f};
-  float gnf_follower[NUM_MOTORS] = {5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 0.0f};
-  float Gn_follower[NUM_MOTORS] =  {0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f};
-  float Kp_follower[NUM_MOTORS] =  {130.0f, 120.0f, 110.0f, 110.0f, 12.0f, 15.0f, 15.0f, 0.0f};
-  float Kd_follower[NUM_MOTORS] =  {2.4f, 1.4f, 1.4f, 1.4f, 1.4f, 0.4f, 0.4f, 0.0f};
-  float Kf_follower[NUM_MOTORS] =  {0.4f, 0.4f, 0.4f, 0.4f, 0.2f, 0.2f, 0.2f, 0.0f};
+  float Dn_follower[NUM_MOTORS] =  {0.1f, 0.1f, 0.03f, 0.03f, 0.03f, 0.003f, 0.003f, 0.001f};
+  float Jn_follower[NUM_MOTORS] =  {0.03f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.000f};
+  float gnd_follower[NUM_MOTORS] = {10.0f, 10.0f, 10.0f, 10.0f, 5.0f, 5.0f, 5.0f, 0.0f};
+  float gnf_follower[NUM_MOTORS] = {10.0f, 10.0f, 10.0f, 10.0f, 5.0f, 5.0f, 5.0f, 0.0f};
+  float Gn_follower[NUM_MOTORS] =  {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.2f, 0.0f, 0.0f};
+  float Kp_follower[NUM_MOTORS] =  {160.0f, 140.0f, 110.0f, 110.0f, 12.0f, 15.0f, 15.0f, 6.0f / GRIP_SCALE};
+  float Kd_follower[NUM_MOTORS] =  {3.4f, 2.4f, 1.4f, 1.4f, 1.4f, 0.4f, 0.4f, 0.03f / GRIP_SCALE};
+  float Kf_follower[NUM_MOTORS] =  {0.7f, 0.7f, 0.7f, 0.7f, 0.4f, 0.4f, 0.4f, 0.0f};
 
   float disturbance_leader[NUM_MOTORS] = {0};
   float reactionforce_leader[NUM_MOTORS] = {0};
@@ -293,12 +291,6 @@ int main(void)
 
   openarm_set_zero_position(&arm, &hfdcan1);
   openarm_set_zero_position(&arm2, &hfdcan2);
-
-	// set_zero_position(&hfdcan1, 0x01);
-	// set_zero_position(&hfdcan1, 0x02);
-	// set_zero_position(&hfdcan2, 0x01);
-	// set_zero_position(&hfdcan2, 0x02);
-
 	
 	uint32_t toggle_timer = 0;
 	uint8_t toggle = 0;
@@ -308,7 +300,12 @@ int main(void)
 	__HAL_TIM_SET_COUNTER(&htim2, 0);  // Reset timer to avoid drift
 
   GPIO_PinState last_key_state = GPIO_PIN_SET;
-  bool torque_disabled = false;  
+  bool torque_disabled = false;
+
+  // usart1 send
+  // char msg[] = "Hello from USART1!\r\n";
+  // HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+   
 
   while (1)
   { 
@@ -317,6 +314,7 @@ int main(void)
     uint32_t elapsed = now - last_time;
 
     t_schedule += CONTROL_PERIOD_US;
+
 
     int32_t td = t_schedule - __HAL_TIM_GET_COUNTER(&htim2);
 
@@ -339,7 +337,14 @@ int main(void)
 		// EventRecord2(0x03, positions[0]*100, 0x01);
 
     // bilateral control
-    bilateral_control_v1(&leader_info, &follower_info);
+    bool use_bilate = true;
+    if(use_bilate){
+      bilateral_control_v1(&leader_info, &follower_info);
+    }
+    else {
+     move_mit_all(&arm, &hfdcan1, zero, zero, leader_info.Kp, leader_info.Kd, zero);
+     move_mit_all(&arm2, &hfdcan2, zero, zero, follower_info.Kp, follower_info.Kd, zero);
+    }
 
     //  move_mit_all(&arm, &hfdcan1, zero, zero, leader_info.Kp, leader_info.Kd, zero);
     //  move_mit_all(&arm2, &hfdcan2, zero, zero, follower_info.Kp, follower_info.Kd, zero);

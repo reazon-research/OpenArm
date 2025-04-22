@@ -4,6 +4,10 @@
 #include "dm_drv.h"
 #include "can_bsp.h"
 #include "arm_math.h"
+
+#define ROLE_LEADER 1
+#define ROLE_FOLLWER 2
+#define GRIP_SCALE 3.3
 // #include "fdcan.h"
 
 // extern OpenArm_t arm;
@@ -76,12 +80,15 @@ void init_bilateral_info(BilateralInfo_t* info, float Ts, int role,
                          float *reacrionforce,
                          float *joint_torque);
 
-
 void Get_Response(BilateralInfo_t* bilateinfo, float* pos, float* vel, float* effort);
 void Set_Reference();
-void Compute_Friction_Torque(BilateralInfo_t* bilateinfo, float* vel, float* friction);
-void Compute_Input_Torque();
 
+void Compute_Friction_Torque(BilateralInfo_t* bilateinfo, float* vel, float* friction);
+void Comupute_Gravity_Torque(BilateralInfo_t* bilateinfo, float* pos, float* gravity);
+void Comupute_Corioli_Torque(BilateralInfo_t* bilateinfo, float* pos, float* vel, float* corioli);
+void Comupute_Inertia_Diag(BilateralInfo_t* bilateinfo, float* pos, float* friction);
+
+void Compute_velocity(BilateralInfo_t* bilateinfo, float* pos, float* vel);
 
 void bilateral_control_v1(BilateralInfo_t* leader_info, BilateralInfo_t* follower_info);
 void bilateral_control_21();
