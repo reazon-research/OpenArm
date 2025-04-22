@@ -45,7 +45,6 @@ extern "C" {
 /** @addtogroup PCDEx_Exported_Functions_Group1 Peripheral Control functions
   * @{
   */
-
 #if defined (USB_OTG_FS) || defined (USB_OTG_HS)
 HAL_StatusTypeDef HAL_PCDEx_SetTxFiFo(PCD_HandleTypeDef *hpcd, uint8_t fifo, uint16_t size);
 HAL_StatusTypeDef HAL_PCDEx_SetRxFiFo(PCD_HandleTypeDef *hpcd, uint16_t size);

@@ -119,7 +119,7 @@
 
 /**
   * @}
-  */  
+  */
 #endif /* DUAL_CORE */
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
@@ -205,7 +205,7 @@ HAL_StatusTypeDef HAL_HSEM_FastTake(uint32_t SemID)
     /*take success when MasterID match and take bit set*/
     return HAL_OK;
   }
-#else  
+#else
   /* Read the RLR register to take the semaphore */
   if (HSEM->RLR[SemID] == (HSEM_CR_COREID_CURRENT | HSEM_RLR_LOCK))
   {

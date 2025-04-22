@@ -544,7 +544,7 @@ void HAL_PWREx_EnableMemoryShutOff  (uint32_t MemoryBlock);
 void HAL_PWREx_DisableMemoryShutOff (uint32_t MemoryBlock);
 #endif /* defined(PWR_CR1_SRDRAMSO) */
 /* Wakeup Pins control functions */
-void HAL_PWREx_EnableWakeUpPin              (PWREx_WakeupPinTypeDef *sPinParams);
+void HAL_PWREx_EnableWakeUpPin              (const PWREx_WakeupPinTypeDef *sPinParams);
 void HAL_PWREx_DisableWakeUpPin             (uint32_t WakeUpPin);
 uint32_t HAL_PWREx_GetWakeupFlag            (uint32_t WakeUpFlag);
 HAL_StatusTypeDef HAL_PWREx_ClearWakeupFlag (uint32_t WakeUpFlag);
@@ -599,7 +599,7 @@ uint32_t HAL_PWREx_GetVBATLevel        (void);
 PWREx_MMC_VoltageLevel HAL_PWREx_GetMMCVoltage (void);
 #endif /* PWR_CSR1_MMCVDO */
 /* Power AVD configuration functions */
-void HAL_PWREx_ConfigAVD  (PWREx_AVDTypeDef *sConfigAVD);
+void HAL_PWREx_ConfigAVD  (const PWREx_AVDTypeDef *sConfigAVD);
 void HAL_PWREx_EnableAVD  (void);
 void HAL_PWREx_DisableAVD (void);
 /* Power PVD/AVD IRQ Handler */

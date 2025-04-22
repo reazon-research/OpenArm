@@ -21,6 +21,7 @@
 #include "dcmi.h"
 #include "fdcan.h"
 #include "i2c.h"
+#include "memorymap.h"
 #include "octospi.h"
 #include "spi.h"
 #include "tim.h"
@@ -93,6 +94,7 @@ int __io_putchar(int ch)
   */
 int main(void)
 {
+
   /* USER CODE BEGIN 1 */
 	
 //01 08 00 00 02 00 00 00
@@ -134,7 +136,6 @@ int main(void)
   MX_USB_OTG_HS_PCD_Init();
   MX_FDCAN2_Init();
   MX_TIM2_Init();
-
   /* USER CODE BEGIN 2 */
 	Power_OUT1_ON;
 	Power_OUT2_ON;
@@ -306,7 +307,10 @@ int main(void)
   // char msg[] = "Hello from USART1!\r\n";
   // HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
    
+  /* USER CODE END 2 */
 
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
   while (1)
   { 
 		

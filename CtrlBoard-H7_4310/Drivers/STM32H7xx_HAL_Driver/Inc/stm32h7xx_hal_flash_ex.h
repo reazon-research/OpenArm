@@ -176,6 +176,20 @@ typedef struct
 
 } FLASH_CRCInitTypeDef;
 
+#if (USE_FLASH_ECC == 1U)
+/**
+  * @brief  ECC Info Structure definition
+  */
+typedef struct
+{
+  uint32_t               Area;             /*!< Area from which an ECC was detected.
+                                                This parameter can be a value of @ref FLASHEx_ECC_Area  */
+
+  uint32_t               Address;          /*!< ECC error address */
+
+} FLASH_EccInfoTypeDef;
+#endif /* USE_FLASH_ECC */
+
 /**
   * @}
   */
@@ -215,6 +229,18 @@ typedef struct
 /**
   * @}
   */
+
+#if (USE_FLASH_ECC == 1U)
+/** @defgroup FLASH_ECC_Area FLASH ECC Area
+  * @brief    FLASH ECC Area
+  * @{
+  */
+#define FLASH_ECC_AREA_USER_BANK1         0x00000000U        /*!< FLASH bank 1 area */
+#define FLASH_ECC_AREA_USER_BANK2         0x00000001U        /*!< FLASH bank 2 area */
+/**
+  * @}
+  */
+#endif /* USE_FLASH_ECC */
 
 /** @defgroup FLASHEx_Option_Type FLASH Option Type
   * @{
@@ -836,6 +862,38 @@ HAL_StatusTypeDef HAL_FLASHEx_ComputeCRC(FLASH_CRCInitTypeDef *pCRCInit, uint32_
 /**
   * @}
   */
+
+#if (USE_FLASH_ECC == 1U)
+/** @addtogroup FLASHEx_Exported_Functions_Group3
+  * @{
+  */
+void              HAL_FLASHEx_EnableEccCorrectionInterrupt(void);
+void              HAL_FLASHEx_DisableEccCorrectionInterrupt(void);
+void              HAL_FLASHEx_EnableEccCorrectionInterrupt_Bank1(void);
+void              HAL_FLASHEx_DisableEccCorrectionInterrupt_Bank1(void);
+#if defined (DUAL_BANK)
+void              HAL_FLASHEx_EnableEccCorrectionInterrupt_Bank2(void);
+void              HAL_FLASHEx_DisableEccCorrectionInterrupt_Bank2(void);
+#endif /* DUAL_BANK */
+
+void              HAL_FLASHEx_EnableEccDetectionInterrupt(void);
+void              HAL_FLASHEx_DisableEccDetectionInterrupt(void);
+void              HAL_FLASHEx_EnableEccDetectionInterrupt_Bank1(void);
+void              HAL_FLASHEx_DisableEccDetectionInterrupt_Bank1(void);
+#if defined (DUAL_BANK)
+void              HAL_FLASHEx_EnableEccDetectionInterrupt_Bank2(void);
+void              HAL_FLASHEx_DisableEccDetectionInterrupt_Bank2(void);
+#endif /* DUAL_BANK */
+
+void              HAL_FLASHEx_GetEccInfo(FLASH_EccInfoTypeDef *pData);
+void              HAL_FLASHEx_BusFault_IRQHandler(void);
+
+__weak void       HAL_FLASHEx_EccDetectionCallback(void);
+__weak void       HAL_FLASHEx_EccCorrectionCallback(void);
+/**
+  * @}
+  */
+#endif /* USE_FLASH_ECC */
 
 /**
   * @}

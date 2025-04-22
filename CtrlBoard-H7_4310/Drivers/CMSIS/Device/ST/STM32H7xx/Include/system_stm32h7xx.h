@@ -84,6 +84,7 @@ extern const  uint8_t D1CorePrescTable[16] ; /*!< D1CorePrescTable prescalers ta
 
 extern void SystemInit(void);
 extern void SystemCoreClockUpdate(void);
+extern void ExitRun0Mode(void);
 /**
   * @}
   */

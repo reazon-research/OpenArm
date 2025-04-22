@@ -58,7 +58,6 @@
 
     (#) SPIEx function:
         (++) HAL_SPIEx_FlushRxFifo()
-        (++) HAL_SPIEx_FlushRxFifo()
         (++) HAL_SPIEx_EnableLockConfiguration()
         (++) HAL_SPIEx_ConfigureUnderrun()
 

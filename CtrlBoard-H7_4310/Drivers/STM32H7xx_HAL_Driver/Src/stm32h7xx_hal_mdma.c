@@ -708,7 +708,7 @@ HAL_StatusTypeDef HAL_MDMA_LinkedList_CreateNode(MDMA_LinkNodeTypeDef *pNode, MD
   *
   * @retval HAL status
   */
-HAL_StatusTypeDef HAL_MDMA_LinkedList_AddNode(MDMA_HandleTypeDef *hmdma, MDMA_LinkNodeTypeDef *pNewNode, MDMA_LinkNodeTypeDef *pPrevNode)
+HAL_StatusTypeDef HAL_MDMA_LinkedList_AddNode(MDMA_HandleTypeDef *hmdma, MDMA_LinkNodeTypeDef *pNewNode, const MDMA_LinkNodeTypeDef *pPrevNode)
 {
   MDMA_LinkNodeTypeDef *pNode;
   uint32_t counter = 0, nodeInserted = 0;
@@ -1719,7 +1719,7 @@ void HAL_MDMA_IRQHandler(MDMA_HandleTypeDef *hmdma)
   *               the configuration information for the specified MDMA Channel.
   * @retval HAL state
   */
-HAL_MDMA_StateTypeDef HAL_MDMA_GetState(MDMA_HandleTypeDef *hmdma)
+HAL_MDMA_StateTypeDef HAL_MDMA_GetState(const MDMA_HandleTypeDef *hmdma)
 {
   return hmdma->State;
 }
@@ -1730,7 +1730,7 @@ HAL_MDMA_StateTypeDef HAL_MDMA_GetState(MDMA_HandleTypeDef *hmdma)
   *              the configuration information for the specified MDMA Channel.
   * @retval MDMA Error Code
   */
-uint32_t HAL_MDMA_GetError(MDMA_HandleTypeDef *hmdma)
+uint32_t HAL_MDMA_GetError(const MDMA_HandleTypeDef *hmdma)
 {
   return hmdma->ErrorCode;
 }

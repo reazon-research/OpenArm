@@ -412,7 +412,7 @@ void HAL_PWR_DisableBkUpAccess (void)
   *         only Cortex-M4 or wake up Cortex-M7 and Cortex-M4.
   * @retval None.
   */
-void HAL_PWR_ConfigPVD (PWR_PVDTypeDef *sConfigPVD)
+void HAL_PWR_ConfigPVD (const PWR_PVDTypeDef *sConfigPVD)
 {
   /* Check the PVD configuration parameter */
   if (sConfigPVD == NULL)
@@ -566,6 +566,9 @@ void HAL_PWR_EnterSLEEPMode (uint32_t Regulator, uint8_t SLEEPEntry)
   /* Check the parameters */
   assert_param (IS_PWR_REGULATOR (Regulator));
   assert_param (IS_PWR_SLEEP_ENTRY (SLEEPEntry));
+
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(Regulator);
 
   /* Clear SLEEPDEEP bit of Cortex System Control Register */
   CLEAR_BIT (SCB->SCR, SCB_SCR_SLEEPDEEP_Msk);

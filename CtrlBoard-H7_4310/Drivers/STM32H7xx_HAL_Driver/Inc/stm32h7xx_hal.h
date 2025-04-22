@@ -59,8 +59,14 @@ typedef enum
   * @{
   */
 #define REV_ID_Y ((uint32_t)0x1003)  /*!< STM32H7 rev.Y */
+#define REV_ID_Z ((uint32_t)0x1001)  /*!< STM32H7 rev.Z */
+#define REV_ID_A ((uint32_t)0x1000)  /*!< STM32H7 rev.A */
 #define REV_ID_B ((uint32_t)0x2000)  /*!< STM32H7 rev.B */
+#if (STM32H7_DEV_ID == 0x450UL)
 #define REV_ID_X ((uint32_t)0x2001)  /*!< STM32H7 rev.X */
+#else
+#define REV_ID_X ((uint32_t)0x1007)  /*!< STM32H7 rev.X */
+#endif /* STM32H7_DEV_ID */
 #define REV_ID_V ((uint32_t)0x2003)  /*!< STM32H7 rev.V */
 
 /**

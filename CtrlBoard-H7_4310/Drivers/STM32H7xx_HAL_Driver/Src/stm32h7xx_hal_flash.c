@@ -123,8 +123,8 @@ FLASH_ProcessTypeDef pFlash;
   */
 
 /** @defgroup FLASH_Exported_Functions_Group1 Programming operation functions
- *  @brief   Programming operation functions
- *
+  *  @brief   Programming operation functions
+  *
 @verbatim
  ===============================================================================
                   ##### Programming operation functions #####
@@ -173,6 +173,8 @@ HAL_StatusTypeDef HAL_FLASH_Program(uint32_t TypeProgram, uint32_t FlashAddress,
 #endif /* FLASH_OPTCR_PG_OTP */
   {
     bank = FLASH_BANK_1;
+    /* Prevent unused argument(s) compilation warning */
+    UNUSED(TypeProgram);
   }
 #if defined (DUAL_BANK)
   else if(IS_FLASH_PROGRAM_ADDRESS_BANK2(FlashAddress))
@@ -339,6 +341,8 @@ HAL_StatusTypeDef HAL_FLASH_Program_IT(uint32_t TypeProgram, uint32_t FlashAddre
 #endif /* FLASH_OPTCR_PG_OTP */
   {
     bank = FLASH_BANK_1;
+    /* Prevent unused argument(s) compilation warning */
+    UNUSED(TypeProgram);
   }
 #if defined (DUAL_BANK)
   else if(IS_FLASH_PROGRAM_ADDRESS_BANK2(FlashAddress))
@@ -655,6 +659,38 @@ void HAL_FLASH_IRQHandler(void)
     HAL_FLASH_OperationErrorCallback(temp);
   }
 
+#if (USE_FLASH_ECC == 1U)
+  /* Check FLASH Bank1 ECC single correction error flag */
+  errorflag = FLASH->SR1 & FLASH_FLAG_SNECCERR_BANK1;
+
+  if(errorflag != 0U)
+  {
+    /* Save the error code */
+    pFlash.ErrorCode |= errorflag;
+
+    /* Call User callback */
+    HAL_FLASHEx_EccCorrectionCallback();
+
+    /* Clear FLASH Bank1 ECC single correction error flag in order to allow new ECC error record */
+    __HAL_FLASH_CLEAR_FLAG_BANK1(errorflag);
+  }
+
+  /* Check FLASH Bank1 ECC double detection error flag */
+  errorflag = FLASH->SR1 & FLASH_FLAG_DBECCERR_BANK1;
+
+  if(errorflag != 0U)
+  {
+    /* Save the error code */
+    pFlash.ErrorCode |= errorflag;
+
+    /* Call User callback */
+    HAL_FLASHEx_EccDetectionCallback();
+
+    /* Clear FLASH Bank1 ECC double detection error flag in order to allow new ECC error record */
+    __HAL_FLASH_CLEAR_FLAG_BANK1(errorflag);
+  }
+#endif /* USE_FLASH_ECC */
+
 #if defined (DUAL_BANK)
   /* Check FLASH Bank2 operation error flags */
 #if defined (FLASH_SR_OPERR)
@@ -698,6 +734,39 @@ void HAL_FLASH_IRQHandler(void)
     /* FLASH error interrupt user callback */
     HAL_FLASH_OperationErrorCallback(temp);
   }
+
+#if (USE_FLASH_ECC == 1U)
+  /* Check FLASH Bank2 ECC single correction error flag */
+  errorflag = FLASH->SR2 & FLASH_FLAG_SNECCERR_BANK2;
+
+  if(errorflag != 0U)
+  {
+    /* Save the error code */
+    pFlash.ErrorCode |= (errorflag | 0x80000000U);
+
+    /* Call User callback */
+    HAL_FLASHEx_EccCorrectionCallback();
+
+    /* Clear FLASH Bank2 ECC single correction error flag in order to allow new ECC error record */
+    __HAL_FLASH_CLEAR_FLAG_BANK2(errorflag);
+  }
+
+  /* Check FLASH Bank2 ECC double detection error flag */
+  errorflag = FLASH->SR2 & FLASH_FLAG_DBECCERR_BANK2;
+
+  if(errorflag != 0U)
+  {
+    /* Save the error code */
+    pFlash.ErrorCode |= (errorflag | 0x80000000U);
+
+    /* Call User callback */
+    HAL_FLASHEx_EccDetectionCallback();
+
+    /* Clear FLASH Bank2 ECC double detection error flag in order to allow new ECC error record */
+    __HAL_FLASH_CLEAR_FLAG_BANK2(errorflag);
+  }
+
+#endif /* USE_FLASH_ECC */
 #endif /* DUAL_BANK */
 
   if(pFlash.ProcedureOnGoing == FLASH_PROC_NONE)
@@ -771,8 +840,8 @@ __weak void HAL_FLASH_OperationErrorCallback(uint32_t ReturnValue)
   */
 
 /** @defgroup FLASH_Exported_Functions_Group2 Peripheral Control functions
- *  @brief   Management functions
- *
+  *  @brief   Management functions
+  *
 @verbatim
  ===============================================================================
                       ##### Peripheral Control functions #####
@@ -932,8 +1001,8 @@ HAL_StatusTypeDef HAL_FLASH_OB_Launch(void)
   */
 
 /** @defgroup FLASH_Exported_Functions_Group3 Peripheral State and Errors functions
- *  @brief   Peripheral Errors functions
- *
+  *  @brief   Peripheral Errors functions
+  *
 @verbatim
  ===============================================================================
                 ##### Peripheral Errors functions #####
@@ -971,7 +1040,7 @@ HAL_StatusTypeDef HAL_FLASH_OB_Launch(void)
   *            @arg HAL_FLASH_ERROR_SNECC_BANK2: SNECC Error on Bank 2
   *            @arg HAL_FLASH_ERROR_DBECC_BANK2: Double Detection ECC on Bank 2
   *            @arg HAL_FLASH_ERROR_CRCRD_BANK2: CRC Read Error on Bank 2
-*/
+  */
 
 uint32_t HAL_FLASH_GetError(void)
 {

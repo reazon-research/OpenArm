@@ -54,7 +54,12 @@ extern "C" {
 #define GPIO_AF0_SWJ           ((uint8_t)0x00)  /* SWJ (SWD and JTAG) Alternate Function mapping                                           */
 #define GPIO_AF0_LCDBIAS       ((uint8_t)0x00)  /* LCDBIAS Alternate Function mapping                                                      */
 #define GPIO_AF0_TRACE         ((uint8_t)0x00)  /* TRACE Alternate Function mapping                                                        */
-#if defined (PWR_CPUCR_PDDS_D2) /* PWR D1 and D2 domains exists */
+#if defined(PWR_CPUCR_RETDS_CD) /* CPU domain power down Deepsleep */
+#define GPIO_AF0_CSLEEP        ((uint8_t)0x00)  /* CSLEEP Alternate Function mapping                                                       */
+#define GPIO_AF0_CSTOP         ((uint8_t)0x00)  /* CSTOP Alternate Function mapping                                                        */
+#define GPIO_AF0_NDSTOP2       ((uint8_t)0x00)  /* NDSTOP2 Alternate Function mapping                                                      */
+#endif /* PWR_CPUCR_RETDS_CD */
+#if defined(PWR_CPUCR_PDDS_D2) /* PWR D1 and D2 domains exists */
 #define GPIO_AF0_C1DSLEEP      ((uint8_t)0x00)  /* Cortex-M7 Deep Sleep Alternate Function mapping : available on STM32H7 Rev.B and above  */
 #define GPIO_AF0_C1SLEEP       ((uint8_t)0x00)  /* Cortex-M7 Sleep Alternate Function mapping : available on STM32H7 Rev.B and above       */
 #define GPIO_AF0_D1PWREN       ((uint8_t)0x00)  /* Domain 1 PWR enable Alternate Function mapping : available on STM32H7 Rev.B and above   */
