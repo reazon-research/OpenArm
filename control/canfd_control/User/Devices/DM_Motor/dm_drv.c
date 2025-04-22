@@ -56,6 +56,7 @@ void joint_motor_init(Joint_Motor_t *motor,uint16_t id, uint16_t master_id, uint
 				motor->tmp.TMAX = T_MAX_8009;
 				break;
 			case DM3507:
+				break;
 			default: 
 				break;
 		}
@@ -77,9 +78,6 @@ void dm_fbdata(Joint_Motor_t *motor, uint8_t *rx_data,uint32_t data_len)
 		motor->pos = uint_to_float(motor->p_int, -motor->tmp.PMAX, motor->tmp.PMAX, 16); // 
 		motor->vel = uint_to_float(motor->v_int, -motor->tmp.VMAX, motor->tmp.VMAX, 12); // 
 		motor->tor = uint_to_float(motor->t_int, -motor->tmp.TMAX, motor->tmp.TMAX, 12);  // 
-	  
-		//EventRecord2(0x01, rx_data[0]&0x0F, motor->vel);
-		//printf("ID: %d Velocity: %0.2f\r\n", (rx_data[0])&0x0F, motor->vel);
 	  motor->Tmos = (float)(rx_data[6]);
 	  motor->Tcoil = (float)(rx_data[7]);
 
