@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32H7\STM32H7.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32H7\STM32H7.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6230001: Last Updated: Mon Apr 21 16:54:53 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6230001: Last Updated: Mon Apr 21 20:01:04 2025
 <BR><P>
 <H3>Maximum Stack Usage =        496 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -790,7 +790,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[1d]"></a>FDCAN1_IT0_IRQHandler</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, stm32h7xx_it.o(.text.FDCAN1_IT0_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = FDCAN1_IT0_IRQHandler &rArr; HAL_FDCAN_IRQHandler &rArr; HAL_FDCAN_RxFifo0Callback &rArr; EventRecord2
+<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = FDCAN1_IT0_IRQHandler &rArr; HAL_FDCAN_IRQHandler &rArr; HAL_FDCAN_RxFifo0Callback &rArr; EventRecord2
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FDCAN_IRQHandler
 </UL>
@@ -809,7 +809,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[1e]"></a>FDCAN2_IT0_IRQHandler</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, stm32h7xx_it.o(.text.FDCAN2_IT0_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = FDCAN2_IT0_IRQHandler &rArr; HAL_FDCAN_IRQHandler &rArr; HAL_FDCAN_RxFifo0Callback &rArr; EventRecord2
+<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = FDCAN2_IT0_IRQHandler &rArr; HAL_FDCAN_IRQHandler &rArr; HAL_FDCAN_RxFifo0Callback &rArr; EventRecord2
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FDCAN_IRQHandler
 </UL>
@@ -885,11 +885,11 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FDCAN_IRQHandler
 </UL>
 
-<P><STRONG><a name="[d0]"></a>HAL_FDCAN_GetRxFifoFillLevel</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32h7xx_hal_fdcan.o(.text.HAL_FDCAN_GetRxFifoFillLevel))
+<P><STRONG><a name="[d1]"></a>HAL_FDCAN_GetRxFifoFillLevel</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32h7xx_hal_fdcan.o(.text.HAL_FDCAN_GetRxFifoFillLevel))
 <BR><BR>[Called By]<UL><LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FDCAN_RxFifo0Callback
 </UL>
 
-<P><STRONG><a name="[d2]"></a>HAL_FDCAN_GetRxMessage</STRONG> (Thumb, 394 bytes, Stack size 16 bytes, stm32h7xx_hal_fdcan.o(.text.HAL_FDCAN_GetRxMessage))
+<P><STRONG><a name="[d0]"></a>HAL_FDCAN_GetRxMessage</STRONG> (Thumb, 394 bytes, Stack size 16 bytes, stm32h7xx_hal_fdcan.o(.text.HAL_FDCAN_GetRxMessage))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = HAL_FDCAN_GetRxMessage
 </UL>
 <BR>[Called By]<UL><LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FDCAN_RxFifo1Callback
@@ -905,7 +905,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[b1]"></a>HAL_FDCAN_IRQHandler</STRONG> (Thumb, 806 bytes, Stack size 64 bytes, stm32h7xx_hal_fdcan.o(.text.HAL_FDCAN_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = HAL_FDCAN_IRQHandler &rArr; HAL_FDCAN_RxFifo0Callback &rArr; EventRecord2
+<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = HAL_FDCAN_IRQHandler &rArr; HAL_FDCAN_RxFifo0Callback &rArr; EventRecord2
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FDCAN_TT_GlobalTimeCallback
 <LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FDCAN_TT_StopWatchCallback
@@ -957,13 +957,13 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FDCAN_IRQHandler
 </UL>
 
-<P><STRONG><a name="[be]"></a>HAL_FDCAN_RxFifo0Callback</STRONG> (Thumb, 184 bytes, Stack size 32 bytes, can_bsp.o(.text.HAL_FDCAN_RxFifo0Callback))
-<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = HAL_FDCAN_RxFifo0Callback &rArr; EventRecord2
+<P><STRONG><a name="[be]"></a>HAL_FDCAN_RxFifo0Callback</STRONG> (Thumb, 164 bytes, Stack size 24 bytes, can_bsp.o(.text.HAL_FDCAN_RxFifo0Callback))
+<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = HAL_FDCAN_RxFifo0Callback &rArr; EventRecord2
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EventRecord2
-<LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FDCAN_GetRxFifoFillLevel
-<LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FDCAN_GetRxMessage
-<LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
+<LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FDCAN_GetRxFifoFillLevel
+<LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FDCAN_GetRxMessage
+<LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 <LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 <LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dm_fbdata
 </UL>
@@ -973,7 +973,7 @@ Global Symbols
 <P><STRONG><a name="[bf]"></a>HAL_FDCAN_RxFifo1Callback</STRONG> (Thumb, 114 bytes, Stack size 16 bytes, can_bsp.o(.text.HAL_FDCAN_RxFifo1Callback))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = HAL_FDCAN_RxFifo1Callback &rArr; HAL_FDCAN_GetRxMessage
 </UL>
-<BR>[Calls]<UL><LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FDCAN_GetRxMessage
+<BR>[Calls]<UL><LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FDCAN_GetRxMessage
 <LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 <LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dm_fbdata
 </UL>
@@ -1894,7 +1894,7 @@ Global Symbols
 <LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
 <LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 <LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
-<LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
+<LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)
 </UL>
@@ -1935,7 +1935,7 @@ Global Symbols
 
 <P><STRONG><a name="[140]"></a>__1printf$5</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printf5.o(i.__0printf$5), UNUSED)
 
-<P><STRONG><a name="[d1]"></a>__2printf</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printf5.o(i.__0printf$5))
+<P><STRONG><a name="[d2]"></a>__2printf</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printf5.o(i.__0printf$5))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = __2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
