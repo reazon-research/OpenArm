@@ -211,7 +211,6 @@ typedef struct
 	float pos;
 	float vel;
 	float tor;
-
 	float Tmos;
 	float Tcoil;
 	

@@ -42,4 +42,5 @@ stm32h7/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\Drivers\CMSIS\DSP\Include\arm_math.h \
   ..\Drivers\CMSIS\Include\cmsis_compiler.h \
   C:\Users\tokiy\AppData\Local\Arm\Packs\ARM\CMSIS-View\1.2.0\EventRecorder\Include\EventRecorder.h \
-  ..\User\bsp\key_bsp.h ..\User\bsp\led_bsp.h ..\User\Motion\control.h
+  ..\User\bsp\key_bsp.h ..\User\bsp\led_bsp.h ..\User\Motion\control.h \
+  ..\User\Motion\compute_g.h

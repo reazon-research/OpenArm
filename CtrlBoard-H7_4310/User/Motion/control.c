@@ -1,5 +1,5 @@
 #include "control.h"
-
+#include "arm_math.h"
 
 void aaaa(){
 	printf("control\n\r");
@@ -60,11 +60,37 @@ void Compute_Friction_Torque(BilateralInfo_t* bilateinfo, float* vel, float* fri
     for (int i = 0; i < NUM_MOTORS; i++) {
         friction[i] = bilateinfo->Dn[i] * vel[i];
     }
-}
-
-void Comupute_Gravity_Torque(BilateralInfo_t* bilateinfo, float* pos, float* gravity){
 
 }
+
+// void Comupute_Gravity_Torque(BilateralInfo_t* bilateinfo, float* pos, float* gravity) {
+//     float q_in[18] = {0.0f};
+//     float temp_out[18] = {0.0f};  // CasADiの出力を一旦ここに
+
+//     const float* inp_ptr[1] = { q_in };
+//     float* out_ptr[1] = { temp_out };
+
+//     for (size_t i = 0; i < 18; ++i) {
+//         q_in[i] = (i < NUM_MOTORS) ? pos[i] : 0.0f;
+//     }
+
+//     compute_grav(inp_ptr, out_ptr, NULL, NULL, 0);
+
+//     for (int i = 0; i < NUM_MOTORS; ++i) {
+//         gravity[i] = temp_out[i];
+//     }
+// }
+
+
+
+
+void Comupute_Gravity_Torque(BilateralInfo_t* bilateinfo, float* pos, float* gravity) {
+	// gravity[0] = bilateinfo->Gn[0] * arm_sin_f32(pos[0]) + bilateinfo->Gn[3] * arm_sin_f32(pos[0] + pos[3]) + bilateinfo->Gn[5] * arm_sin_f32(pos[0] + pos[3] + pos[5]);
+	// gravity[3] = bilateinfo->Gn[3] * arm_sin_f32(pos[0] + pos[3])+bilateinfo->Gn[5] * arm_sin_f32(pos[0] + pos[3] + pos[5]);
+	// gravity[5] = bilateinfo->Gn[5] * arm_sin_f32(pos[0] + pos[3] + pos[5]);
+
+}
+
 
 void Comupute_Corioli_Torque(BilateralInfo_t* bilateinfo, float* pos, float* vel, float* corioli){
 
@@ -91,10 +117,10 @@ void bilateral_control_v1(BilateralInfo_t* leader_info, BilateralInfo_t* followe
 	Compute_Friction_Torque(leader_info, vel_l, friction_l);
 	Compute_Friction_Torque(follower_info, vel_f, friction_f);
 
-	// float gravity_l[NUM_MOTORS];
-	// float gravity_f[NUM_MOTORS];
-	// Comupute_Gravity_Torque(leader_info, pos_l, gravity_l);
-	// Comupute_Gravity_Torque(follower_info, pos_f, gravity_f);
+	float gravity_l[NUM_MOTORS] = {0.0};
+	float gravity_f[NUM_MOTORS] = {0.0};
+	Comupute_Gravity_Torque(leader_info, pos_l, gravity_l);
+	Comupute_Gravity_Torque(follower_info, pos_f, gravity_f);
 
 	// float corioli_l[NUM_MOTORS];
 	// float corioli_f[NUM_MOTORS];
@@ -125,10 +151,10 @@ void bilateral_control_v1(BilateralInfo_t* leader_info, BilateralInfo_t* followe
 		leader_info->joint_torque[i] = tau_leader_p + tau_leader_v + tau_leader_f + leader_info->disturbance[i];
 		follower_info->joint_torque[i] = tau_follower_p + tau_follower_v + tau_follower_f + follower_info->disturbance[i];
 
-		double a_dl = leader_info->gnd[i] * leader_info->Ts;
-		double a_df = follower_info->gnd[i] * follower_info->Ts;
-		double a_fl = leader_info->gnf[i] * leader_info->Ts;
-		double a_ff = follower_info->gnf[i] * follower_info->Ts;
+		float a_dl = leader_info->gnd[i] * leader_info->Ts;
+		float a_df = follower_info->gnd[i] * follower_info->Ts;
+		float a_fl = leader_info->gnf[i] * leader_info->Ts;
+		float a_ff = follower_info->gnf[i] * follower_info->Ts;
 		// print("a_l : %f \n\r", a_dl);
 
 		//DOB leader
@@ -142,12 +168,12 @@ void bilateral_control_v1(BilateralInfo_t* leader_info, BilateralInfo_t* followe
 		follower_info->disturbance[i] = follower_info->disturbance_lowpass_out[i] - follower_info->gnd[i] * follower_info->Jn[i] * vel_l[i];
 		
 		//RFOB leader
-		leader_info->reactionforce_lowpass_in[i] = (leader_info->joint_torque[i]) + leader_info->gnf[i] * leader_info->Jn[i] * vel_l[i] - friction_l[i];
+		leader_info->reactionforce_lowpass_in[i] = (leader_info->joint_torque[i]) + leader_info->gnf[i] * leader_info->Jn[i] * vel_l[i] - friction_l[i] - gravity_l[i];
 		leader_info->reactionforce_lowpass_out[i] += a_fl * (leader_info->reactionforce_lowpass_in[i] - leader_info->reactionforce_lowpass_out[i]);
 		leader_info->reactionforce[i] = leader_info->reactionforce_lowpass_out[i] - leader_info->gnf[i] * leader_info->Jn[i] * vel_l[i];
 		
 		//RFOB follower
-		follower_info->reactionforce_lowpass_in[i] = (follower_info->joint_torque[i]) + follower_info->gnf[i] * follower_info->Jn[i] * vel_f[i] - friction_f[i];
+		follower_info->reactionforce_lowpass_in[i] = (follower_info->joint_torque[i]) + follower_info->gnf[i] * follower_info->Jn[i] * vel_f[i] - friction_f[i] - gravity_f[i];
 		follower_info->reactionforce_lowpass_out[i] += a_ff * (follower_info->reactionforce_lowpass_in[i] - follower_info->reactionforce_lowpass_out[i]);
 		follower_info->reactionforce[i] = follower_info->reactionforce_lowpass_out[i] - follower_info->gnf[i] * follower_info->Jn[i] * vel_f[i];
 		

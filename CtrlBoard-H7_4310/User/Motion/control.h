@@ -4,6 +4,7 @@
 #include "dm_drv.h"
 #include "can_bsp.h"
 #include "arm_math.h"
+#include "compute_g.h"
 
 #define ROLE_LEADER 1
 #define ROLE_FOLLWER 2

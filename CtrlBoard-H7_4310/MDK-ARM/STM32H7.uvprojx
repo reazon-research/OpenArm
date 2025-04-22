@@ -745,6 +745,16 @@
               <FileType>5</FileType>
               <FilePath>..\User\Motion\control.h</FilePath>
             </File>
+            <File>
+              <FileName>compute_g.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Motion\compute_g.c</FilePath>
+            </File>
+            <File>
+              <FileName>compute_g.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\User\Motion\compute_g.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

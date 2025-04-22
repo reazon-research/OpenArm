@@ -204,18 +204,18 @@ int main(void)
   float Jn_leader[NUM_MOTORS] =  {0.03f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f};
   float gnd_leader[NUM_MOTORS] = {10.0f, 10.0f, 10.0f, 10.0f, 5.0f, 5.0f, 5.0f, 0.0f};
   float gnf_leader[NUM_MOTORS] = {10.0f, 10.0f, 10.0f, 10.0f, 5.0f, 5.0f, 5.0f, 0.0f};
-  float Gn_leader[NUM_MOTORS] =  {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.2f, 0.0f, 0.0f};
-  float Kp_leader[NUM_MOTORS] =  {160.0f, 140.0f, 110.0f, 110.0f, 12.0f, 15.0f, 15.0f, 6.0f};
-  float Kd_leader[NUM_MOTORS] =  {3.4f, 2.4f, 1.4f, 1.4f, 0.4f, 0.4f, 0.4f, 0.03f};
+  float Gn_leader[NUM_MOTORS] =  {3.0f, 2.0f, 0.0f, 0.0f, 0.0f, 0.4f, 0.0f, 0.0f};
+  float Kp_leader[NUM_MOTORS] =  {160.0f, 140.0f, 110.0f, 110.0f, 12.0f, 15.0f, 15.0f, 10.0f};
+  float Kd_leader[NUM_MOTORS] =  {3.4f, 2.4f, 1.4f, 1.4f, 0.4f, 0.4f, 0.4f, 0.05f};
   float Kf_leader[NUM_MOTORS] =  {0.7f, 0.7f, 0.7f, 0.7f, 0.4f, 0.4f, 0.4f, 0.0f};
 
   float Dn_follower[NUM_MOTORS] =  {0.1f, 0.1f, 0.03f, 0.03f, 0.03f, 0.003f, 0.003f, 0.001f};
   float Jn_follower[NUM_MOTORS] =  {0.03f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.000f};
   float gnd_follower[NUM_MOTORS] = {10.0f, 10.0f, 10.0f, 10.0f, 5.0f, 5.0f, 5.0f, 0.0f};
   float gnf_follower[NUM_MOTORS] = {10.0f, 10.0f, 10.0f, 10.0f, 5.0f, 5.0f, 5.0f, 0.0f};
-  float Gn_follower[NUM_MOTORS] =  {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.2f, 0.0f, 0.0f};
-  float Kp_follower[NUM_MOTORS] =  {160.0f, 140.0f, 110.0f, 110.0f, 12.0f, 15.0f, 15.0f, 6.0f / GRIP_SCALE};
-  float Kd_follower[NUM_MOTORS] =  {3.4f, 2.4f, 1.4f, 1.4f, 1.4f, 0.4f, 0.4f, 0.03f / GRIP_SCALE};
+  float Gn_follower[NUM_MOTORS] =  {3.0f, 2.0f, 0.0f, 0.0f, 0.0f, 0.4f, 0.0f, 0.0f};
+  float Kp_follower[NUM_MOTORS] =  {160.0f, 140.0f, 110.0f, 110.0f, 12.0f, 15.0f, 15.0f, 10.0f / GRIP_SCALE};
+  float Kd_follower[NUM_MOTORS] =  {3.4f, 2.4f, 1.4f, 1.4f, 1.4f, 0.4f, 0.4f, 0.05f / GRIP_SCALE};
   float Kf_follower[NUM_MOTORS] =  {0.7f, 0.7f, 0.7f, 0.7f, 0.4f, 0.4f, 0.4f, 0.0f};
 
   float disturbance_leader[NUM_MOTORS] = {0};
