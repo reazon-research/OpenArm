@@ -66,7 +66,6 @@ void MX_FDCAN1_Init(void)
 	// hfdcan1.Init.DataTimeSeg2 = 5;
   // hfdcan1.Init.DataSyncJumpWidth = 4;
 
-	// 5 Mbps
   hfdcan1.Init.DataPrescaler = 1;
   hfdcan1.Init.DataTimeSeg1 = 16;
   hfdcan1.Init.DataTimeSeg2 = 3;

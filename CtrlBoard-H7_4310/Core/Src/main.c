@@ -179,6 +179,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 
       // }
 
+
+
       // 受信後に再度DMAによる受信を開始
       HAL_UART_Receive_DMA(&huart1, rx_buffer, sizeof(rx_buffer));
   }
@@ -331,20 +333,20 @@ int main(void)
 
   // // OpenArm baudrate change(hfdcan1)
   // for (uint8_t id = 0x01; id <= 0x08; ++id) {
-  //     write_baudrate(&hfdcan1, id, BAUD_1M);  // 1Mのボーレートを設定
+  //     write_baudrate(&hfdcan1, id, BAUD_5M);  // 1Mのボーレートを設定
   //     HAL_Delay(500);  // 500msの遅延
   // }
 
 
-	// openarm_enable(&arm, &hfdcan1);
-	// openarm_enable(&arm2, &hfdcan2);
+	openarm_enable(&arm, &hfdcan1);
+	openarm_enable(&arm2, &hfdcan2);
 	
 	printf("EVENT RECORDER BEFORE\n\r");
 	//EventRecorderInitialize(EventRecordAll, 1);
 	HAL_TIM_Base_Start(&htim2);
 
-  // openarm_set_zero_position(&arm, &hfdcan1);
-  // openarm_set_zero_position(&arm2, &hfdcan2);
+  openarm_set_zero_position(&arm, &hfdcan1);
+  openarm_set_zero_position(&arm2, &hfdcan2);
 	
 	uint32_t toggle_timer = 0;
 	uint8_t toggle = 0;
@@ -379,7 +381,6 @@ int main(void)
 
     t_schedule += CONTROL_PERIOD_US;
 
-
     int32_t td = t_schedule - __HAL_TIM_GET_COUNTER(&htim2);
 
     if (td > 0) {
@@ -412,7 +413,18 @@ int main(void)
     // move_mit_all(&arm2, &hfdcan2, zero, zero, zero, zero, zero);
     // }
 
-    //  move_mit_all(&arm, &hfdcan1, zero, zero, leader_info.Kp, leader_info.Kd, zero);
+    for(int i = 0 ; i < 7; ++i){
+      tx_test[i] = arm.motors[i].pos;
+    }
+    for(int i = 0 ; i < 7; ++i){
+      tx_test[i + 7] = arm.motors[i].vel;
+    }
+    sendFloatArray(&huart1, tx_test);
+    HAL_Delay(500);
+
+
+
+     move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
     //  move_mit_all(&arm2, &hfdcan2, zero, zero, follower_info.Kp, follower_info.Kd, zero);
 
 
@@ -457,8 +469,12 @@ int main(void)
 
           // 再度ボタンが押されたことを確認
           if (key_bsp_read_pin(GPIOA, GPIO_PIN_15) == GPIO_PIN_RESET) {
-              // ボタンが押されたとき、sendFloatArrayを呼び出して送
-              tx_test[0] = gravity[0];
+              for(int i = 0 ; i < 7; ++i){
+                tx_test[i] = arm.motors[i].pos;
+              }
+              for(int i = 0 ; i < 7; ++i){
+                tx_test[i + 7] = arm.motors[i].vel;
+              }
               sendFloatArray(&huart1, tx_test);
           }
       }
@@ -466,7 +482,6 @@ int main(void)
       // ボタンの状態を次回のチェックのために保存
       last_key_state = current_key_state;
 
-		
 		// printf("TIM2 Counter: %u\n", __HAL_TIM_GET_COUNTER(&htim2));
 		// HAL_Delay(500); // Print every 500ms
     // HAL_Delay(1);
