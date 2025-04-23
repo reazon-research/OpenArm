@@ -1,3 +1,5 @@
 **/__pycache__/
 .venv
 .vscode
+.dist
+STM32H7/
