@@ -138,7 +138,6 @@ int main(void)
 	int master_id[NUM_MOTORS];
 	float zero[NUM_MOTORS];
 	float one[NUM_MOTORS];
-	float positions[NUM_MOTORS];
 	int mode = MIT_MODE;
 
 	int type[8] = {DM4310, DM4310, DM4310, DM4310, DM4310, DM4310, DM4310, DM4310};
@@ -148,7 +147,6 @@ int main(void)
 		master_id[i] = 0x10 + (i + 1); // 0x11 to 0x18
 		zero[i] = 0.0f;
 		one[i] = 1.0f;
-		positions[i] = 0.0f;
 	}
 	
 	//openarm setup
@@ -159,9 +157,9 @@ int main(void)
 	HAL_TIM_Base_Start(&htim2);
 	
 	// example of writing baudrate
-	//for (int i = 0; i < NUM_MOTORS; ++i) {
-	//	write_baudrate(&hfdcan1, i, BAUD_5M);
-	//}
+//	for (int i = 0; i < NUM_MOTORS; ++i) {
+//		write_baudrate(&hfdcan1, i, BAUD_5M);
+//	}
 	
 	// starting event recorder for debugging purposes
 	EventRecorderInitialize(EventRecordAll, 1);
@@ -192,7 +190,7 @@ int main(void)
         toggle_timer = 0;
     }
 
-		// EventRecord2(0x01, positions[0]*100, 0x01); // example of recording event in event recorder
+		EventRecord2(0x03, 0x00, 0x00); // example of recording event in event recorder
 		
 		if (toggle) {
 				move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, one);

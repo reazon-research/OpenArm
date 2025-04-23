@@ -223,12 +223,13 @@ void set_baudrate(hcan_t* hcan, uint16_t motor_id, uint8_t baudrate, uint8_t mod
 	if(mode == CAN_CLASS)
 	{
 		disable_motor_mode(hcan, motor_id, MIT_MODE);
-		read_motor_data(motor_id, RID_CAN_BR);
+		read_motor_data(hcan, motor_id, RID_CAN_BR);
 		HAL_Delay(100);
-		change_motor_data(motor_id, RID_CAN_BR, BAUD_1M,0,0,0);
+		change_motor_data(hcan, motor_id, RID_CAN_BR, baudrate,0,0,0);
 		HAL_Delay(100);
 		enable_motor_mode(hcan, motor_id, MIT_MODE);
 		
+		hcan->Init.FrameFormat = FDCAN_FRAME_CLASSIC;
 		hcan->Init.DataPrescaler = 4;
 		hcan->Init.DataTimeSeg1 = 19;
 		hcan->Init.DataTimeSeg2 = 5;
@@ -237,12 +238,13 @@ void set_baudrate(hcan_t* hcan, uint16_t motor_id, uint8_t baudrate, uint8_t mod
 	else if (mode == CAN_FD_BRS)
 	{
 		disable_motor_mode(hcan, motor_id, MIT_MODE);
-		read_motor_data(motor_id, RID_CAN_BR);
+		read_motor_data(hcan, motor_id, RID_CAN_BR);
 		HAL_Delay(100);
-		change_motor_data(motor_id, RID_CAN_BR, baudrate,0,0,0);
+		change_motor_data(hcan, motor_id, RID_CAN_BR, baudrate,0,0,0);
 		HAL_Delay(100);
 		enable_motor_mode(hcan, motor_id, MIT_MODE);
 		
+		hcan->Init.FrameFormat = FDCAN_FRAME_FD_BRS;
 		hcan->Init.DataPrescaler = 1;
 		hcan->Init.DataTimeSeg1 = 16;
 		hcan->Init.DataTimeSeg2 = 3;
@@ -260,11 +262,11 @@ void set_baudrate(hcan_t* hcan, uint16_t motor_id, uint8_t baudrate, uint8_t mod
 **/
 void write_baudrate(hcan_t* hcan, uint16_t motor_id, uint8_t baudrate){
 	disable_motor_mode(hcan, motor_id, MIT_MODE);
-	read_motor_data(motor_id, RID_CAN_BR);
+	read_motor_data(hcan, motor_id, RID_CAN_BR);
 	HAL_Delay(100);
-	change_motor_data(motor_id, RID_CAN_BR, baudrate,0,0,0);
+	change_motor_data(hcan, motor_id, RID_CAN_BR, baudrate,0,0,0);
 	HAL_Delay(100);
-	write_motor_data(motor_id);
+	write_motor_data(hcan, motor_id);
 	HAL_Delay(100);
 	enable_motor_mode(hcan, motor_id, MIT_MODE);
 }
