@@ -57,7 +57,7 @@ void FDCAN2_Config(void)
   FDCAN_FilterTypeDef sFilterConfig;
   /* Configure Rx filter */
   sFilterConfig.IdType =  FDCAN_STANDARD_ID;
-  sFilterConfig.FilterIndex = 1;
+  sFilterConfig.FilterIndex = 0;
   sFilterConfig.FilterType = FDCAN_FILTER_MASK;
   sFilterConfig.FilterConfig = FDCAN_FILTER_TO_RXFIFO1;
   sFilterConfig.FilterID1 = 0x00000000;
@@ -70,12 +70,14 @@ void FDCAN2_Config(void)
   /* Configure global filter:
      Filter all remote frames with STD and EXT ID
      Reject non matching frames with STD ID and EXT ID */
-  if (HAL_FDCAN_ConfigGlobalFilter(&hfdcan2, FDCAN_REJECT, FDCAN_REJECT, FDCAN_FILTER_REMOTE, FDCAN_FILTER_REMOTE) != HAL_OK)
+if (HAL_FDCAN_ConfigGlobalFilter(&hfdcan2, FDCAN_ACCEPT_IN_RX_FIFO1,
+    FDCAN_ACCEPT_IN_RX_FIFO1,
+    FDCAN_FILTER_REMOTE,
+    FDCAN_FILTER_REMOTE) != HAL_OK)
   {
     Error_Handler();
   }
 
-  /* Activate Rx FIFO 0 new message notification on both FDCAN instances */
   if (HAL_FDCAN_ActivateNotification(&hfdcan2, FDCAN_IT_RX_FIFO1_NEW_MESSAGE, 0) != HAL_OK)
   {
     Error_Handler();
@@ -186,11 +188,11 @@ void HAL_FDCAN_RxFifo1Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo1ITs)
       HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO1, &RxHeader2, g_Can2RxData);
 			
 			//another example of how to use the event recorder
-			// EventRecord2(0x01, RxHeader2.Identifier, HAL_FDCAN_GetRxFifoFillLevel(hfdcan, FDCAN_RX_FIFO1));
+			EventRecord2(0x01, RxHeader2.Identifier, HAL_FDCAN_GetRxFifoFillLevel(hfdcan, FDCAN_RX_FIFO1));
 			uint16_t motor_id = -1;  // Initialize motor_id as invalid
 			if (RxHeader2.Identifier != 0)
 			{
-					motor_id = RxHeader1.Identifier - 0x11; // Assuming motor IDs start from 0x11
+					motor_id = RxHeader2.Identifier - 0x11; // Assuming motor IDs start from 0x11
 			}
 			else
 			{
@@ -198,7 +200,7 @@ void HAL_FDCAN_RxFifo1Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo1ITs)
 			}
 			if (motor_id >= 0 && motor_id < NUM_MOTORS)
 			{
-					dm_fbdata(&arm.motors[motor_id], g_Can1RxData, RxHeader2.DataLength);
+					dm_fbdata(&arm.motors[motor_id], g_Can2RxData, RxHeader2.DataLength);
 			}
 			else
 			{

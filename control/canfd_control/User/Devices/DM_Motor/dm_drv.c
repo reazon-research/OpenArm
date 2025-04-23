@@ -399,7 +399,7 @@ void openarm_disable(OpenArm_t *arm,  hcan_t *hcan){
 void move_mit_all(OpenArm_t *arm, hcan_t *hcan, float position[], float velocity[], float kp[], float kd[], float torque[]){
 	for(int i = 0; i < NUM_MOTORS; i++){
 		mit_ctrl(hcan, arm->motors[i].slave_id, position[i], velocity[i], kp[i], kd[i], torque[i]);
-		while (HAL_FDCAN_GetTxFifoFreeLevel(&hfdcan1) == 0) {}
+		while (HAL_FDCAN_GetTxFifoFreeLevel(hcan) == 0) {}
 	}
 }
 

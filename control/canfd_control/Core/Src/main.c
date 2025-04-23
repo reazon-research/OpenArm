@@ -111,6 +111,7 @@ int main(void)
   MX_GPIO_Init();
   MX_DCMI_Init();
   MX_FDCAN1_Init();
+	MX_FDCAN2_Init();
   MX_FDCAN3_Init();
   MX_I2C1_Init();
   MX_OCTOSPI1_Init();
@@ -125,7 +126,6 @@ int main(void)
   MX_USART3_UART_Init();
   MX_USART10_UART_Init();
   MX_USB_OTG_HS_PCD_Init();
-  MX_FDCAN2_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 	Power_OUT1_ON;
@@ -154,7 +154,7 @@ int main(void)
 	//openarm setup
 	openarm_init(&arm, id, master_id, mode, type);
 	HAL_Delay(1000);
-	openarm_enable(&arm, &hfdcan1);
+	openarm_enable(&arm, &hfdcan2);
 	
 	HAL_TIM_Base_Start(&htim2);
 	
@@ -195,16 +195,16 @@ int main(void)
 		// EventRecord2(0x01, positions[0]*100, 0x01); // example of recording event in event recorder
 		
 		if (toggle) {
-				move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
+				move_mit_all(&arm, &hfdcan2, zero, zero, zero, zero, one);
 		} else {
-				move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
+				move_mit_all(&arm, &hfdcan2, zero, zero, zero, zero, zero);
 		}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
   }
 	
-	openarm_disable(&arm, &hfdcan1);
+	openarm_disable(&arm, &hfdcan2);
 	
   /* USER CODE END 3 */
 }
