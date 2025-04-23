@@ -1,4 +1,4 @@
-stm32h7/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
+stm32h7/dma.o: ..\Core\Src\dma.c ..\Core\Inc\dma.h ..\Core\Inc\main.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h \
   ..\Core\Inc\stm32h7xx_hal_conf.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_rcc.h \
@@ -34,14 +34,4 @@ stm32h7/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_uart_ex.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_ll_usb.h \
-  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd_ex.h \
-  ..\Core\Inc\dcmi.h ..\Core\Inc\dma.h ..\Core\Inc\fdcan.h \
-  ..\Core\Inc\i2c.h ..\Core\Inc\octospi.h ..\Core\Inc\spi.h \
-  ..\Core\Inc\tim.h ..\Core\Inc\usart.h ..\Core\Inc\usb_otg.h \
-  ..\Core\Inc\gpio.h ..\User\bsp\can_bsp.h \
-  ..\User\Devices\DM_Motor\dm_drv.h \
-  ..\Drivers\CMSIS\DSP\Include\arm_math.h \
-  ..\Drivers\CMSIS\Include\cmsis_compiler.h \
-  C:\Users\tokiy\AppData\Local\Arm\Packs\ARM\CMSIS-View\1.2.0\EventRecorder\Include\EventRecorder.h \
-  ..\User\bsp\key_bsp.h ..\User\bsp\led_bsp.h ..\User\Motion\control.h \
-  ..\User\Motion\compute_g.h
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd_ex.h

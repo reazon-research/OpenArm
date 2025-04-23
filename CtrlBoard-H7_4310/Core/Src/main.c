@@ -51,14 +51,22 @@
 /* USER CODE BEGIN PD */
 #define CONTROL_PERIOD_US 1000
 #define TOGGLE_PERIOD_US 5000000  // 5 seconds in microseconds
+#define HDR1 0xAA
+#define HDR2 0x55
+#define ARRAY_SIZE 14
 
 OpenArm_t arm;
 OpenArm_t arm2;
 BilateralInfo_t leader_info;
 BilateralInfo_t follower_info;
 
+
 int received;
 extern float vel_set;
+#define UART_RX_BUFFER_SIZE 87
+uint8_t rx_buffer[UART_RX_BUFFER_SIZE];
+// uint8_t tx_buffer[59];  // ヘッダ（2バイト）+ 位置データ（28バイト）+ 速度データ（28バイト）+ CRC（1バイト）
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -85,6 +93,120 @@ int __io_putchar(int ch)
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void send_data(UART_HandleTypeDef *huart, uint8_t* data, size_t len)
+{
+    // DMA送信を開始
+    HAL_UART_Transmit_DMA(huart, data, len);
+}
+
+uint8_t calcCRC(uint8_t* data, size_t len)
+{
+    uint8_t crc = 0;
+    for (size_t i = 0; i < len; ++i) {
+        crc ^= data[i];
+    }
+    return crc;
+}
+
+void sendFloatArray(UART_HandleTypeDef *huart, float arr[ARRAY_SIZE]) {
+  uint8_t crc = 0;
+  uint8_t header[2] = { HDR1, HDR2 };
+
+  // 位置データとCRCを含む全データを格納するバッファを準備
+  uint8_t tx_buffer[ARRAY_SIZE * sizeof(float) + sizeof(header) + 1];  // ヘッダ + 位置データ + CRC
+
+  // ヘッダをバッファに格納
+  memcpy(tx_buffer, header, sizeof(header));
+
+  // 位置データをバッファに格納
+  const uint8_t* arr_ptr = (const uint8_t*)arr;  // float 配列をバイト配列として扱う
+  for (size_t i = 0; i < ARRAY_SIZE * sizeof(float); ++i) {
+      tx_buffer[sizeof(header) + i] = arr_ptr[i];  // ヘッダの後に位置データを格納
+  }
+
+  // CRC計算（データ部分のみ）
+  for (size_t i = 2; i < sizeof(tx_buffer) - 1; ++i) {  // ヘッダを除いてCRCを計算
+      crc ^= tx_buffer[i];
+  }
+
+  // CRCをバッファの最後に格納
+  tx_buffer[sizeof(tx_buffer) - 1] = crc;
+
+  // ヘッダ + 位置データ + CRC を一度に送信
+  HAL_UART_Transmit_DMA(huart, tx_buffer, sizeof(tx_buffer));  // DMAで全データを一度に送信
+}
+
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
+{
+
+        huart1.gState = HAL_UART_STATE_READY;
+        
+}
+
+float m_diag[7];    // M_diagのデータを格納する配列
+float coriolis[7];  // Coriolisのデータを格納する配列
+float gravity[7];   // Gravityのデータを格納する配列
+uint8_t crc;
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+    if (huart->Instance == USART1) {
+        static uint8_t data_stage = 0;  // 受信段階を管理するフラグ
+
+        // 受信データの処理
+        switch (data_stage) {
+            case 0:  // ヘッダ受信
+                if (rx_buffer[0] == 0xAA && rx_buffer[1] == 0x55) {
+                    // ヘッダが正しい場合
+                    //printf("Received header: 0xAA 0x55\n");
+                    data_stage = 1;  // 次は M_diag のデータを受信
+                } else {
+                    //printf("Header error!\n");
+                }
+                break;
+
+            case 1:  // M_diag 受信
+                // 28バイトのM_diagデータを処理
+                for (int i = 0; i < 7; i++) {
+                    m_diag[i] = *((float*)&rx_buffer[i * 4]);
+                    // printf("M_diag[%d]: %f\n", i, m_diag[i]);
+                }
+                data_stage = 2;  // 次は Coriolis のデータを受信
+                break;
+
+            case 2:  // Coriolis 受信
+                // 28バイトのCoriolisデータを処理
+                for (int i = 0; i < 7; i++) {
+                    coriolis[i] = *((float*)&rx_buffer[i * 4]);
+                    // printf("Coriolis[%d]: %f\n", i, coriolis[i]);
+                }
+                data_stage = 3;  // 次は Gravity のデータを受信
+                break;
+
+            case 3:  // Gravity 受信
+                // 28バイトのGravityデータを処理
+                for (int i = 0; i < 7; i++) {
+                    gravity[i] = *((float*)&rx_buffer[i * 4]);
+                    // printf("Gravity[%d]: %f\n", i, gravity[i]);
+                }
+                data_stage = 4;  // 次は CRC を受信
+                break;
+
+            case 4:  // CRC 受信
+                crc = rx_buffer[0];  // CRCの受信処理
+                // printf("Received CRC: 0x%02X\n", crc);
+                // CRCの検証処理を追加
+                data_stage = 0;  // 次のデータを受信する準備
+                break;
+
+            default:
+                data_stage = 0;
+                break;
+        }
+
+        // 受信後に再度DMAによる受信を開始
+        HAL_UART_Receive_DMA(&huart1, rx_buffer, sizeof(rx_buffer));
+    }
+}
 
 /* USER CODE END 0 */
 
@@ -115,6 +237,9 @@ int main(void)
 
   /* USER CODE END SysInit */
 
+
+
+  
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
@@ -159,9 +284,6 @@ int main(void)
   float pos2[NUM_MOTORS];
 
 	
-	// int type[NUM_MOTORS] = {DM4340, DM4340, DM4340, DM4340, DM4310, DM4310, DM4310, DM3507};
-	// int typel[2] = {DM4310, DM4310};
-	// int typef[2] = {DM4340, DM4340};
 	int typel[NUM_MOTORS] = {DM4340, DM4340, DM4340, DM4340, DM4310, DM4310, DM4310, DM4340};
 	int typef[NUM_MOTORS] = {DM4340, DM4340, DM4340, DM4340, DM4310, DM4310, DM4310, DM4340};
 
@@ -183,24 +305,6 @@ int main(void)
   //bilateral control setting 
   float Ts = 0.001f;
 
-  // float Dn_leader[NUM_MOTORS] =  {0.07f, 0.07f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f};
-  // float Jn_leader[NUM_MOTORS] =  {0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f};
-  // float gnd_leader[NUM_MOTORS] = {5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 0.0f};
-  // float gnf_leader[NUM_MOTORS] = {5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 0.0f};
-  // float Gn_leader[NUM_MOTORS] =  {0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f};
-  // float Kp_leader[NUM_MOTORS] =  {12.0f, 12.0f, 12.0f, 12.0f, 12.0f, 12.0f, 12.0f, 0.0f};
-  // float Kd_leader[NUM_MOTORS] =  {0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.0f};
-  // float Kf_leader[NUM_MOTORS] =  {1.4f, 1.4f, 1.4f, 1.4f, 1.4f, 1.4f, 1.4f, 1.4f};
-
-  // float Dn_follower[NUM_MOTORS] =  {0.07f, 0.07f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f};
-  // float Jn_follower[NUM_MOTORS] =  {0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.000f};
-  // float gnd_follower[NUM_MOTORS] = {5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 0.0f};
-  // float gnf_follower[NUM_MOTORS] = {5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 0.0f};
-  // float Gn_follower[NUM_MOTORS] =  {0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f};
-  // float Kp_follower[NUM_MOTORS] =  {12.0f, 12.0f, 12.0f, 12.0f, 12.0f, 12.0f, 12.0f, 0.0f};
-  // float Kd_follower[NUM_MOTORS] =  {0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.0f};
-  // float Kf_follower[NUM_MOTORS] =  {1.4f, 1.4f, 1.4f, 1.4f, 1.4f, 1.4f, 1.4f, 1.4f};
-  
   float Dn_leader[NUM_MOTORS] =  {0.1f, 0.1f, 0.03f, 0.03f, 0.03f, 0.003f, 0.003f, 0.001f};
   float Jn_leader[NUM_MOTORS] =  {0.03f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f, 0.0007f};
   float gnd_leader[NUM_MOTORS] = {10.0f, 10.0f, 10.0f, 10.0f, 5.0f, 5.0f, 5.0f, 0.0f};
@@ -249,49 +353,22 @@ int main(void)
                       disturbance_follower, reaction_in_follower,
                       reaction_out_follower, reactionforce_follower ,joint_torque_follower);
 
-  // OpenArm baudrate change(hfdcan1)
-	// write_baudrate(&hfdcan1, 0x01, BAUD_5M);
-  // HAL_Delay(500);
-	// write_baudrate(&hfdcan1, 0x02, BAUD_5M);
-  // HAL_Delay(500);
-  // write_baudrate(&hfdcan1, 0x03, BAUD_5M);
-  // HAL_Delay(500);
-  // write_baudrate(&hfdcan1, 0x04, BAUD_5M);
-  // HAL_Delay(500);
-  // write_baudrate(&hfdcan1, 0x05, BAUD_5M);
-  // HAL_Delay(500);
-  // write_baudrate(&hfdcan1, 0x06, BAUD_5M);
-  // HAL_Delay(500);
-  // write_baudrate(&hfdcan1, 0x07, BAUD_5M);
-  // HAL_Delay(500);
-  // write_baudrate(&hfdcan1, 0x08, BAUD_5M);
+  // // OpenArm baudrate change(hfdcan1)
+  // for (uint8_t id = 0x01; id <= 0x08; ++id) {
+  //     write_baudrate(&hfdcan1, id, BAUD_1M);  // 1Mのボーレートを設定
+  //     HAL_Delay(500);  // 500msの遅延
+  // }
 
-  // OpenArm baudrate change(hfdca2)
-	// write_baudrate(&hfdcan2, 0x01, BAUD_5M);
-  // HAL_Delay(500);
-	// write_baudrate(&hfdcan2, 0x02, BAUD_5M);
-  // HAL_Delay(500);
-  // write_baudrate(&hfdcan2, 0x03, BAUD_5M);
-  // HAL_Delay(500);
-  // write_baudrate(&hfdcan2, 0x04, BAUD_5M);
-  // HAL_Delay(500);
-  // write_baudrate(&hfdcan2, 0x05, BAUD_5M);
-  // HAL_Delay(500);
-  // write_baudrate(&hfdcan2, 0x06, BAUD_5M);
-  // HAL_Delay(500);
-  // write_baudrate(&hfdcan2, 0x07, BAUD_5M);
-  // HAL_Delay(500);
-  // write_baudrate(&hfdcan2, 0x08, BAUD_5M);
 
-	openarm_enable(&arm, &hfdcan1);
-	openarm_enable(&arm2, &hfdcan2);
+	// openarm_enable(&arm, &hfdcan1);
+	// openarm_enable(&arm2, &hfdcan2);
 	
 	printf("EVENT RECORDER BEFORE\n\r");
 	//EventRecorderInitialize(EventRecordAll, 1);
 	HAL_TIM_Base_Start(&htim2);
 
-  openarm_set_zero_position(&arm, &hfdcan1);
-  openarm_set_zero_position(&arm2, &hfdcan2);
+  // openarm_set_zero_position(&arm, &hfdcan1);
+  // openarm_set_zero_position(&arm2, &hfdcan2);
 	
 	uint32_t toggle_timer = 0;
 	uint8_t toggle = 0;
@@ -303,10 +380,18 @@ int main(void)
   GPIO_PinState last_key_state = GPIO_PIN_SET;
   bool torque_disabled = false;
 
-  // usart1 send
-  // char msg[] = "Hello from USART1!\r\n";
-  // HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
-   
+  // HAL_UART_Receive_IT(&huart1, rx_buffer, sizeof(rx_buffer));
+  // HAL_UART_Receive_DMA(&huart1, rx_buffer, sizeof(rx_buffer));
+
+	// HAL_UART_Transmit_DMA(&huart1, (uint8_t*) "Boot NUCLEO\r\n", 13);
+	// while (huart1.gState != HAL_UART_STATE_READY) {
+	// }
+
+  float tx_test[ARRAY_SIZE] = {4.0f, 4.0f, 4.0f, 4.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+
+
+  sendFloatArray(&huart1, tx_test);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -341,14 +426,16 @@ int main(void)
 		// EventRecord2(0x03, positions[0]*100, 0x01);
 
     // bilateral control
-    bool use_bilate = true;
-    if(use_bilate){
-      bilateral_control_v1(&leader_info, &follower_info);
-    }
-    else {
-     move_mit_all(&arm, &hfdcan1, zero, zero, leader_info.Kp, leader_info.Kd, zero);
-     move_mit_all(&arm2, &hfdcan2, zero, zero, follower_info.Kp, follower_info.Kd, zero);
-    }
+    // bool use_bilate = true;
+    // if(use_bilate){
+    //   bilateral_control_v1(&leader_info, &follower_info);
+    // }
+    // else {
+    // //  move_mit_all(&arm, &hfdcan1, zero, zero, leader_info.Kp, leader_info.Kd, zero);
+    // //  move_mit_all(&arm2, &hfdcan2, zero, zero, follower_info.Kp, follower_info.Kd, zero);
+    // move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
+    // move_mit_all(&arm2, &hfdcan2, zero, zero, zero, zero, zero);
+    // }
 
     //  move_mit_all(&arm, &hfdcan1, zero, zero, leader_info.Kp, leader_info.Kd, zero);
     //  move_mit_all(&arm2, &hfdcan2, zero, zero, follower_info.Kp, follower_info.Kd, zero);
@@ -370,21 +457,39 @@ int main(void)
 	  // printf("dis : %f \n\r", leader_info.disturbance[0]);
 	  // printf("dis : %f \n\r", arm.motors[1].vel);
 
-    if (!torque_disabled) {
-        GPIO_PinState current_key_state = key_bsp_read_pin(GPIOA, GPIO_PIN_15);
+    // if (!torque_disabled) {
+    //     GPIO_PinState current_key_state = key_bsp_read_pin(GPIOA, GPIO_PIN_15);
 
-        if (last_key_state == GPIO_PIN_SET && current_key_state == GPIO_PIN_RESET) {
-            HAL_Delay(20);
-            if (key_bsp_read_pin(GPIOA, GPIO_PIN_15) == GPIO_PIN_RESET) {
-                printf("pushed - disabling torque!\n\r");
-                openarm_disable(&arm, &hfdcan1);
-                openarm_disable(&arm2, &hfdcan2);
-                torque_disabled = true;
-            }
-        }
+    //     if (last_key_state == GPIO_PIN_SET && current_key_state == GPIO_PIN_RESET) {
+    //         HAL_Delay(20);
+    //         if (key_bsp_read_pin(GPIOA, GPIO_PIN_15) == GPIO_PIN_RESET) {
+    //             printf("pushed - disabling torque!\n\r");
+    //             openarm_disable(&arm, &hfdcan1);
+    //             openarm_disable(&arm2, &hfdcan2);
+    //             torque_disabled = true;
+    //         }
+    //     }
 
-        last_key_state = current_key_state;
-    }
+    //     last_key_state = current_key_state;
+    // }
+
+      // 現在のボタンの状態を取得
+      GPIO_PinState current_key_state = key_bsp_read_pin(GPIOA, GPIO_PIN_15);
+
+      // ボタンが押された瞬間を検出
+      if (last_key_state == GPIO_PIN_SET && current_key_state == GPIO_PIN_RESET) {
+          HAL_Delay(20);  // チャタリング防止のため、少し待つ
+
+          // 再度ボタンが押されたことを確認
+          if (key_bsp_read_pin(GPIOA, GPIO_PIN_15) == GPIO_PIN_RESET) {
+              // ボタンが押されたとき、sendFloatArrayを呼び出して送信
+              sendFloatArray(&huart1, tx_test);
+          }
+      }
+
+      // ボタンの状態を次回のチェックのために保存
+      last_key_state = current_key_state;
+
 		
 		// printf("TIM2 Counter: %u\n", __HAL_TIM_GET_COUNTER(&htim2));
 		// HAL_Delay(500); // Print every 500ms
@@ -395,8 +500,8 @@ int main(void)
     /* USER CODE BEGIN 3 */
   }
 	
-	openarm_disable(&arm, &hfdcan1);
-	openarm_disable(&arm2, &hfdcan2);
+	// openarm_disable(&arm, &hfdcan1);
+	// openarm_disable(&arm2, &hfdcan2);
 	
   /* USER CODE END 3 */
 }

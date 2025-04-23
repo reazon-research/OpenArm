@@ -12,6 +12,7 @@
 "stm32h7\usb_otg.o"
 "stm32h7\stm32h7xx_it.o"
 "stm32h7\stm32h7xx_hal_msp.o"
+"stm32h7\dma.o"
 "stm32h7\stm32h7xx_hal_cortex.o"
 "stm32h7\stm32h7xx_hal_dcmi.o"
 "stm32h7\stm32h7xx_hal_rcc.o"
