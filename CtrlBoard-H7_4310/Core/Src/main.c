@@ -147,65 +147,41 @@ float m_diag[7];    // M_diagのデータを格納する配列
 float coriolis[7];  // Coriolisのデータを格納する配列
 float gravity[7];   // Gravityのデータを格納する配列
 uint8_t crc;
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-    if (huart->Instance == USART1) {
-        static uint8_t data_stage = 0;  // 受信段階を管理するフラグ
+uint8_t received_crc;
+uint8_t calculated_crc;
 
-        // 受信データの処理
-        switch (data_stage) {
-            case 0:  // ヘッダ受信
-                if (rx_buffer[0] == 0xAA && rx_buffer[1] == 0x55) {
-                    // ヘッダが正しい場合
-                    //printf("Received header: 0xAA 0x55\n");
-                    data_stage = 1;  // 次は M_diag のデータを受信
-                } else {
-                    //printf("Header error!\n");
-                }
-                break;
+uint8_t flag;
+float tx_test[ARRAY_SIZE] = {4.0f, 4.0f, 4.0f, 4.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
 
-            case 1:  // M_diag 受信
-                // 28バイトのM_diagデータを処理
-                for (int i = 0; i < 7; i++) {
-                    m_diag[i] = *((float*)&rx_buffer[i * 4]);
-                    // printf("M_diag[%d]: %f\n", i, m_diag[i]);
-                }
-                data_stage = 2;  // 次は Coriolis のデータを受信
-                break;
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 
-            case 2:  // Coriolis 受信
-                // 28バイトのCoriolisデータを処理
-                for (int i = 0; i < 7; i++) {
-                    coriolis[i] = *((float*)&rx_buffer[i * 4]);
-                    // printf("Coriolis[%d]: %f\n", i, coriolis[i]);
-                }
-                data_stage = 3;  // 次は Gravity のデータを受信
-                break;
+  if (huart->Instance == USART1) {
+      static uint8_t data_stage = 0;  // 受信段階を管理するフラグ
+      if(rx_buffer[0] != HDR1 || rx_buffer[1] != HDR2){
+        return;
+      }
+      int head = 2;
+      for(int i = 0; i < 7; ++i){
+        m_diag[i] = *((float*)&rx_buffer[i * 4 + head]);
+      }
+      head += sizeof(float)*7;
+      for(int i = 0; i < 7; ++i){
+        coriolis[i] = *((float*)&rx_buffer[i * 4 + head]);
+      }
+      head += sizeof(float)*7;
+      for(int i = 0; i < 7; ++i){
+        gravity[i] = *((float*)&rx_buffer[i * 4 + head]);
+      }
+      head += sizeof(float)*7;
+      received_crc = rx_buffer[head];  // 受信したCRC
+      calculated_crc = calcCRC(rx_buffer, sizeof(rx_buffer) - 1);  // CRC計算
+      // if(received_crc != calculated_crc){
 
-            case 3:  // Gravity 受信
-                // 28バイトのGravityデータを処理
-                for (int i = 0; i < 7; i++) {
-                    gravity[i] = *((float*)&rx_buffer[i * 4]);
-                    // printf("Gravity[%d]: %f\n", i, gravity[i]);
-                }
-                data_stage = 4;  // 次は CRC を受信
-                break;
+      // }
 
-            case 4:  // CRC 受信
-                crc = rx_buffer[0];  // CRCの受信処理
-                // printf("Received CRC: 0x%02X\n", crc);
-                // CRCの検証処理を追加
-                data_stage = 0;  // 次のデータを受信する準備
-                break;
-
-            default:
-                data_stage = 0;
-                break;
-        }
-
-        // 受信後に再度DMAによる受信を開始
-        HAL_UART_Receive_DMA(&huart1, rx_buffer, sizeof(rx_buffer));
-    }
+      // 受信後に再度DMAによる受信を開始
+      HAL_UART_Receive_DMA(&huart1, rx_buffer, sizeof(rx_buffer));
+  }
 }
 
 /* USER CODE END 0 */
@@ -381,13 +357,12 @@ int main(void)
   bool torque_disabled = false;
 
   // HAL_UART_Receive_IT(&huart1, rx_buffer, sizeof(rx_buffer));
-  // HAL_UART_Receive_DMA(&huart1, rx_buffer, sizeof(rx_buffer));
+  HAL_UART_Receive_DMA(&huart1, rx_buffer, sizeof(rx_buffer));
 
 	// HAL_UART_Transmit_DMA(&huart1, (uint8_t*) "Boot NUCLEO\r\n", 13);
 	// while (huart1.gState != HAL_UART_STATE_READY) {
 	// }
 
-  float tx_test[ARRAY_SIZE] = {4.0f, 4.0f, 4.0f, 4.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
 
 
   sendFloatArray(&huart1, tx_test);
@@ -482,7 +457,8 @@ int main(void)
 
           // 再度ボタンが押されたことを確認
           if (key_bsp_read_pin(GPIOA, GPIO_PIN_15) == GPIO_PIN_RESET) {
-              // ボタンが押されたとき、sendFloatArrayを呼び出して送信
+              // ボタンが押されたとき、sendFloatArrayを呼び出して送
+              tx_test[0] = gravity[0];
               sendFloatArray(&huart1, tx_test);
           }
       }
