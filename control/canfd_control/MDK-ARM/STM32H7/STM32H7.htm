@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32H7\STM32H7.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32H7\STM32H7.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6230001: Last Updated: Tue Apr 22 16:48:51 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6230001: Last Updated: Wed Apr 23 12:39:12 2025
 <BR><P>
 <H3>Maximum Stack Usage =        496 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -774,7 +774,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EventRecorderInitialize
 </UL>
 
-<P><STRONG><a name="[a9]"></a>FDCAN1_Config</STRONG> (Thumb, 130 bytes, Stack size 48 bytes, can_bsp.o(.text.FDCAN1_Config))
+<P><STRONG><a name="[a9]"></a>FDCAN1_Config</STRONG> (Thumb, 128 bytes, Stack size 48 bytes, can_bsp.o(.text.FDCAN1_Config))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = FDCAN1_Config &rArr; HAL_FDCAN_ConfigFilter
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Error_Handler
@@ -956,25 +956,25 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FDCAN_IRQHandler
 </UL>
 
-<P><STRONG><a name="[be]"></a>HAL_FDCAN_RxFifo0Callback</STRONG> (Thumb, 164 bytes, Stack size 24 bytes, can_bsp.o(.text.HAL_FDCAN_RxFifo0Callback))
+<P><STRONG><a name="[be]"></a>HAL_FDCAN_RxFifo0Callback</STRONG> (Thumb, 152 bytes, Stack size 24 bytes, can_bsp.o(.text.HAL_FDCAN_RxFifo0Callback))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = HAL_FDCAN_RxFifo0Callback &rArr; EventRecord2
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FDCAN_GetRxFifoFillLevel
 <LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FDCAN_GetRxMessage
-<LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
+<LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 <LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
-<LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dm_fbdata
+<LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dm_fbdata
 <LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EventRecord2
 </UL>
 <BR>[Called By]<UL><LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FDCAN_IRQHandler
 </UL>
 
-<P><STRONG><a name="[bf]"></a>HAL_FDCAN_RxFifo1Callback</STRONG> (Thumb, 114 bytes, Stack size 16 bytes, can_bsp.o(.text.HAL_FDCAN_RxFifo1Callback))
+<P><STRONG><a name="[bf]"></a>HAL_FDCAN_RxFifo1Callback</STRONG> (Thumb, 112 bytes, Stack size 16 bytes, can_bsp.o(.text.HAL_FDCAN_RxFifo1Callback))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = HAL_FDCAN_RxFifo1Callback &rArr; HAL_FDCAN_GetRxMessage
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FDCAN_GetRxMessage
 <LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
-<LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dm_fbdata
+<LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dm_fbdata
 </UL>
 <BR>[Called By]<UL><LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FDCAN_IRQHandler
 </UL>
@@ -1845,7 +1845,7 @@ Global Symbols
 <LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;openarm_enable
 </UL>
 
-<P><STRONG><a name="[d3]"></a>dm_fbdata</STRONG> (Thumb, 184 bytes, Stack size 8 bytes, dm_drv.o(.text.dm_fbdata))
+<P><STRONG><a name="[d2]"></a>dm_fbdata</STRONG> (Thumb, 632 bytes, Stack size 8 bytes, dm_drv.o(.text.dm_fbdata))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = dm_fbdata
 </UL>
 <BR>[Called By]<UL><LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FDCAN_RxFifo1Callback
@@ -1863,8 +1863,8 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 496<LI>Call Chain = main &rArr; MX_OCTOSPI1_Init &rArr; HAL_OSPI_Init &rArr; HAL_OSPI_MspInit &rArr; HAL_RCCEx_PeriphCLKConfig &rArr; RCCEx_PLL3_Config
 </UL>
 <BR>[Calls]<UL><LI><a href="#[12f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_mit_all
-<LI><a href="#[12e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_Start
 <LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EventRecorderInitialize
+<LI><a href="#[12e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_Start
 <LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;openarm_enable
 <LI><a href="#[12c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;openarm_init
 <LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FDCAN2_Config
@@ -1892,7 +1892,7 @@ Global Symbols
 <LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
 <LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 <LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
-<LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
+<LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)
 </UL>
@@ -1913,7 +1913,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[12c]"></a>openarm_init</STRONG> (Thumb, 100 bytes, Stack size 28 bytes, dm_drv.o(.text.openarm_init))
+<P><STRONG><a name="[12c]"></a>openarm_init</STRONG> (Thumb, 104 bytes, Stack size 28 bytes, dm_drv.o(.text.openarm_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = openarm_init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -1933,7 +1933,7 @@ Global Symbols
 
 <P><STRONG><a name="[140]"></a>__1printf$5</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printf5.o(i.__0printf$5), UNUSED)
 
-<P><STRONG><a name="[d2]"></a>__2printf</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printf5.o(i.__0printf$5))
+<P><STRONG><a name="[d3]"></a>__2printf</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printf5.o(i.__0printf$5))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = __2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main

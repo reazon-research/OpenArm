@@ -30,7 +30,10 @@
 #define V_MAX_8009 45.0f
 #define T_MAX_8009 54.0f
 
-//DM3507 limits - ???
+//DM3507 limits
+#define P_MAX_3507 12.566f
+#define V_MAX_3507 50.0f
+#define T_MAX_3507 5.0f
 
 typedef union
 {
@@ -98,9 +101,6 @@ typedef enum
 
 typedef struct
 {
-	uint8_t read_flag;     // Flag indicating a read operation
-	uint8_t write_flag;    // Flag indicating a write operation
-	uint8_t save_flag;     // Flag indicating save-to-flash requested
 
 	// Motor protection & performance thresholds
 	float UV_Value;        // Under-voltage threshold [V] (RW)
@@ -210,14 +210,12 @@ typedef struct
 	int mode;
 }OpenArm_t;
 
-extern void dm_fbdata(Joint_Motor_t *motor, uint8_t *rx_data,uint32_t data_len);
+extern void dm_fbdata(Joint_Motor_t *motor, uint8_t *data,uint32_t data_len);
 
 extern void read_motor_data(uint16_t id, uint8_t rid);
 extern void read_ctrl_fbdata(uint16_t id);
 extern void change_motor_data(uint16_t id, uint8_t rid, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3);
 extern void write_motor_data(uint16_t id);
-
-extern void receive_motor_data(uint16_t motor_id, uint8_t *data);
 
 extern void enable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id);
 extern void disable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id);

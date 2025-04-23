@@ -150,25 +150,27 @@ int main(void)
 		one[i] = 1.0f;
 		positions[i] = 0.0f;
 	}
-
 	
-	float torque_increment = 0.0001f;
+	//openarm setup
 	openarm_init(&arm, id, master_id, mode, type);
 	HAL_Delay(1000);
-	
 	openarm_enable(&arm, &hfdcan1);
-	EventRecorderInitialize(EventRecordAll, 1);
+	
 	HAL_TIM_Base_Start(&htim2);
 	
 	// example of writing baudrate
-//	for (int i = 0; i < NUM_MOTORS; ++i) {
-//		write_baudrate(&hfdcan1, i, BAUD_5M);
-//	}
+	//for (int i = 0; i < NUM_MOTORS; ++i) {
+	//	write_baudrate(&hfdcan1, i, BAUD_5M);
+	//}
+	
+	// starting event recorder for debugging purposes
+	EventRecorderInitialize(EventRecordAll, 1);
 	
 	uint32_t toggle_timer = 0;
 	uint8_t toggle = 0;
 	uint32_t t_schedule = 0;
 	__HAL_TIM_SET_COUNTER(&htim2, 0);  // Reset timer to avoid drift
+	
   while (1)
   { 
 
@@ -197,7 +199,6 @@ int main(void)
 		} else {
 				move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
 		}
-
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

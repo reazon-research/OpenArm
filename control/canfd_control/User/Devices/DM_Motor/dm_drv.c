@@ -56,6 +56,9 @@ void joint_motor_init(Joint_Motor_t *motor,uint16_t id, uint16_t master_id, uint
 				motor->tmp.TMAX = T_MAX_8009;
 				break;
 			case DM3507:
+				motor->tmp.PMAX = P_MAX_3507;
+				motor->tmp.VMAX = V_MAX_3507;
+				motor->tmp.TMAX = T_MAX_3507;
 				break;
 			default: 
 				break;
@@ -64,25 +67,86 @@ void joint_motor_init(Joint_Motor_t *motor,uint16_t id, uint16_t master_id, uint
 }
 
 // feedback message callback function
-void dm_fbdata(Joint_Motor_t *motor, uint8_t *rx_data,uint32_t data_len)
+void dm_fbdata(Joint_Motor_t *motor, uint8_t *data,uint32_t data_len)
 { 
+	if (motor->slave_id == 0 || motor->slave_id > NUM_MOTORS) return;
+	if(data_len!=FDCAN_DLC_BYTES_8) return;
 	
-	if(data_len==FDCAN_DLC_BYTES_8)
+	if(data[2] == 0x33 || data[2] == 0x55)
 	{
-	}	  
-		//motor->slave_id = (rx_data[0])&0x0F;
-	  motor->state = (rx_data[0])>>4;
-	  motor->p_int=(rx_data[1]<<8)|rx_data[2];
-	  motor->v_int=(rx_data[3]<<4)|(rx_data[4]>>4);
-	  motor->t_int=((rx_data[4]&0xF)<<8)|rx_data[5];
+		float_type_u y;
+		
+		uint8_t rid_value = data[3];
+		y.b_val[0] = data[4];
+		y.b_val[1] = data[5];
+		y.b_val[2] = data[6];
+		y.b_val[3] = data[7];
+		
+		switch (rid_value) 
+		{
+			case RID_UV_VALUE: motor->tmp.UV_Value = y.f_val; break;
+			case RID_KT_VALUE: motor->tmp.KT_Value = y.f_val; break;
+			case RID_OT_VALUE: motor->tmp.OT_Value = y.f_val; break;
+			case RID_OC_VALUE: motor->tmp.OC_Value = y.f_val; break;
+			case RID_ACC:      motor->tmp.ACC      = y.f_val; break;
+			case RID_DEC:      motor->tmp.DEC      = y.f_val; break;
+			case RID_MAX_SPD:  motor->tmp.MAX_SPD  = y.f_val; break;
+			case RID_MST_ID:   motor->tmp.MST_ID   = y.u_val; break;
+			case RID_ESC_ID:   motor->tmp.ESC_ID   = y.u_val; break;
+			case RID_TIMEOUT:  motor->tmp.TIMEOUT  = y.u_val; break;
+			case RID_CMODE:    motor->tmp.cmode    = y.u_val; break;
+			case RID_DAMP:     motor->tmp.Damp     = y.f_val; break;
+			case RID_INERTIA:  motor->tmp.Inertia  = y.f_val; break;
+			case RID_HW_VER:   motor->tmp.hw_ver   = y.u_val; break;
+			case RID_SW_VER:   motor->tmp.sw_ver   = y.u_val; break;
+			case RID_SN:       motor->tmp.SN       = y.u_val; break;
+			case RID_NPP:      motor->tmp.NPP      = y.u_val; break;
+			case RID_RS:       motor->tmp.Rs       = y.f_val; break;
+			case RID_LS:       motor->tmp.Ls       = y.f_val; break;
+			case RID_FLUX:     motor->tmp.Flux     = y.f_val; break;
+			case RID_GR:       motor->tmp.Gr       = y.f_val; break;
+			case RID_PMAX:     motor->tmp.PMAX     = y.f_val; break;
+			case RID_VMAX:     motor->tmp.VMAX     = y.f_val; break;
+			case RID_TMAX:     motor->tmp.TMAX     = y.f_val; break;
+			case RID_I_BW:     motor->tmp.I_BW     = y.f_val; break;
+			case RID_KP_ASR:   motor->tmp.KP_ASR   = y.f_val; break;
+			case RID_KI_ASR:   motor->tmp.KI_ASR   = y.f_val; break;
+			case RID_KP_APR:   motor->tmp.KP_APR   = y.f_val; break;
+			case RID_KI_APR:   motor->tmp.KI_APR   = y.f_val; break;
+			case RID_OV_VALUE: motor->tmp.OV_Value = y.f_val; break;
+			case RID_GREF:     motor->tmp.GREF     = y.f_val; break;
+			case RID_DETA:     motor->tmp.Deta     = y.f_val; break;
+			case RID_V_BW:     motor->tmp.V_BW     = y.f_val; break;
+			case RID_IQ_CL:    motor->tmp.IQ_cl    = y.f_val; break;
+			case RID_VL_CL:    motor->tmp.VL_cl    = y.f_val; break;
+			case RID_CAN_BR:   motor->tmp.can_br   = y.u_val; break;
+			case RID_SUB_VER:  motor->tmp.sub_ver  = y.u_val; break;
+			case RID_U_OFF:    motor->tmp.u_off    = y.f_val; break;
+			case RID_V_OFF:    motor->tmp.v_off    = y.f_val; break;
+			case RID_K1:       motor->tmp.k1       = y.f_val; break;
+			case RID_K2:       motor->tmp.k2       = y.f_val; break;
+			case RID_M_OFF:    motor->tmp.m_off    = y.f_val; break;
+			case RID_DIR:      motor->tmp.dir      = y.f_val; break;
+			case RID_P_M:      motor->tmp.p_m      = y.f_val; break;
+			case RID_X_OUT:    motor->tmp.x_out    = y.f_val; break;
+		}
+	}
+	else
+	{
+		motor->slave_id = (data[0])&0x0F;
+	  motor->state = (data[0])>>4;
+	  motor->p_int=(data[1]<<8)|data[2];
+	  motor->v_int=(data[3]<<4)|(data[4]>>4);
+	  motor->t_int=((data[4]&0xF)<<8)|data[5];
 		motor->pos = uint_to_float(motor->p_int, -motor->tmp.PMAX, motor->tmp.PMAX, 16); // 
 		motor->vel = uint_to_float(motor->v_int, -motor->tmp.VMAX, motor->tmp.VMAX, 12); // 
 		motor->tor = uint_to_float(motor->t_int, -motor->tmp.TMAX, motor->tmp.TMAX, 12);  // 
-	  motor->Tmos = (float)(rx_data[6]);
-	  motor->Tcoil = (float)(rx_data[7]);
-
+	  motor->Tmos = (float)(data[6]);
+	  motor->Tcoil = (float)(data[7]);
+	}
 }
 
+// sends command to motor to retrieve RID value
 void read_motor_data(uint16_t id, uint8_t rid)
 {
 	uint8_t can_id_l = id & 0xFF;
@@ -92,6 +156,7 @@ void read_motor_data(uint16_t id, uint8_t rid)
 	canx_send_data(&hfdcan1, 0x7FF, data, 4);
 }
 
+// sends command to motor to retrieve control data
 void read_ctrl_fbdata(uint16_t id)
 {
 	uint8_t can_id_l = id & 0xFF;
@@ -117,73 +182,6 @@ void write_motor_data(uint16_t id)
 	
 	uint8_t data[4] = {can_id_l, can_id_h, 0xAA, 0x00};
 	canx_send_data(&hfdcan1, 0x7FF, data, 4);
-}
-
-void receive_motor_data(uint16_t motor_id, uint8_t *data)
-{
-	Joint_Motor_t motor = arm.motors[motor_id-1];
-	if(motor.tmp.read_flag == 0)
-		return ;
-	
-	float_type_u y;
-	
-	if(data[2] == 0x33)
-	{
-		uint16_t rid_value = data[3];
-		y.b_val[0] = data[4];
-		y.b_val[1] = data[5];
-		y.b_val[2] = data[6];
-		y.b_val[3] = data[7];
-		
-		switch (rid_value) 
-		{
-			case RID_UV_VALUE: motor.tmp.UV_Value = y.f_val; motor.tmp.read_flag =  2; break;
-			case RID_KT_VALUE: motor.tmp.KT_Value = y.f_val; motor.tmp.read_flag =  3; break;
-			case RID_OT_VALUE: motor.tmp.OT_Value = y.f_val; motor.tmp.read_flag =  4; break;
-			case RID_OC_VALUE: motor.tmp.OC_Value = y.f_val; motor.tmp.read_flag =  5; break;
-			case RID_ACC:      motor.tmp.ACC      = y.f_val; motor.tmp.read_flag =  6; break;
-			case RID_DEC:      motor.tmp.DEC      = y.f_val; motor.tmp.read_flag =  7; break;
-			case RID_MAX_SPD:  motor.tmp.MAX_SPD  = y.f_val; motor.tmp.read_flag =  8; break;
-			case RID_MST_ID:   motor.tmp.MST_ID   = y.u_val; motor.tmp.read_flag =  9; break;
-			case RID_ESC_ID:   motor.tmp.ESC_ID   = y.u_val; motor.tmp.read_flag = 10; break;
-			case RID_TIMEOUT:  motor.tmp.TIMEOUT  = y.u_val; motor.tmp.read_flag = 11; break;
-			case RID_CMODE:    motor.tmp.cmode    = y.u_val; motor.tmp.read_flag = 12; break;
-			case RID_DAMP:     motor.tmp.Damp     = y.f_val; motor.tmp.read_flag = 13; break;
-			case RID_INERTIA:  motor.tmp.Inertia  = y.f_val; motor.tmp.read_flag = 14; break;
-			case RID_HW_VER:   motor.tmp.hw_ver   = y.u_val; motor.tmp.read_flag = 15; break;
-			case RID_SW_VER:   motor.tmp.sw_ver   = y.u_val; motor.tmp.read_flag = 16; break;
-			case RID_SN:       motor.tmp.SN       = y.u_val; motor.tmp.read_flag = 17; break;
-			case RID_NPP:      motor.tmp.NPP      = y.u_val; motor.tmp.read_flag = 18; break;
-			case RID_RS:       motor.tmp.Rs       = y.f_val; motor.tmp.read_flag = 19; break;
-			case RID_LS:       motor.tmp.Ls       = y.f_val; motor.tmp.read_flag = 20; break;
-			case RID_FLUX:     motor.tmp.Flux     = y.f_val; motor.tmp.read_flag = 21; break;
-			case RID_GR:       motor.tmp.Gr       = y.f_val; motor.tmp.read_flag = 22; break;
-			case RID_PMAX:     motor.tmp.PMAX     = y.f_val; motor.tmp.read_flag = 23; break;
-			case RID_VMAX:     motor.tmp.VMAX     = y.f_val; motor.tmp.read_flag = 24; break;
-			case RID_TMAX:     motor.tmp.TMAX     = y.f_val; motor.tmp.read_flag = 25; break;
-			case RID_I_BW:     motor.tmp.I_BW     = y.f_val; motor.tmp.read_flag = 26; break;
-			case RID_KP_ASR:   motor.tmp.KP_ASR   = y.f_val; motor.tmp.read_flag = 27; break;
-			case RID_KI_ASR:   motor.tmp.KI_ASR   = y.f_val; motor.tmp.read_flag = 28; break;
-			case RID_KP_APR:   motor.tmp.KP_APR   = y.f_val; motor.tmp.read_flag = 29; break;
-			case RID_KI_APR:   motor.tmp.KI_APR   = y.f_val; motor.tmp.read_flag = 30; break;
-			case RID_OV_VALUE: motor.tmp.OV_Value = y.f_val; motor.tmp.read_flag = 31; break;
-			case RID_GREF:     motor.tmp.GREF     = y.f_val; motor.tmp.read_flag = 32; break;
-			case RID_DETA:     motor.tmp.Deta     = y.f_val; motor.tmp.read_flag = 33; break;
-			case RID_V_BW:     motor.tmp.V_BW     = y.f_val; motor.tmp.read_flag = 34; break;
-			case RID_IQ_CL:    motor.tmp.IQ_cl    = y.f_val; motor.tmp.read_flag = 35; break;
-			case RID_VL_CL:    motor.tmp.VL_cl    = y.f_val; motor.tmp.read_flag = 36; break;
-			case RID_CAN_BR:   motor.tmp.can_br   = y.u_val; motor.tmp.read_flag = 37; break;
-			case RID_SUB_VER:  motor.tmp.sub_ver  = y.u_val; motor.tmp.read_flag = 38; break;
-			case RID_U_OFF:    motor.tmp.u_off    = y.f_val; motor.tmp.read_flag = 39; break;
-			case RID_V_OFF:    motor.tmp.v_off    = y.f_val; motor.tmp.read_flag = 40; break;
-			case RID_K1:       motor.tmp.k1       = y.f_val; motor.tmp.read_flag = 41; break;
-			case RID_K2:       motor.tmp.k2       = y.f_val; motor.tmp.read_flag = 42; break;
-			case RID_M_OFF:    motor.tmp.m_off    = y.f_val; motor.tmp.read_flag = 43; break;
-			case RID_DIR:      motor.tmp.dir      = y.f_val; motor.tmp.read_flag = 44; break;
-			case RID_P_M:      motor.tmp.p_m      = y.f_val; motor.tmp.read_flag = 45; break;
-			case RID_X_OUT:    motor.tmp.x_out    = y.f_val; motor.tmp.read_flag = 0 ; break;
-		}
-	}
 }
 
 /**
