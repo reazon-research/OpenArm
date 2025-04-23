@@ -1,7 +1,6 @@
 #include "dm_drv.h"
 
 #include "fdcan.h"
-#include "arm_math.h"
 #include "EventRecorder.h"
 #include "stdio.h"
 

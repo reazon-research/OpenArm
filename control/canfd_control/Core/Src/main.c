@@ -32,7 +32,6 @@
 /* USER CODE BEGIN Includes */
 #include "can_bsp.h"
 #include "dm_drv.h"
-#include "arm_math.h"
 #include <stdio.h>
 #include "EventRecorder.h"
 /* USER CODE END Includes */

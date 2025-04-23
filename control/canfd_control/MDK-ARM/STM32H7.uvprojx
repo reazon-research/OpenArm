@@ -689,13 +689,6 @@
         </Group>
         <Group>
           <GroupName>DSP</GroupName>
-          <Files>
-            <File>
-              <FileName>arm_cortexM7lfdp_math.lib</FileName>
-              <FileType>4</FileType>
-              <FilePath>..\Drivers\CMSIS\DSP\Lib\ARM\arm_cortexM7lfdp_math.lib</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>Bsp</GroupName>
