@@ -212,10 +212,10 @@ typedef struct
 
 extern void dm_fbdata(Joint_Motor_t *motor, uint8_t *data,uint32_t data_len);
 
-extern void read_motor_data(uint16_t id, uint8_t rid);
-extern void read_ctrl_fbdata(uint16_t id);
-extern void change_motor_data(uint16_t id, uint8_t rid, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3);
-extern void write_motor_data(uint16_t id);
+extern void read_motor_data(hcan_t* hcan, uint16_t id, uint8_t rid);
+extern void read_ctrl_fbdata(hcan_t* hcan, uint16_t id);
+extern void change_motor_data(hcan_t* hcan, uint16_t id, uint8_t rid, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3);
+extern void write_motor_data(hcan_t* hcan, uint16_t id);
 
 extern void enable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id);
 extern void disable_motor_mode(hcan_t* hcan, uint16_t motor_id, uint16_t mode_id);

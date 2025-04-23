@@ -155,7 +155,7 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
 			HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &RxHeader1, g_Can1RxData);
 			
 			//another example of how to use the event recorder
-			// EventRecord2(0x01, RxHeader1.Identifier, HAL_FDCAN_GetRxFifoFillLevel(hfdcan, FDCAN_RX_FIFO0));
+			EventRecord2(0x01, RxHeader1.Identifier, HAL_FDCAN_GetRxFifoFillLevel(hfdcan, FDCAN_RX_FIFO0));
 			uint16_t motor_id = -1;  // Initialize motor_id as invalid
 			if (RxHeader1.Identifier != 0)
 			{

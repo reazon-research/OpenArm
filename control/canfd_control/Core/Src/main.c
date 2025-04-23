@@ -44,7 +44,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define CONTROL_PERIOD_US 1000
+#define CONTROL_PERIOD_US 1000 // 1kHz control frequency
 #define TOGGLE_PERIOD_US 5000000  // 5 seconds in microseconds
 OpenArm_t arm;
 /* USER CODE END PD */
@@ -154,7 +154,7 @@ int main(void)
 	//openarm setup
 	openarm_init(&arm, id, master_id, mode, type);
 	HAL_Delay(1000);
-	openarm_enable(&arm, &hfdcan2);
+	openarm_enable(&arm, &hfdcan1);
 	
 	HAL_TIM_Base_Start(&htim2);
 	
@@ -195,16 +195,16 @@ int main(void)
 		// EventRecord2(0x01, positions[0]*100, 0x01); // example of recording event in event recorder
 		
 		if (toggle) {
-				move_mit_all(&arm, &hfdcan2, zero, zero, zero, zero, one);
+				move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, one);
 		} else {
-				move_mit_all(&arm, &hfdcan2, zero, zero, zero, zero, zero);
+				move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
 		}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
   }
 	
-	openarm_disable(&arm, &hfdcan2);
+	openarm_disable(&arm, &hfdcan1);
 	
   /* USER CODE END 3 */
 }
