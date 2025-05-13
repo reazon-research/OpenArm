@@ -88,6 +88,6 @@ If you would like to get in contact with the OpenArm team with more specific que
 - Email: [hi_public@reazon.jp](hi_public@reazon.jp)
 
 ## License
-OpenArm is open-source under Apache-2.0 and open-hardware under CERN-OHL-S, please see the [**LICENSE**](https://github.com/reazon-research/OpenArm/tree/main/LICENSE) and [**LICENSE-HW**](https://github.com/reazon-research/OpenArm/tree/main/LICENSE-HW) files for details
+OpenArm is open source under Apache-2.0 and open hardware under CERN-OHL-S, please see the [**LICENSE**](https://github.com/reazon-research/OpenArm/tree/main/LICENSE) and [**LICENSE-HW**](https://github.com/reazon-research/OpenArm/tree/main/LICENSE-HW) files for details
 
 <a href="#top">Back to top</a>
