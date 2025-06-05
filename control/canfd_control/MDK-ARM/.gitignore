@@ -1,0 +1,6 @@
+STM32H7/
+DebugConfig/
+RTE/_STM32H7/
+RTE/Device/
+*.uvoptx
+*.uvguix.*
