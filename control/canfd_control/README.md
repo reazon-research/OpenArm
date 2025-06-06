@@ -13,6 +13,7 @@ This folder contains the necessary information to utilize and build on the DAMIA
 ### Clone OpenArm Repository
 ```bash
 git clone git@github.com:reazon-research/OpenArm.git
+git submodule update --init control/canfd_control/Vendor/STM32CubeH7
 ```
 ### Keil
 After installing Keil, follow the [Getting Started Guide](https://www.keil.com/support/man/docs/mdk_gs/) for the Keil MDK.
