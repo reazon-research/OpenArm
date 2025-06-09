@@ -12,7 +12,7 @@ This folder contains the necessary information to utilize and build on the DAMIA
 
 ### Clone OpenArm Repository
 ```bash
-git clone --recursive git@github.com:reazon-research/OpenArm.git
+git clone --recursive https://github.com/reazon-research/OpenArm.git
 ```
 
 To build, you need to initialize and update submodules. By cloning the repository with `--recursive` option as shown above, all submodules will be automatically initialized and updated. 
