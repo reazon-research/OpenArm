@@ -15,12 +15,12 @@ This folder contains the necessary information to utilize and build on the DAMIA
 git clone --recursive git@github.com:reazon-research/OpenArm.git
 ```
 
-To build, you need to initialize and update `control/canfd_control/vendor/STM32CubeH7` submodule. By cloning the repository with `--recursive` option as shown above, all submodules will be automatically initialized and updated. 
+To build, you need to initialize and update submodules. By cloning the repository with `--recursive` option as shown above, all submodules will be automatically initialized and updated. 
 
-Alternatively, you can initialize and update only `control/canfd_control/vendor/STM32CubeH7` submodule after cloning, as shown below.
+Alternatively, you can initialize and update submodules after cloning, as shown below.
 
 ```bash
-git submodule update --init control/canfd_control/vendor/STM32CubeH7
+git submodule update --init --recursive
 ```
 
 ### Keil
