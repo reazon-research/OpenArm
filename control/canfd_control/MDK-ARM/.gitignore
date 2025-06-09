@@ -2,5 +2,7 @@ STM32H7/
 DebugConfig/
 RTE/_STM32H7/
 RTE/Device/
+RTE/CMSIS-View/EventRecorderConf.h.base*
+
 *.uvoptx
 *.uvguix.*
