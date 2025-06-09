@@ -39,6 +39,8 @@ During the Keil installation, the pack installer will open up. Inside, you will 
 ### Event Recorder
 Currently I am using the Event Recorder to debug STM32 code through Keil uVision for debugging purposes. Event Recorder is part of the Keil::ARM_Compiler pack and is part of the installation. It provides an API for event annotations in the application code. To setup the Event Recorder, follow the Event Recorder User Guide.
 
+You can visualize event logs by [plotter.py](plotter.py).
+
 #### Common Issues with Event Recorder Setup
 - If you have an issue with `#include CMSIS_device_header`, it is most likely because `EventRecorder.c` does not have a path to pull for CMSIS_device_header. As a workaround, replace `#include CMSIS_device_header` with `#include "stm32h723xx.h"`. You may have to disable read-only permissions for `EventRecorder.c`
 
