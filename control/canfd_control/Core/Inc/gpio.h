@@ -44,12 +44,14 @@ extern "C" {
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN Private defines */
+/* TODO: Use more meaningful name for the "gpio_13" part. */
 static inline void
 oa_gpio_13_on(void)
 {
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
 }
 
+/* TODO: Use more meaningful name for the "gpio_14" part. */
 static inline void
 oa_gpio_14_on(void)
 {
