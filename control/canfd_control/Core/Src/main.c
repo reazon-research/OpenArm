@@ -127,8 +127,8 @@ int main(void)
   MX_USB_OTG_HS_PCD_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-	Power_OUT1_ON;
-	Power_OUT2_ON;
+	oa_gpio_13_on();
+	oa_gpio_14_on();
 	HAL_Delay(200);
 	FDCAN1_Config();
 	FDCAN2_Config();
