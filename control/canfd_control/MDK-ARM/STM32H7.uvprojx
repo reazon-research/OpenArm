@@ -699,11 +699,6 @@
               <FilePath>..\User\bsp\can_bsp.c</FilePath>
             </File>
             <File>
-              <FileName>led_bsp.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\bsp\led_bsp.c</FilePath>
-            </File>
-            <File>
               <FileName>can_bsp.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\User\bsp\can_bsp.h</FilePath>

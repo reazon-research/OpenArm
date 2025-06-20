@@ -56,22 +56,11 @@ OpenArm_t arm;
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-extern UART_HandleTypeDef huart2;  // Define the UART handle for USART2
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-int __io_putchar(int ch)
-{
-	HAL_UART_Transmit(&huart2,(uint8_t*)&ch,1,HAL_MAX_DELAY);
-	return ch;
-}
-
-void delay_us(uint32_t us) {
-    uint32_t start = __HAL_TIM_GET_COUNTER(&htim2);
-    while (__HAL_TIM_GET_COUNTER(&htim2) - start < us);
-}
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -87,7 +76,6 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 	
-//01 08 00 00 02 00 00 00
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -110,7 +98,6 @@ int main(void)
   MX_GPIO_Init();
   MX_DCMI_Init();
   MX_FDCAN1_Init();
-	MX_FDCAN2_Init();
   MX_FDCAN3_Init();
   MX_I2C1_Init();
   MX_OCTOSPI1_Init();
@@ -125,84 +112,81 @@ int main(void)
   MX_USART3_UART_Init();
   MX_USART10_UART_Init();
   MX_USB_OTG_HS_PCD_Init();
+  MX_FDCAN2_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-	oa_gpio_13_on();
-	oa_gpio_14_on();
-	HAL_Delay(200);
-	FDCAN1_Config();
-	FDCAN2_Config();
-	
-	int id[NUM_MOTORS];
-	int master_id[NUM_MOTORS];
-	float zero[NUM_MOTORS];
-	float one[NUM_MOTORS];
-	int mode = MIT_MODE;
+  oa_gpio_13_on();
+  oa_gpio_14_on();
+  HAL_Delay(200);
+  FDCAN1_Config();
+  FDCAN2_Config();
 
-	int type[8] = {DM4310, DM4310, DM4310, DM4310, DM4310, DM4310, DM4310, DM4310};
-	
-	for (int i = 0; i < NUM_MOTORS; ++i) {
-		id[i] = i + 1; // 0x01 to 0x08
-		master_id[i] = 0x10 + (i + 1); // 0x11 to 0x18
-		zero[i] = 0.0f;
-		one[i] = 1.0f;
-	}
-	
-	//openarm setup
-	openarm_init(&arm, id, master_id, mode, type);
-	HAL_Delay(1000);
-	openarm_enable(&arm, &hfdcan1);
-	
-	HAL_TIM_Base_Start(&htim2);
-	
-	// example of writing baudrate
-//	for (int i = 0; i < NUM_MOTORS; ++i) {
-//		write_baudrate(&hfdcan1, i, BAUD_5M);
-//	}
-	
-	// starting event recorder for debugging purposes
-	EventRecorderInitialize(EventRecordAll, 1);
-	
-	uint32_t toggle_timer = 0;
-	uint8_t toggle = 0;
-	uint32_t t_schedule = 0;
-	__HAL_TIM_SET_COUNTER(&htim2, 0);  // Reset timer to avoid drift
-	
+  int id[NUM_MOTORS];
+  int master_id[NUM_MOTORS];
+  float zero[NUM_MOTORS];
+  float one[NUM_MOTORS];
+  int mode = MIT_MODE;
+  int type[NUM_MOTORS] = {DM4310, DM4310, DM4310, DM4310, DM4310, DM4310, DM4310, DM4310};
+
+  for (int i = 0; i < NUM_MOTORS; ++i) {
+    id[i] = i + 1; // 0x01 to 0x08
+    master_id[i] = 0x10 + (i + 1); // 0x11 to 0x18
+    zero[i] = 0.0f;
+    one[i] = 1.0f;
+  }
+
+  //openarm setup
+  openarm_init(&arm, id, master_id, mode, type);
+  HAL_Delay(1000);
+  openarm_enable(&arm, &hfdcan1);
+
+  HAL_TIM_Base_Start(&htim2);
+
+  // starting event recorder for debugging purposes
+  EventRecorderInitialize(EventRecordAll, 1);
+
+  uint32_t toggle_timer = 0;
+  uint8_t toggle = 0;
+  uint32_t t_schedule = 0;
+  __HAL_TIM_SET_COUNTER(&htim2, 0);  // Reset timer to avoid drift
+  /* USER CODE END 2 */
+
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
   while (1)
-  { 
-
+  {
     t_schedule += CONTROL_PERIOD_US;
 
     int32_t td = t_schedule - __HAL_TIM_GET_COUNTER(&htim2);
 
     if (td > 0) {
-				td += 0xFFFFFFFF; // Account for overflow
-        while (__HAL_TIM_GET_COUNTER(&htim2) < t_schedule);  // Wait for the required time
+      td += 0xFFFFFFFF; // Account for overflow
+      while (__HAL_TIM_GET_COUNTER(&htim2) < t_schedule);  // Wait for the required time
     } else {
-        printf("WARNING: Control loop overran by %d us!\n", -td);
+      printf("WARNING: Control loop overran by %d us!\n", -td);
     }
-		
+
     toggle_timer += CONTROL_PERIOD_US;
 
     if (toggle_timer >= TOGGLE_PERIOD_US) {
-        toggle ^= 1;
-        toggle_timer = 0;
+      toggle ^= 1;
+      toggle_timer = 0;
     }
 
-		EventRecord2(0x03, 0x00, 0x00); // example of recording event in event recorder
-		
-		if (toggle) {
-				move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, one);
-		} else {
-				move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
-		}
+    EventRecord2(0x03, 0x00, 0x00); // example of recording event in event recorder
+
+    if (toggle) {
+      move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, one);
+    } else {
+      move_mit_all(&arm, &hfdcan1, zero, zero, zero, zero, zero);
+    }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
   }
-	
-	openarm_disable(&arm, &hfdcan1);
-	
+
+  openarm_disable(&arm, &hfdcan1);
+
   /* USER CODE END 3 */
 }
 
