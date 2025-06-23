@@ -57,7 +57,7 @@ typedef struct
 extern void enable_motor_mode(FDCAN_HandleTypeDef* hcan, uint16_t motor_id, uint16_t mode_id);
 extern void disable_motor_mode(FDCAN_HandleTypeDef* hcan, uint16_t motor_id, uint16_t mode_id);
 
-extern void mit_ctrl(FDCAN_HandleTypeDef* hcan, uint16_t motor_id, float pos, float vel, float kp, float kd, float torq);
+extern void mit_ctrl(OpenArm_t *arm, FDCAN_HandleTypeDef* hcan, uint16_t motor_id, float pos, float vel, float kp, float kd, float torq);
 
 extern void joint_motor_init(Joint_Motor_t *motor, uint16_t id, uint16_t master_id, MotorType_t type);
 

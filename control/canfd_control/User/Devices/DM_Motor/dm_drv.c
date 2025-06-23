@@ -146,7 +146,7 @@ void mit_ctrl(OpenArm_t *arm, FDCAN_HandleTypeDef* hcan, uint16_t motor_id, floa
 * @retval:     	void
 ************************************************************************
 **/
-void openarm_init(OpenArm_t *arm, int id[], int master_id[], int mode, MorterType_t motor_type[]){
+void openarm_init(OpenArm_t *arm, int id[], int master_id[], int mode, MotorType_t motor_type[]){
 	arm->mode = mode;
 	for(int i = 0; i < NUM_MOTORS; i++){
 		joint_motor_init(&arm->motors[i], id[i], master_id[i], motor_type[i]);

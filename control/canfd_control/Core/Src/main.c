@@ -126,7 +126,7 @@ int main(void)
   float zero[NUM_MOTORS];
   float one[NUM_MOTORS];
   int mode = MIT_MODE;
-  int type[NUM_MOTORS] = {DM4310, DM4310, DM4310, DM4310, DM4310, DM4310, DM4310, DM4310};
+  MotorType_t type[NUM_MOTORS] = {DM4310, DM4310, DM4310, DM4310, DM4310, DM4310, DM4310, DM4310};
 
   for (int i = 0; i < NUM_MOTORS; ++i) {
     id[i] = i + 1; // 0x01 to 0x08
